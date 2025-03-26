@@ -1,0 +1,81 @@
+.flex-container {
+    display: flex; // 使用flex布局
+    flex-direction: row; // 主轴方向为水平方向
+    justify-content: flex-start; // 主轴对齐方式：起始对齐
+    align-items: stretch; // 交叉轴对齐方式：拉伸
+    flex-wrap: nowrap; // 不换行
+}
+.flex-col {
+    display: flex;
+    flex-direction: column; // 主轴方向为垂直方向
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row; // 主轴方向为水平方向
+}
+
+.flex-wrap{
+	flex-wrap: wrap; // 换行
+}
+
+.justify-start {
+    display: flex;
+    justify-content: flex-start; // 主轴起始对齐
+}
+
+.justify-center {
+    display: flex;
+    justify-content: center; // 主轴居中对齐
+}
+
+.justify-end {
+    display: flex;
+    justify-content: flex-end; // 主轴结束对齐
+}
+
+.justify-evenly {
+    display: flex;
+    justify-content: space-evenly; // 主轴均匀分布
+}
+
+.justify-around {
+    display: flex;
+    justify-content: space-around; // 主轴均匀分布
+}
+
+.justify-between {
+    display: flex;
+    justify-content: space-between; // 主轴两端对齐
+}
+
+.align-start {
+    display: flex;
+    align-items: flex-start; // 交叉轴起始对齐
+}
+
+.align-center {
+    display: flex;
+    align-items: center; // 交叉轴居中对齐
+}
+
+.align-end {
+    display: flex;
+    align-items: flex-end; // 交叉轴结束对齐
+}
+
+.flex-1{
+    flex: 1; // 项目可增长，可缩小，初始大小为1
+}
+
+.flex-grow {
+    flex-grow: 1; // 项目可增长
+}
+
+.flex-shrink {
+    flex-shrink: 1; // 项目可缩小
+}
+
+.flex-basis {
+    flex-basis: 100px; // 项目的初始大小
+}

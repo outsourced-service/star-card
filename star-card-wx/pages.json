@@ -1,0 +1,198 @@
+{
+	"pages": [
+		{
+			"path": "pages/tabel/home/home",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"navigationStyle": "custom", // 使用自定义导航栏
+				"navigationBarTextStyle": "black", // 状态栏字体为白色，只能为 white-白色，black-黑色 二选一
+				"navigationBarBackgroundColor": "#ffffff",
+				"enablePullDownRefresh": true,
+				"componentPlaceholder": {
+					"recommendation": "view"
+				}
+			}
+		},
+		{
+			"path": "pages/tabel/shop/shop",
+			"style": {
+				"navigationBarTitleText": "商城",
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTextStyle": "black" // 状态栏字体为白色，只能为 white-白色，black-黑色 二选一
+			}
+		},
+		{
+			"path": "pages/tabel/card/card",
+			"style": {
+				"navigationBarTitleText": "卡牌",
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTextStyle": "black" // 状态栏字体为白色，只能为 white-白色，black-黑色 二选一
+			}
+		},
+		{
+			"path": "pages/tabel/order/order",
+			"style": {
+				"navigationBarTitleText": "订单",
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTextStyle": "black" // 状态栏字体为白色，只能为 white-白色，black-黑色 二选一
+			}
+		},
+		{
+			"path": "pages/tabel/profile/profile",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTextStyle": "black", // 状态栏字体为白色，只能为 white-白色，black-黑色 二选一
+				"navigationBarBackgroundColor": "#ffffff00",
+				"componentPlaceholder": {
+					"top-info-show": "view",
+					"quick-card": "view",
+					"card-cabinet": "view",
+					"function-list": "view"
+				}
+			}
+		}
+	],
+	"tabBar": {
+		"custom": true,
+		"display": "none",
+		"height": "0px",
+		"color": "#7A7E83",
+		"selectedColor": "#3cc51f",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"text": "首页",
+				"pagePath": "pages/tabel/home/home",
+				"visible": false
+			},
+			{
+				"text": "商城",
+				"pagePath": "pages/tabel/shop/shop",
+				"visible": false
+			},
+			{
+				"text": "卡牌",
+				"pagePath": "pages/tabel/card/card",
+				"visible": false
+			},
+			{
+				"text": "订单",
+				"pagePath": "pages/tabel/order/order",
+				"visible": false
+			},
+			{
+				"text": "我的",
+				"pagePath": "pages/tabel/profile/profile",
+				"visible": false
+			}
+		]
+	},
+	"subPackages": [{
+			"root": "pages/home",
+			"pages": [{
+					"path": "nearbyShops",
+					"style": {
+						"navigationBarTitleText": "附近商家"
+					}
+				},
+				{
+					"path": "nearbyMerchants/nearbyMerchants",
+					"style": {
+						"navigationBarTitleText": "附近商家"
+					}
+				},
+				{
+					"path": "testMode",
+					"style": {
+						"navigationBarTitleText": "测试组件"
+					}
+				},
+				{
+					"path": "songTest",
+					"style": {
+						"navigationBarTitleText": "测试组件-宋"
+					}
+				},
+				{
+					"path": "followRecommendations/followRecommendations",
+					"style": {
+						"navigationBarTitleText": "关注推荐"
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/shop",
+			"pages": [{
+				"path": "subpage/subpage",
+				"style": {
+					"navigationBarTitleText": "商城子页面"
+				}
+			}]
+		},
+		{
+			"root": "pages/card",
+			"pages": [{
+				"path": "subpage/subpage",
+				"style": {
+					"navigationBarTitleText": "卡牌子页面"
+				}
+			}]
+		},
+		{
+			"root": "pages/order",
+			"pages": [{
+				"path": "subpage/subpage",
+				"style": {
+					"navigationBarTitleText": "订单子页面"
+				}
+			}, {
+				"path": "organization/index",
+				"style": {
+					"navigationBarTitleText": "选择机构"
+				}
+			}, {
+				"path": "procedure/index",
+				"style": {
+					"navigationBarTitleText": "下单步骤"
+				}
+			}, {
+				"path": "procedure/notes",
+				"style": {
+					"navigationBarTitleText": "备注",
+					"backgroundColor": "#f2f3f6",
+					"backgroundColorTop": "#f2f3f6"
+				}
+			}]
+		},
+		{
+			"root": "pages/profile",
+			"pages": [{
+				"path": "subpage/subpage",
+				"style": {
+					"navigationBarTitleText": "我的子页面"
+				}
+			}, {
+				"path": "address/index",
+				"style": {
+					"navigationBarTitleText": "地址簿"
+				}
+			}]
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"backgroundColor": "#fff",
+		"navigationBarBackgroundColor": "#fff",
+		"app-plus": {
+			"background": "#fff"
+		}
+	},
+	"lazyCodeLoading": "requiredComponents",
+	"easycom": {
+		"autoscan": true,
+		"custom": {}
+	}
+}

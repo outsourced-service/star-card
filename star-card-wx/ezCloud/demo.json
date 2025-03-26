@@ -1,0 +1,97 @@
+execute operation error, gql: "mutation loginWithWechatMiniApp {\n      response: loginWithWechatMiniApp(\n        code: \"0c335O0006akWT1bIe000IJop9335O0h\"\n        createIfNotExists: true\n      ) {\n        account {\n          username\n          email\n          id\n          permissionRoles\n          phoneNumber\n          profileImageUrl\n          roles {\n            id\n            name\n          }\n          thirdPartyInfo {\n            provider\n            userInfo {\n              name\n              openId\n              type\n              unionId\n            }\n          }\n        }\n        jwt {\n          token\n        }\n      }\n    }\n    ", result: {
+    "data": {
+        "response": {
+            "account": {
+                "email": null,
+                "id": 1000000000000010,
+                "permissionRoles": null,
+                "phoneNumber": null,
+                "profileImageUrl": null,
+                "roles": null,
+                "thirdPartyInfo": null,
+                "username": null
+            },
+            "jwt": {
+                "token": "eyJhbGciOiJIUzI1NiJ9.eyJoYXN1cmFfY2xhaW1zIjp7IngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InVzZXIiLCJ4LWhhc3VyYS1hbGxvd2VkLXJvbGVzIjpbInNlbGYiLCJ1c2VyIl0sIngtaGFzdXJhLXVzZXItaWQiOiIxMDAwMDAwMDAwMDAwMDEwIn0sImRlZmF1bHRSb2xlIjoidXNlciIsIlpFUk9fVVNFUl9JRCI6IjEwMDAwMDAwMDAwMDAwMTAiLCJyb2xlcyI6WyJ1c2VyIiwic2VsZiJdLCJ6ZXJvIjp7fSwiZXhwIjoxNzc0MDc1MzcwLCJpc3MiOiIxMDAwMDAwMDAwMDAwMDAwIiwiaWF0IjoxNzQyNTM5MzcwfQ.exBl3z5A2U2g-7P5J-fBDUCvFMyeYwGD1ZPdnDjRqLQ"
+            }
+        }
+    },
+    "errors": [
+        {
+            "errorCode": 401,
+            "extensions": {
+                "classification": "UNAUTHENTICATED"
+            },
+            "locations": [
+                {
+                    "column": 11,
+                    "line": 10
+                }
+            ],
+            "message": "未登录",
+            "operation": "response",
+            "path": [
+                "response",
+                "account",
+                "permissionRoles"
+            ]
+        },
+        {
+            "errorCode": 401,
+            "extensions": {
+                "classification": "UNAUTHENTICATED"
+            },
+            "locations": [
+                {
+                    "column": 11,
+                    "line": 12
+                }
+            ],
+            "message": "未登录",
+            "operation": "response",
+            "path": [
+                "response",
+                "account",
+                "profileImageUrl"
+            ]
+        },
+        {
+            "errorCode": 401,
+            "extensions": {
+                "classification": "UNAUTHENTICATED"
+            },
+            "locations": [
+                {
+                    "column": 11,
+                    "line": 13
+                }
+            ],
+            "message": "未登录",
+            "operation": "response",
+            "path": [
+                "response",
+                "account",
+                "roles"
+            ]
+        },
+        {
+            "errorCode": 401,
+            "extensions": {
+                "classification": "UNAUTHENTICATED"
+            },
+            "locations": [
+                {
+                    "column": 11,
+                    "line": 17
+                }
+            ],
+            "message": "未登录",
+            "operation": "response",
+            "path": [
+                "response",
+                "account",
+                "thirdPartyInfo"
+            ]
+        }
+    ]
+} variables: {}

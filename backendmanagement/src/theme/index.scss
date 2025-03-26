@@ -1,0 +1,10 @@
+@use "sass:meta";
+@import 'element-plus/dist/index.css';
+@include meta.load-css('app.scss');
+@include meta.load-css('common/transition.scss');
+@include meta.load-css('other.scss');
+@include meta.load-css('element.scss');
+@include meta.load-css('media/media.scss');
+@include meta.load-css('waves.scss');
+@include meta.load-css('dark.scss');
+@include meta.load-css("common.scss");

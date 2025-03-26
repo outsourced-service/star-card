@@ -1,0 +1,16 @@
+export default {
+    name: { required: true, message: '请输入名称', trigger: 'blur' },
+    show_name: { required: true, message: '请输入前台显示名称', trigger: 'blur' },
+    type: { required: true, message: '请选择类型', trigger: 'change' },
+    amount_cny: { required: true, message: '请输入面值', trigger: 'blur' },
+    min_price_cny: { required: true, message: '请输入最小要求金额', trigger: 'blur' },
+    discount_rate: { required: true, message: '请输入折扣比例', trigger: 'blur' },
+    activity_starttime: { required: true, message: '请选择开始时间', trigger: 'change' },
+    activity_endtime: { required: true, message: '请选择结束时间', trigger: 'change' },
+    start_time: { required: true, message: '请选择生效时间', trigger: 'change' },
+    exp_time: { required: true, message: '请选择失效时间', trigger: 'change' },
+    max_use_limit: { required: true, message: '请输入最大使用数量', trigger: 'blur' },
+    status: { required: true, message: '请选择状态', trigger: 'change' },
+    describe: { required: true, message: '请输入描述', trigger: 'blur' },
+    img: { required: true, message: '请上传展示图片', trigger: 'change' },
+}

@@ -1,0 +1,186 @@
+.margin{
+    &-0{
+        margin: 0;
+    }
+    &-4 {
+        margin: 4rpx;
+    }
+    &-6 {
+        margin: 6rpx;
+    }
+    &-8 {
+        margin: 8rpx;
+    }
+    &-10 {
+        margin: 10rpx;
+    }
+    &-12 {
+        margin: 12rpx;
+    }
+    &-left-0 {
+        margin-left: 0;
+    }
+    &-right-0 {
+        margin-right: 0;
+    }
+    &-top-0 {
+        margin-top: 0;
+    }
+    &-bottom-0 {
+        margin-bottom: 0;
+    }
+}
+
+.padding-0 {
+    padding: 0;
+}
+
+.padding {
+    &-4 {
+        padding: 4rpx;
+    }
+    &-6 {
+        padding: 6rpx;
+    }
+    &-8 {
+        padding: 8rpx;
+    }
+    &-10 {
+        padding: 10rpx;
+    }
+    &-12 {
+        padding: 12rpx;
+    }
+    &-left-0 {
+        padding-left: 0;
+    }
+    &-right-0 {
+        padding-right: 0;
+    }
+    &-top-0 {
+        padding-top: 0;
+    }
+    &-bottom-0 {
+        padding-bottom: 0;
+    }
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.overflow {
+    &-auto {
+        overflow: auto;
+    }
+    &-hidden {
+        overflow: hidden;
+    }
+    &-scroll {
+        overflow: scroll;
+    }
+    &-x-auto {
+        overflow-x: auto;
+    }
+    &-x-hidden {
+        overflow-x: hidden;
+    }
+    &-y-auto {
+        overflow-y: auto;
+    }
+    &-y-hidden {
+        overflow-y: hidden;
+    }
+}
+
+.absolute {
+    position: absolute;
+
+    &-top-0 {
+        top: 0;
+    }
+
+    &-left-0 {
+        left: 0;
+    }
+
+    &-right-0 {
+        right: 0;
+    }
+
+    &-bottom-0 {
+        bottom: 0;
+    }
+
+    &-center {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.width {
+    &-full {
+        width: 100%;
+    }
+    &-half {
+        width: 50%;
+    }
+    &-quarter {
+        width: 25%;
+    }
+    &-third {
+        width: 33.3333%;
+    }
+}
+
+.height {
+    &-full {
+        height: 100%;
+    }
+    &-half {
+        height: 50%;
+    }
+    &-quarter {
+        height: 25%;
+    }
+    &-third {
+        height: 33.3333%;
+    }
+}
+
+.text-align {
+    &-left {
+        text-align: left;
+    }
+    &-center {
+        text-align: center;
+    }
+    &-right {
+        text-align: right;
+    }
+}
+
+.font-size {
+    &-small {
+        font-size: 12rpx;
+    }
+    &-medium {
+        font-size: 16rpx;
+    }
+    &-large {
+        font-size: 20rpx;
+    }
+}
+
+.border-radius {
+    &-small {
+        border-radius: 4rpx;
+    }
+    &-medium {
+        border-radius: 8rpx;
+    }
+    &-large {
+        border-radius: 12rpx;
+    }
+}
