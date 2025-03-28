@@ -1,13 +1,16 @@
 <template>
 	<view class="address-page">
 		<view class="address-page-info" v-if="data.id">
-			<view class="page-info-left">
+			<view class="page-info-left" @click="handleAddressEidt">
 				<view class="info-left-top">
 					<view class="left-top-name">
 						{{data.consignee}}
 					</view>
 					<view class="left-top-phone">
 						{{data.phone}}
+					</view>
+					<view class="left-top-tag" v-if="is_default">
+						默认
 					</view>
 				</view>
 				<view class="info-left-address">
@@ -37,6 +40,11 @@
 				type: Object,
 				required: true,
 				default: () => ({}),
+			},
+			is_default: {
+				type: Object,
+				required: true,
+				default: () => (false),
 			}
 		},
 		data() {
@@ -44,10 +52,13 @@
 				
 			}
 		},
-		emit: ['handleAddress'],
+		emit: ['handleAddress', 'handleAddressEidt'],
 		methods: {
 			handleAddress() {
 				this.$emit('handleAddress')
+			},
+			handleAddressEidt() {
+				this.$emit('handleAddressEidt')
 			}
 		},
 		mounted() {
@@ -83,7 +94,8 @@
 	
 	.info-left-top {
 		display: flex;
-		gap: 16rpx;
+		align-items: center;
+		gap: 12rpx;
 	}
 	
 	.left-top-name {
@@ -96,6 +108,20 @@
 		font-weight: 400;
 		font-size: 28rpx;
 		color: rgba(0, 0, 0, 0.66);
+	}
+	
+	.left-top-tag {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 6rpx;
+		padding: 6rpx 20rpx;
+		border-radius: 2000rpx;
+		background: rgba(0, 0, 0, 0.03);
+		font-weight: 400;
+		font-size: 22rpx;
+		color: rgba(0, 0, 0, 0.33);
+		margin-left: 4rpx;
 	}
 	
 	.info-left-address {

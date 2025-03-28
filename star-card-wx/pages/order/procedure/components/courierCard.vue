@@ -6,7 +6,7 @@
 					<view class="page-form-title">
 						星卡仓库地址
 					</view>
-					<uv-button text="一键复制" color="rgba(209, 209, 214, 1)" size="small" :plain="true" shape="circle" :customStyle="{color: 'rgba(0, 0, 0, 0.44)', height: '50rpx'}"></uv-button>
+					<uv-button text="一键复制" color="rgba(209, 209, 214, 1)" size="small" :plain="true" shape="circle" :customStyle="{color: 'rgba(0, 0, 0, 0.44)', height: '50rpx'}" @click="handleCopy"></uv-button>
 				</view>
 				<view class="form-item-input">
 					<view class="form-delivery-person">{{ data.addressData.consignee }} {{ data.addressData.phone }}</view>
@@ -79,6 +79,26 @@
 		methods: {
 			handleCourier() {
 				this.$emit('handleCourier')
+			},
+			handleCopy() {
+				const address = `${this.data.addressData.province}${this.data.addressData.city}${this.data.addressData.area}${this.data.addressData.address_detail}${this.data.addressData.house}`
+				uni.setClipboardData({
+					data: address,
+					success: () => {
+						uni.showToast({
+							title: '地址已复制',
+							icon: 'success',
+							duration: 2000
+						})
+					},
+					fail: () => {
+						uni.showToast({
+							title: '复制失败',
+							icon: 'error',
+							duration: 2000
+						})
+					}
+				})
 			}
 		},
 		mounted() {

@@ -9,11 +9,12 @@
 					<uni-easyinput v-model="formData.phone" placeholder="请输入联系电话" :inputBorder="false"/>
 				</uni-forms-item>
 				<uni-forms-item label="所在地" >
-					<uni-easyinput v-model="formData.name" placeholder="设置所在地" :inputBorder="false" suffixIcon="location" suffixIconStyle="color: #fda700"/>
-					 <!-- <uv-input placeholder="设置所在地" border="none" v-model="formData.name" suffixIcon="map" suffixIconStyle="color: #fda700"></uv-input> -->
+					<uni-easyinput v-model="formData.address" placeholder="设置所在地" :inputBorder="false" suffixIcon="location" suffixIconStyle="color: #fda700" @iconClick="handleChooseLocation"/>
 				</uni-forms-item>
 				<uni-forms-item label="详细地址" >
-					<uni-easyinput v-model="formData.address_detail" placeholder="设置详细地址" :inputBorder="false" autoHeight type="textarea"/>
+					<view class="textarea-wrapper">
+						<textarea class="custom-textarea" v-model="formData.address_detail" placeholder="设置详细地址" auto-height show-confirm-bar="false"/>
+					</view>
 				</uni-forms-item>
 				<uni-forms-item label="门牌号">
 					<uni-easyinput v-model="formData.house" placeholder="例：2号楼2单元10层107" :inputBorder="false"/>
@@ -66,7 +67,8 @@
 					province: "",
 					city: "",
 					area: "",
-					set_default_num: ""
+					set_default_num: "",
+					address: '',
 				},
 				is_default: false,
 				addressList: addressList
@@ -79,6 +81,28 @@
 				} else {
 					this.formData.set_default_num = ''
 				}
+			},
+			handleChooseLocation() {
+				uni.chooseLocation({
+					success: (res) => {
+						// 更新地址信息
+						this.formData.address = res.address
+						this.formData.address_detail = res.name
+						// 解析地址获取省市区
+						const addressParts = res.address.split(/省|市|区|自治区|特别行政区/)
+						this.formData.province = addressParts[0] + (res.address.includes('省') ? '省' : '')
+						this.formData.city = addressParts[1] ? addressParts[1] + '市' : ''
+						this.formData.area = addressParts[2] ? addressParts[2] + '区' : ''
+						this.formData.address = this.formData.province + this.formData.city + this.formData.area
+					},
+					fail: (err) => {
+						console.error('选择地址失败：', err)
+						uni.showToast({
+							title: '选择地址失败',
+							icon: 'none'
+						})
+					}
+				})
 			}
 		},
 		mounted() {
@@ -90,6 +114,8 @@
 			if(option.defaultId == option.id) {
 				this.is_default = true
 			}
+			this.formData.address = this.formData.province + this.formData.city + this.formData.area
+			console.log(this.formData.address)
 		}
 	}
 </script>
@@ -146,5 +172,24 @@
 		// margin: 0 32rpx 40rpx 32rpx;
 		padding-bottom: 80rpx;
 		width: calc(100vw - 64rpx);
+	}
+
+	.textarea-wrapper {
+		width: 100%;
+		padding: 0 20rpx;
+		display: flex;
+		align-items: center;
+		min-height: 70rpx;
+	}
+	
+	.custom-textarea {
+		width: 100%;
+		min-height: 44rpx;
+		height: 44rpx;
+		line-height: 44rpx;
+		font-size: 28rpx;
+		padding: 0;
+		margin-right: 20rpx;
+		background-color: transparent;
 	}
 </style>

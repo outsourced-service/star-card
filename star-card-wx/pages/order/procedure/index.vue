@@ -19,7 +19,7 @@
 			<view class="page-form">
 				<view class="page-form-title">寄回地址</view>
 				<view class="page-form-card">
-					<formAddress :data="addressData" @handleAddress="handleAddress"></formAddress>
+					<formAddress :data="addressData" :is_default="addressData.id == addressDefault ? true : false" @handleAddress="handleAddress" @handleAddressEidt="handleAddressEidt"></formAddress>
 				</view>
 			</view>
 			<view class="page-form">
@@ -67,18 +67,18 @@
 				</view>
 			</view>
 			<view class="page-nav-safety" v-else>
-				<uv-radio-group v-model="is_safety" @change="handleSafety">
-					<uv-radio shape="circle" activeColor="#fea800" name="safety"></uv-radio>
-				</uv-radio-group>
-				<!-- <uv-radio shape="circle" activeColor="#fea800" name="safety" @change="handleSafety" v-model="is_safety"></uv-radio> -->
-				我已知晓
-				<view class="nav-safety">
-					《代送评注意事项》
-				</view>
-				与
-				<view class="nav-safety">
-					《保险说明》
-				</view>
+				<uv-checkbox v-model="is_safety" shape="circle" activeColor="#fea800" @change="handleSafety">
+					<view class="nav-safety-text">
+						我已知晓
+						<view class="nav-safety">
+							《代送评注意事项》
+						</view>
+						与
+						<view class="nav-safety">
+							《保险说明》
+						</view>
+					</view>
+				</uv-checkbox>
 			</view>
 			<view class="page-nav-line"></view>
 			<view class="page-nav-button-one" v-if="stepsCurrent == 0">
@@ -150,7 +150,7 @@
 				order: order,
 				stepsCurrent: 0,
 				is_safety: '',
-				addressId: 4,
+				addressId: 8,
 				addressData: {},
 				addressList: addressList,
 				formData: {
@@ -196,7 +196,8 @@
 				evaluationType: '',
 				submissionReviewData: {},
 				showSignature: false,
-				showSize: false
+				showSize: false,
+				addressDefault: 8
 			}
 		},
 		methods: {
@@ -212,21 +213,23 @@
 				this.stepsCurrent = 0
 			},
 			handleSafety(value) {
-				if(this.is_safety == value) {
-					this.is_safety = ''
-				} else {
-					this.is_safety = 'safety'
-				}
+				this.is_safety = value;
 			},
 			handleAddress() {
 			    uni.$once('returnAddressId', (e) => {
 			        this.addressId = e.address_id;
+					this.addressDefault = e.address_default;
 			        this.addressData = this.addressList.find(item => item.id == e.address_id);
 					this.formData.addressData = this.addressData
 			    })
 			    uni.navigateTo({
 			        url: '/pages/profile/address/index?id=' + this.formData.addressData.id
 			    })
+			},
+			handleAddressEidt() {
+				uni.navigateTo({
+					url: '/pages/profile/address/edit?id=' + this.formData.addressData.id + '&defaultId=' + this.addressDefault
+				})
 			},
 			handleNotes() {
 				uni.$once('returnNote', (e) => {
@@ -474,10 +477,17 @@
 	
 	.page-nav-safety {
 		display: flex;
+		margin-top: 4rpx;
+		align-items: center;
+	}
+	
+	.nav-safety-text {
+		display: flex;
 		font-weight: 500;
 		font-size: 26rpx;
 		color: rgba(0, 0, 0, 0.33);
-		margin-top: 4rpx;
+		align-items: center;
+		margin-bottom: 2rpx;
 	}
 	
 	.nav-safety {

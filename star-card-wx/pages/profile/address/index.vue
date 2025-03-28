@@ -70,7 +70,8 @@
 			handleAddress(id) {
 				this.selectId = id;
 				uni.$emit('returnAddressId', {
-					address_id: id
+					address_id: id,
+					address_default: this.addressDefault
 				})
 				uni.navigateBack()
 			}
