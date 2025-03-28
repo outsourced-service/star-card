@@ -20,7 +20,7 @@
 					<cardLevelSelect :data="submissionReviewData"></cardLevelSelect>
 				</view>
 			</view>
-			<view class="page-form-item" v-if="showSignature" @click="handlePopup('signatureReview')">
+			<view class="page-form-item" v-if="data.showSignature" @click="handlePopup('signatureReview')">
 				<view class="page-form-label">
 					<view class="form-label-title">
 						签字选项<uv-icon name="question-circle" color="rgba(0, 0, 0, 0.2)" size="32rpx" bold></uv-icon>
@@ -38,7 +38,7 @@
 					<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.44)" size="28rpx" bold></uv-icon>
 				</view>
 			</view>
-			<view class="page-form-item" v-if="showSize" @click="handlePopup('sizeReview')">
+			<view class="page-form-item" v-if="data.showSize" @click="handlePopup('sizeReview')">
 				<view class="page-form-label">
 					<view class="form-label-title">
 						尺寸选项<uv-icon name="question-circle" color="rgba(0, 0, 0, 0.2)" size="32rpx" bold></uv-icon>
@@ -70,24 +70,18 @@
 				<view class="page-form-number">
 					<uv-image src="https://img.picui.cn/free/2025/03/25/67e1b8096217f.png" width="40rpx" height="40rpx" @click="handleSubtract"></uv-image>
 					<view class="form-number-input">
-						<uv-input placeholder="" border="surround" v-model="formData.number" inputAlign="center" type="number"></uv-input>
+						<uv-input placeholder="" border="surround" v-model="formData.number" inputAlign="center" type="number" @change="changeInput" @input="changeInput" @blur="changeInput"></uv-input>
 					</view>
 					<uv-image src="https://img.picui.cn/free/2025/03/25/67e1b85d88652.png" width="40rpx" height="40rpx" @click="handleAdd"></uv-image>
 				</view>
 			</view>
 		</view>
-		<uv-popup ref="popup" mode="bottom" @change="change" round="40rpx" closeable safeAreaInsetBottom>
-			<formPopup :data="evaluationData" :type="evaluationType" @confirm="confirm"></formPopup>
-		</uv-popup>
 	</view>
 </template>
 
 <script>
 	import cardLevelSelect from './cardLevelSelect.vue';
 	import formPopup from './popup.vue';
-	import {
-		evaluation
-	} from '/mock/evaluation';
 	export default {
 		options: {
 		    styleIsolation: 'shared'
@@ -101,91 +95,47 @@
 				type: Object,
 				required: true,
 				default: () => ({}),
+			},
+			formData: {
+				type: Object,
+				required: true,
+				default: () => ({}),
+			},
+			submissionReviewData: {
+				type: Object,
+				required: true,
+				default: () => ({}),
 			}
 		},
 		data() {
 			return {
-				formData: {
-					submissionReview: '慢速档 ValueBulk',
-					signature: '',
-					signatureNum: 0,
-					img: null,
-					is_img: false,
-					number: 0,
-					size: '',
-					sizeNum: 0,
-					evaluation_insurance_id: 0,
-					signature_id: 0,
-					size_id: 0
-				},
-				fileList: [],
-				evaluation: evaluation,
-				evaluationData: [],
-				evaluationType: '',
-				submissionReviewData: {},
-				showSignature: false,
-				showSize: false
+				fileList: []
 			}
 		},
+		emit: ['handlePopup', 'changeNumber'],
 		methods: {
 			handleAdd() {
 				this.formData.number++
+				this.$emit('changeNumber')
 			},
 			handleSubtract() {
 				this.formData.number--
+				if(this.formData.number < 0) {
+					this.formData.number = 0
+				}
+				this.$emit('changeNumber')
 			},
 			handlePopup(value) {
-				this.evaluationType = value
-				if(value == 'submissionReview') {
-					this.evaluationData = this.evaluation.evaluation_insurance.map(item => {
-					    return {
-					        ...item,
-					        selected: this.formData.evaluation_insurance_id == item.id ? true : false
-					    };
-					});
-				} else if(value == 'signatureReview') {
-					this.evaluationData = this.submissionReviewData.evaluation_insurance_info.filter(item => item.type == '签字选项')
-					this.evaluationData = this.evaluationData.map(item => {
-					    return {
-					        ...item,
-					        selected: this.formData.signature_id == item.id ? true : false
-					    };
-					});
-				} else if(value == 'sizeReview') {
-					this.evaluationData = this.submissionReviewData.evaluation_insurance_info.filter(item => item.type == '尺寸选项')
-					this.evaluationData = this.evaluationData.map(item => {
-					    return {
-					        ...item,
-					        selected: this.formData.size_id == item.id ? true : false
-					    };
-					});
-				}
-				this.$refs.popup.open();
+				this.$emit('handlePopup', value)
 			},
-			confirm(id, index, type) {
-				if(type == 'submissionReview') {
-					this.formData.evaluation_insurance_id = id;
-					this.submissionReviewData = this.evaluation.evaluation_insurance[index];
-					if(this.submissionReviewData.evaluation_insurance_info.find(item => item.type == '签字选项')) {
-						this.showSignature = true
-					} else {
-						this.showSignature = false
-					}
-					if(this.submissionReviewData.evaluation_insurance_info.find(item => item.type == '尺寸选项')) {
-						this.showSize = true
-					} else {
-						this.showSize = false
-					}
-				} else if(type == 'signatureReview') {
-					this.formData.signature_id = id;
-					this.formData.signature = this.evaluationData[index].name;
-					this.formData.signatureNum = this.evaluationData[index].price;
-				} else if(type == 'sizeReview') {
-					this.formData.size_id = id;
-					this.formData.size = this.evaluationData[index].name;
-					this.formData.sizeNum = this.evaluationData[index].price;
+			changeInput() {
+				if(this.formData.number < 0) {
+					this.formData.number = 0
 				}
-				this.$refs.popup.close();
+				if (this.formData.number) {
+					this.formData.number = String(Number(this.formData.number))
+				}
+				this.$emit('changeNumber')
 			}
 		},
 		mounted() {

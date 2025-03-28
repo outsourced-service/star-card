@@ -1,7 +1,7 @@
 <template>
 	<view class="page">
 		<view class="page-list">
-			<view :class="item.id === addressDefault ? 'page-list-card-default' : 'page-list-card'" v-for="(item, index) in addressList" :key="index" @click="handleAddress(item.id)">
+			<view :class="item.id == selectId ? 'page-list-card-default' : 'page-list-card'" v-for="(item, index) in addressList" :key="index" @click="handleAddress(item.id)">
 				<view class="list-card-left">
 					<view class="card-left-top">
 						<view class="left-top-name">
@@ -18,13 +18,13 @@
 						{{ item.province }}{{ item.city }}{{ item.area }}{{ item.address_detail }}{{ item.house }}
 					</view>
 				</view>
-				<view class="list-card-right">
+				<view class="list-card-right" @click.stop="handleEdit(item.id)">
 					<uv-icon name="edit-pen" color="rgba(254, 168, 0, 1)" size="40rpx"></uv-icon>
 				</view>
 			</view>
 		</view>
 		<view class="page-bottom-button">
-			<uv-button text="新增地址" color="#fea800" size="large" shape="circle" @click="handleAdd"></uv-button>
+			<uv-button text="新增地址" color="#fea800" size="large" shape="circle" @click="handleEdit"></uv-button>
 		</view>
 	</view>
 </template>
@@ -51,17 +51,24 @@
 					// 预处理：将 set_default_num 转换为数字（空字符串转为0）
 					set_default_num: Number(item.set_default_num) || 0
 				})),
-				addressDefault: null // 初始化为 null
+				addressDefault: null ,// 初始化为 null
+				selectId: 0
 			}
 		},
 		methods: {
-			handleItem() {
-				uni.navigateTo({
-					url: '/pages/order/procedure/index'
-				})
+			handleEdit(id) {
+				if(id) {
+					uni.navigateTo({
+						url: '/pages/profile/address/edit?id=' + id + '&defaultId=' + this.addressDefault
+					})
+				} else {
+					uni.navigateTo({
+						url: '/pages/profile/address/edit'
+					})
+				}
 			},
 			handleAddress(id) {
-				this.addressDefault = id;
+				this.selectId = id;
 				uni.$emit('returnAddressId', {
 					address_id: id
 				})
@@ -69,7 +76,11 @@
 			}
 		},
 		mounted() {
-			// 直接访问计算属性 maxDefaultNum
+		},
+		onLoad(option) {
+			if(option.id) {
+				this.selectId = option.id;
+			}
 			this.addressDefault = this.addressList.find(item => item.set_default_num === this.maxDefaultNum)?.id;
 		}
 	}

@@ -78,7 +78,6 @@
 		emit: ['handleCourier'],
 		methods: {
 			handleCourier() {
-				console.log(this.addressData, this.data)
 				this.$emit('handleCourier')
 			}
 		},

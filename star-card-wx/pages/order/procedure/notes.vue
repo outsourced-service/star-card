@@ -8,7 +8,7 @@
 				<view class="page-form-guide" @click="is_eidt = false" v-else>完成</view>
 			</view>
 			<view class="page-tag-list">
-				<view class="tag-list-item" v-for="(item, index) in noteList" :key="index">
+				<view class="tag-list-item" v-for="(item, index) in noteList" :key="index" @click="handleNoteTag(item)">
 					{{item}}
 					<view class="list-item-icon" v-if="is_eidt" @click="handleEidt(index)">
 						<uv-icon name="close-circle-fill" color="rgba(174, 174, 178, 1)" size="32rpx"></uv-icon>
@@ -17,7 +17,7 @@
 			</view>
 		</view>
 		<view class="page-bottom-button">
-			<uv-button text="新增地址" color="#fea800" size="large" shape="circle" @click="handleAdd"></uv-button>
+			<uv-button text="保存" color="#fea800" size="large" shape="circle" @click="handleAddNote"></uv-button>
 		</view>
 	</view>
 </template>
@@ -41,6 +41,19 @@
 		methods: {
 			handleEidt(index) {
 				this.noteList.splice(index, 1)
+			},
+			handleNoteTag(value) {
+				if(this.is_eidt) {
+					
+				} else {
+					this.note = value
+				}
+			},
+			handleAddNote() {
+				uni.$emit('returnNote', {
+					note: this.note
+				})
+				uni.navigateBack()
 			}
 		},
 		mounted() {

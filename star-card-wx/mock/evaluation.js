@@ -25,7 +25,7 @@ export const evaluation = {
             "name": "慢速档 ValueBulk",
             "description": "一段描述",
             "evaluation_evaluation": 1,
-            "price": 10000,
+            "price": 160,
             "label_name": "9月特惠档位",
             "is_input": true,
             "card_price_limit": 3500,
@@ -68,7 +68,7 @@ export const evaluation = {
                         "url": "https://img.picui.cn/free/project/2000000000380240/images/PiMxZh7MX4ps5DYk__xFgg==.png"
                     },
                     "description": "一段描述",
-                    "price": 5000
+                    "price": 50
                 },
                 {
                     "id": 4,
@@ -92,7 +92,7 @@ export const evaluation = {
                         "url": "https://img.picui.cn/free/project/2000000000380240/images/PiMxZh7MX4ps5DYk__xFgg==.png"
                     },
                     "description": "200mm*80mm",
-                    "price": 5000
+                    "price": 60
                 },
 				{
 				    "id": 8,
@@ -104,7 +104,7 @@ export const evaluation = {
 				        "url": "https://img.picui.cn/free/project/2000000000380240/images/PiMxZh7MX4ps5DYk__xFgg==.png"
 				    },
 				    "description": "100mm*40mm",
-				    "price": 1000
+				    "price": 10
 				},
                 {
                     "id": 6,
@@ -116,7 +116,7 @@ export const evaluation = {
                         "url": "https://img.picui.cn/free/project/2000000000380240/images/PiMxZh7MX4ps5DYk__xFgg==.png"
                     },
                     "description": "官方评分时长：20工作日",
-                    "price": 500
+                    "price": 20
                 },
                 {
                     "id": 7,
@@ -128,7 +128,7 @@ export const evaluation = {
                         "url": "https://img.picui.cn/free/project/2000000000380240/images/PiMxZh7MX4ps5DYk__xFgg==.png"
                     },
                     "description": "官方评分时长：45工作日",
-                    "price": 500
+                    "price": 50
                 }
             ]
         },

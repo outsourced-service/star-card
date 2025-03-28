@@ -150,7 +150,6 @@
 		emit: ['confirm'],
 		methods: {
 			handleSelect(id, index) {
-				console.log(id, index, this.data)
 				const oldIndex = this.data.findIndex(item => item.selected == true)
 				this.data[index].selected = true
 				if(oldIndex >= 0) {

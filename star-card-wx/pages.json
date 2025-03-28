@@ -178,6 +178,11 @@
 				"style": {
 					"navigationBarTitleText": "地址簿"
 				}
+			}, {
+				"path": "address/edit",
+				"style": {
+					"navigationBarTitleText": "添加新地址"
+				}
 			}]
 		}
 	],

@@ -11,10 +11,10 @@
 							比例20:1，单卡保额默认为保价总额/张数
 						</view>
 					</view>
-					<uv-switch v-model="formData.is_insurance" activeColor="#fea800"></uv-switch>
+					<uv-switch v-model="data.is_insurance" activeColor="#fea800"></uv-switch>
 				</view>
-				<view class="form-item-input" v-if="formData.is_insurance">
-					<uv-input placeholder="" border="surround" v-model="formData.insurance" @change="change" type="number">
+				<view class="form-item-input" v-if="data.is_insurance">
+					<uv-input placeholder="" border="surround" v-model="data.insurance" type="number" @change="changeInput" @input="changeInput">
 						<template v-slot:suffix>
 							元
 						</template>
@@ -22,7 +22,7 @@
 					<view class="form-item-tip">
 						<uv-icon name="info-circle" color="rgba(0, 0, 0, 0.33)" size="32rpx" bold class="icon-rotate-180"></uv-icon>
 						<view class="item-tip-text">需额外支付</view>
-						<view class="item-tip-num">220</view>
+						<view class="item-tip-num">{{ data.insurance / 20 }}</view>
 						<view class="item-tip">元</view>
 					</view>
 				</view>
@@ -37,9 +37,9 @@
 							这里有一段描述
 						</view>
 					</view>
-					<uv-switch v-model="formData.is_service" activeColor="#fea800"></uv-switch>
+					<uv-switch v-model="data.is_service" activeColor="#fea800"></uv-switch>
 				</view>
-				<view class="form-item-input" v-if="formData.is_service">
+				<view class="form-item-input" v-if="data.is_service">
 					<view class="item-input" @click="handleService">
 						<view class="item-input-data">
 							<view class="item-input-name">{{ data.service }}</view>
@@ -50,7 +50,7 @@
 					<view class="form-item-tip">
 						<uv-icon name="info-circle" color="rgba(0, 0, 0, 0.33)" size="32rpx" bold class="icon-rotate-180"></uv-icon>
 						<view class="item-tip-text">需额外支付</view>
-						<view class="item-tip-num">105</view>
+						<view class="item-tip-num">{{ data.serviceNum * data.number / 20 }}</view>
 						<view class="item-tip">元</view>
 					</view>
 				</view>
@@ -75,20 +75,16 @@
 		},
 		data() {
 			return {
-				formData: {
-					is_insurance: false,
-					insurance: 0,
-					is_service: false,
-					service: '一对一验品',
-					servicePrice: 50
-				},
 				fileList: []
 			}
 		},
-		emit: ['handleService'],
+		emit: ['handleService', 'handleInsurance'],
 		methods: {
 			handleService() {
 				this.$emit('handleService')
+			},
+			changeInput() {
+				this.$emit('handleInsurance')
 			}
 		},
 		mounted() {
