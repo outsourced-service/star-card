@@ -1,3 +1,5 @@
+import { ApiConfig } from "@/types/ezInstance";
+
 // 定制请求loading和错误toast的代码
 const utils = {
     showLoading: uni.showLoading, // 显示加载动画
@@ -56,10 +58,11 @@ let isLoading = false;
  * 控制加载动画的显示与隐藏
  * @param showLoading - 是否显示加载动画
  * @param title - 加载提示文字
+ * @param name - 加载动画名称
  * @param isDebug - 是否开启调试模式
  * @returns 当前加载状态
  */
-function handleLoading(showLoading = true, title = "加载中...", isDebug = false): boolean {
+function handleLoading(showLoading = true, title = "加载中...", name = 'Loading', isDebug = false): boolean {
     // 更新请求计数
     if (showLoading) requestCount++;
     else requestCount--;
@@ -69,7 +72,7 @@ function handleLoading(showLoading = true, title = "加载中...", isDebug = fal
         isLoading = true;
         // 调试模式下显示开始日志
         if (isDebug) {
-            console.log(`\n%c=== Loading Start ===`, 'color: #2196F3; font-weight: bold');
+            console.log(`\n%c=== ${name} Start ===`, 'color: #2196F3; font-weight: bold');
         }
         // 显示加载动画
         utils.showLoading && utils.showLoading({
@@ -81,7 +84,7 @@ function handleLoading(showLoading = true, title = "加载中...", isDebug = fal
     else if (isLoading && requestCount === 0) {
         // 调试模式下显示结束日志
         if (isDebug) {
-            console.log(`%c=== Loading End ===\n`, 'color: #4CAF50; font-weight: bold');
+            console.log(`%c=== ${name} End ===\n`, 'color: #4CAF50; font-weight: bold');
         }
         // 隐藏加载动画
         utils.hideLoading && utils.hideLoading();
@@ -95,11 +98,43 @@ function handleLoading(showLoading = true, title = "加载中...", isDebug = fal
 
     return isLoading;
 }
+// 异步函数，用于加载动画
+const isClog = process.env.NODE_ENV !== "production"; // 是否开启日志
+async function request(name: any, callback: (isLog: boolean) => Promise<any>, apiConfig?: ApiConfig) {
+    // 获取加载文本，默认为"加载中..."
+    const loadingText = apiConfig?.loadingText ?? "加载中...";
+    // 是否显示加载动画，默认为true
+    const isReqLoading = apiConfig?.isReqLoading ?? true;
+    // 是否显示错误Toast，默认为true
+    const isErrorToast = apiConfig?.isErrorToast ?? true;
+    // 是否开启调试模式，默认为false
+    const isDebug = apiConfig?.isDebug ?? isClog ?? false;
+    // 显示加载动画
+    const is_loading = isReqLoading && handleLoading(true, loadingText, name, Boolean(isDebug));
+
+    // 开启延迟，简化调用频率
+    await loop()
+
+    return await throttleExecution(name, async () => await callback(Boolean(is_loading && isDebug)).then((response: any) => {
+        // 打印日志
+        if (is_loading && isDebug) console.log(response);
+        return response;
+    }).catch((e: { message: any }) => {
+        if (is_loading && isDebug) console.log(e);
+        // 出错时显示Toast
+        isErrorToast && toast(e?.message || e);
+        throw e;
+    }).finally(() => {
+        // 隐藏加载动画
+        isReqLoading && handleLoading(false, loadingText, name, Boolean(isDebug));
+    }))
+}
 
 export default {
     utils,
     toast,
     loop,
+    request,
+    handleLoading,
     throttleExecution,
-    handleLoading
 }

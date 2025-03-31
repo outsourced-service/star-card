@@ -1,4 +1,4 @@
-import { DeleteOptions, Directive, Fields, OperateOptions, QueryOptions, UpdateOptions } from "@/types/ezInstance";
+import { ApiConfig, DeleteOptions, Directive, Fields, OperateOptions, QueryOptions, UpdateOptions } from "@/types/ezInstance";
 import ezInstance from "./index";
 import utils from "./utils";
 
@@ -107,7 +107,7 @@ export default class CurdService {
         fields?: Fields;
         aggregate_fields?: string;
     }) {
-        return await utils.throttleExecution(
+        return await utils.request(
             this.getThrottleKey('find'),
             () => ezInstance.ezserver.find({
                 name: this.name,
@@ -123,15 +123,16 @@ export default class CurdService {
     /**
      * 主键查询
      */
-    private async queryByPk(id: number, fields: Fields = this.fields, directives?: Array<Directive>) {
-        return await utils.throttleExecution(
+    private async queryByPk(id: number, fields: Fields = this.fields, directives?: Array<Directive>, apiConfig?: ApiConfig) {
+        return await utils.request(
             this.getThrottleKey('queryByPk'),
             () => ezInstance.ezserver.query({
                 name: `${this.name}_by_pk`,
                 args: { id },
                 fields,
                 directives,
-            })
+            }),
+            apiConfig
         );
     }
 
@@ -169,7 +170,7 @@ export default class CurdService {
     /**
      * 查询数据
      */
-    public async query(options: QueryOptions = {}) {
+    public async query(options: QueryOptions = {}, apiConfig?: ApiConfig) {
         const { id, limit, offset, fields = this.fields, aggregate_fields = 'count', directives, ...rest } = options;
 
         if (id) {
@@ -186,23 +187,23 @@ export default class CurdService {
             });
         }
 
-        return await utils.throttleExecution(
+        return await utils.request(
             this.getThrottleKey('query'),
             () => ezInstance.ezserver.query({
                 name: this.name,
                 args: rest,
                 fields,
                 directives,
-            })
+            }), apiConfig
         );
     }
 
     /**
      * 插入数据
      */
-    public async insert(data: any | any[], fields?: Fields) {
+    public async insert(data: any | any[], fields?: Fields, apiConfig?: ApiConfig) {
         const isArray = Array.isArray(data);
-        return await utils.throttleExecution(
+        return await utils.request(
             this.getThrottleKey('insert'),
             () => this.operate({
                 opMethod: "mutation",
@@ -211,14 +212,15 @@ export default class CurdService {
                 opFields: isArray
                     ? ['affected_rows', fields ? { name: 'returning', fields } : '']
                     : (fields || this.fields),
-            })
+            }),
+            apiConfig
         );
     }
 
     /**
      * 更新数据
      */
-    public async update(options: UpdateOptions) {
+    public async update(options: UpdateOptions, apiConfig?: ApiConfig) {
         const { pk_columns, where, id, _set, _inc, fields } = options;
         const pkColumnsOrWhere = pk_columns || where || id;
 
@@ -227,14 +229,15 @@ export default class CurdService {
         const isPkColumns = typeof pkColumnsOrWhere === 'object';
         const opArgs = this.buildUpdateArgs(pkColumnsOrWhere, isPkColumns, _set, _inc);
 
-        return await utils.throttleExecution(
+        return await utils.request(
             this.getThrottleKey('update'),
             () => this.operate({
                 opMethod: "mutation",
                 opName: `update_${isPkColumns ? this.name : `${this.name}_by_pk`}`,
                 opArgs,
                 opFields: this.buildReturnFields(isPkColumns, fields),
-            })
+            }),
+            apiConfig
         );
     }
 
@@ -253,7 +256,7 @@ export default class CurdService {
     /**
      * 删除数据
      */
-    public async delete(options: DeleteOptions, isForceDelete = false) {
+    public async delete(options: DeleteOptions, isForceDelete = false, apiConfig?: ApiConfig) {
         const { pk_columns, where, id, fields } = options;
         const pkColumnsOrWhere = pk_columns || where || id;
 
@@ -265,18 +268,19 @@ export default class CurdService {
             return await this.update({
                 ...options,
                 _set: { is_deleted: true }
-            });
+            }, apiConfig);
         }
 
         const isPkColumns = typeof pkColumnsOrWhere === 'object';
-        return await utils.throttleExecution(
+        return await utils.request(
             this.getThrottleKey('delete'),
             () => this.operate({
                 opMethod: "mutation",
                 opName: `delete_${isPkColumns ? this.name : `${this.name}_one`}`,
                 opArgs: this.buildDeleteArgs(pkColumnsOrWhere, isPkColumns),
                 opFields: this.buildReturnFields(isPkColumns, fields),
-            })
+            }),
+            apiConfig
         );
     }
 }

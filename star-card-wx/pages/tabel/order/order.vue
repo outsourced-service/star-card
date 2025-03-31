@@ -10,7 +10,7 @@
 		</view> -->
 		<!-- 评级 -->
 		<view v-if="true" class="flex-1">
-			<rating ref="ratingRef"/>
+			<rating ref="ratingRef" />
 		</view>
 		<!-- 底部导航栏 -->
 		<tabBar :value='1' />
@@ -19,6 +19,7 @@
 
 <script>
 	import rating from '@/pages/order/tabsPage/rating/index.vue';
+	import order from "@/api/order";
 	export default {
 		components: {
 			rating
@@ -57,17 +58,16 @@
 				}
 			}
 		},
-		onLoad: function(options) {
-
+		onShow: function(options) {
+			order.getOrderList().then(res => {
+				console.log(res);
+			})
 		},
 		// 下来刷新
-		onPullDownRefresh() {
-		},
+		onPullDownRefresh() {},
 		// 上拉加载
-		onReachBottom() {
-		},
+		onReachBottom() {},
 	}
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>
