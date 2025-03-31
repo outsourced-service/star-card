@@ -1,7 +1,7 @@
 import utils from "./utils";
 import EzCloudBase from "ezcloudbase";
 import ezConfigJson from "@/ez.config.json";
-import createCurd from "./curd";
+import CurdService from "./curd";
 import { ApiConfig } from "@/types/ezInstance";
 // 实例化EzCloudBase并解构出EzServer
 const ezserver = new EzCloudBase.EzServer(ezConfigJson);
@@ -29,7 +29,7 @@ async function api(scf_dir: string, scf_name: string, payload?: any, apiConfig?:
     if (is_loading && isDebug) console.log({ scf_dir, scf_name, payload });
 
     // 调用SCF函数
-    return utils.throttleExecution(`${scf_dir}-${scf_name}`, async () => await ezserver.callScf({
+    return await utils.throttleExecution(`${scf_dir}-${scf_name}`, async () => await ezserver.callScf({
         scf_dir,
         scf_name,
         payload,
@@ -54,5 +54,5 @@ export default {
     ezserver,
     ezclient,
     api,
-    createCurd,
+    CurdService,
 };
