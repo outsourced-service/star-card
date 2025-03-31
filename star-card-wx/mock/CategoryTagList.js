@@ -30,3 +30,51 @@ export const tabList = [
     ]
   }
 ]
+
+export const orderTabList = [
+  { name: '未入库',
+    tagList: [
+      { name: '全部' },
+      { name: 'PSA美国直送' },
+      { name: 'PSA日本' },
+      { name: 'PSA中国团送' },
+	  { name: 'CGC' },
+	  { name: 'SGC' },
+	  { name: 'BGS' },
+	  { name: '中检评级' }
+    ]
+  },
+  { name: '已入库',
+    tagList: [
+      { name: '全部' },
+      { name: 'PSA日本' },
+      { name: 'PSA中国团送' },
+      { name: 'CGC' },
+      { name: 'SGC' }
+    ]
+  },
+  { name: '流程中',
+    tagList: [
+      { name: '全部' },
+      { name: 'CGC' },
+      { name: 'SGC' },
+      { name: 'BGS' },
+      { name: '中检评级' }
+    ]
+  },
+  { name: '已出分',
+    tagList: [
+      { name: '全部' },
+      { name: 'BGS' },
+      { name: '中检评级' }
+    ]
+  },
+  { name: '已完成',
+    tagList: [
+      { name: '全部' },
+      { name: 'PSA中国团送' },
+      { name: 'CGC' },
+      { name: 'SGC' }
+    ]
+  }
+]

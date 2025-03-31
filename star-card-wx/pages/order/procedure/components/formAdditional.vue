@@ -11,10 +11,10 @@
 							比例20:1，单卡保额默认为保价总额/张数
 						</view>
 					</view>
-					<uv-switch v-model="formData.is_insurance" activeColor="#fea800"></uv-switch>
+					<uv-switch v-model="data.is_insurance" activeColor="#fea800"></uv-switch>
 				</view>
-				<view class="form-item-input" v-if="formData.is_insurance">
-					<uv-input placeholder="" border="surround" v-model="formData.insurance" @change="change" type="number">
+				<view class="form-item-input" v-if="data.is_insurance">
+					<uv-input placeholder="" border="surround" v-model="data.insurance" type="number" @change="changeInput" @input="changeInput">
 						<template v-slot:suffix>
 							元
 						</template>
@@ -22,7 +22,7 @@
 					<view class="form-item-tip">
 						<uv-icon name="info-circle" color="rgba(0, 0, 0, 0.33)" size="32rpx" bold class="icon-rotate-180"></uv-icon>
 						<view class="item-tip-text">需额外支付</view>
-						<view class="item-tip-num">220</view>
+						<view class="item-tip-num">{{ data.insurance / 20 }}</view>
 						<view class="item-tip">元</view>
 					</view>
 				</view>
@@ -37,20 +37,20 @@
 							这里有一段描述
 						</view>
 					</view>
-					<uv-switch v-model="formData.is_service" activeColor="#fea800"></uv-switch>
+					<uv-switch v-model="data.is_service" activeColor="#fea800"></uv-switch>
 				</view>
-				<view class="form-item-input" v-if="formData.is_service">
-					<view class="item-input">
+				<view class="form-item-input" v-if="data.is_service">
+					<view class="item-input" @click="handleService">
 						<view class="item-input-data">
-							<view class="item-input-name">{{ formData.service }}</view>
-							<view class="item-input-price">+{{ formData.servicePrice }}元/张</view>
+							<view class="item-input-name">{{ data.service }}</view>
+							<view class="item-input-price" v-if="data.serviceNum">+{{ data.serviceNum }}元/张</view>
 						</view>
 						<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.44)" size="28rpx"></uv-icon>
 					</view>
 					<view class="form-item-tip">
 						<uv-icon name="info-circle" color="rgba(0, 0, 0, 0.33)" size="32rpx" bold class="icon-rotate-180"></uv-icon>
 						<view class="item-tip-text">需额外支付</view>
-						<view class="item-tip-num">105</view>
+						<view class="item-tip-num">{{ data.serviceNum * data.number / 20 }}</view>
 						<view class="item-tip">元</view>
 					</view>
 				</view>
@@ -75,22 +75,16 @@
 		},
 		data() {
 			return {
-				formData: {
-					is_insurance: false,
-					insurance: 0,
-					is_service: false,
-					service: '一对一验品',
-					servicePrice: 50
-				},
 				fileList: []
 			}
 		},
+		emit: ['handleService', 'handleInsurance'],
 		methods: {
-			handleAdd() {
-				this.formData.number++
+			handleService() {
+				this.$emit('handleService')
 			},
-			handleSubtract() {
-				this.formData.number--
+			changeInput() {
+				this.$emit('handleInsurance')
 			}
 		},
 		mounted() {
@@ -191,7 +185,7 @@
 	.form-item-tip {
 		display: flex;
 		align-items: baseline;
-		justify-content: end;
+		justify-content: flex-end;
 		gap: 8rpx;
 	}
 	

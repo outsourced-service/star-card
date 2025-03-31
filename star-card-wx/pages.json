@@ -34,7 +34,12 @@
 			"style": {
 				"navigationBarTitleText": "订单",
 				"navigationStyle": "custom", // 隐藏系统导航栏
-				"navigationBarTextStyle": "black" // 状态栏字体为白色，只能为 white-白色，black-黑色 二选一
+				"navigationBarTextStyle": "black" ,// 状态栏字体为白色，只能为 white-白色，black-黑色 二选一
+				"navigationBarBackgroundColor": "#ffffff",
+				"enablePullDownRefresh": true,
+				"componentPlaceholder": {
+					"rating": "view"
+				}
 			}
 		},
 		{
@@ -61,8 +66,7 @@
 		"selectedColor": "#3cc51f",
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
-		"list": [
-			{
+		"list": [{
 				"text": "首页",
 				"pagePath": "pages/tabel/home/home",
 				"visible": false
@@ -89,11 +93,9 @@
 			}
 		]
 	},
-	"subPackages": [
-		{
+	"subPackages": [{
 			"root": "pages/home",
-			"pages": [
-				{
+			"pages": [{
 					"path": "nearbyShops",
 					"style": {
 						"navigationBarTitleText": "附近商家"
@@ -127,59 +129,73 @@
 		},
 		{
 			"root": "pages/shop",
-			"pages": [
-				{
-					"path": "subpage/subpage",
-					"style": {
-						"navigationBarTitleText": "商城子页面"
-					}
+			"pages": [{
+				"path": "subpage/subpage",
+				"style": {
+					"navigationBarTitleText": "商城子页面"
 				}
-			]
+			}]
 		},
 		{
 			"root": "pages/card",
-			"pages": [
-				{
-					"path": "subpage/subpage",
-					"style": {
-						"navigationBarTitleText": "卡牌子页面"
-					}
+			"pages": [{
+				"path": "subpage/subpage",
+				"style": {
+					"navigationBarTitleText": "卡牌子页面"
 				}
-			]
+			}]
 		},
 		{
 			"root": "pages/order",
-			"pages": [
-				{
-					"path": "subpage/subpage",
-					"style": {
-						"navigationBarTitleText": "订单子页面"
-					}
-				},
-				{
-					"path": "organization/index",
-					"style": {
-						"navigationBarTitleText": "选择机构"
-					}
-				},
-				{
-					"path": "procedure/index",
-					"style": {
-						"navigationBarTitleText": "下单步骤"
-					}
+			"pages": [{
+				"path": "subpage/subpage",
+				"style": {
+					"navigationBarTitleText": "订单子页面"
 				}
-			]
+			}, {
+				"path": "organization/index",
+				"style": {
+					"navigationBarTitleText": "选择机构"
+				}
+			}, {
+				"path": "procedure/index",
+				"style": {
+					"navigationBarTitleText": "下单步骤"
+				}
+			}, {
+				"path": "procedure/notes",
+				"style": {
+					"navigationBarTitleText": "备注",
+					"backgroundColor": "#f2f3f6",
+					"backgroundColorTop": "#f2f3f6"
+				}
+			}, {
+				"path": "tabsPage/rating/search",
+				"style": {
+					"navigationBarTitleText": "搜索",
+					"backgroundColor": "#f2f3f6",
+					"backgroundColorTop": "#f2f3f6"
+				}
+			}]
 		},
 		{
 			"root": "pages/profile",
-			"pages": [
-				{
-					"path": "subpage/subpage",
-					"style": {
-						"navigationBarTitleText": "我的子页面"
-					}
+			"pages": [{
+				"path": "subpage/subpage",
+				"style": {
+					"navigationBarTitleText": "我的子页面"
 				}
-			]
+			}, {
+				"path": "address/index",
+				"style": {
+					"navigationBarTitleText": "地址簿"
+				}
+			}, {
+				"path": "address/edit",
+				"style": {
+					"navigationBarTitleText": "添加新地址"
+				}
+			}]
 		}
 	],
 	"globalStyle": {
