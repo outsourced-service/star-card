@@ -1,5 +1,6 @@
 import ezInstance from "@/utils/ezInstance";
 import { login } from "@/api/login/index";
+import CurdService from "@/utils/ezInstance/curd";
 const { ezclient } = ezInstance;
 
 const userFields =[
