@@ -53,7 +53,7 @@ const getToken = async (userToken ?: wxMiniLoginResponse, payload ?: wxMiniLogin
 
 const value : any = {
 	isRequesting: false, // 请求状态标志
-	token: { "userToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzUsImV4cGlyZXNfaW4iOjE3NDMxNjM5NDAyODN9.ncBBzg3PULSD8nZkWOgh3Vuk7lq4GCP2R7P4DgBNVJQ=", "userID": 35, "expires_in": 1743163940945, "jwtToken": "eyJhbGciOiJIUzI1NiJ9.eyJ6ZXJvIjp7fSwicm9sZXMiOlsic2VsZiIsInVzZXIiXSwiWkVST19VU0VSX0lEIjoiMTAwMDAwMDAwMDAwMDAxMCIsImRlZmF1bHRSb2xlIjoidXNlciIsImhhc3VyYV9jbGFpbXMiOnsieC1oYXN1cmEtdXNlci1pZCI6IjEwMDAwMDAwMDAwMDAwMTAiLCJ4LWhhc3VyYS1hbGxvd2VkLXJvbGVzIjpbInVzZXIiLCJzZWxmIl0sIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InVzZXIifSwiZXhwIjoxNzc0NjkyNzQwLCJpc3MiOiIxMDAwMDAwMDAwMDAwMDAwIiwiaWF0IjoxNzQzMTU2NzQwfQ.9g_S5sretweysLND35a0hp-QUQnLDQ0SflPeq_8Zt7E" }, // 保存token
+	token: {"userToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsImV4cGlyZXNfaW4iOjE3NDM0MTk4MzA3NTN9.NwdrmSvaD44mXJgMnFixWvMP7KJOwfsYeBmPa97IxAI=","userID":37,"expires_in":1743419831436,"jwtToken":"eyJhbGciOiJIUzI1NiJ9.eyJoYXN1cmFfY2xhaW1zIjp7IngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InVzZXIiLCJ4LWhhc3VyYS11c2VyLWlkIjoiMTAwMDAwMDAwMDAwMDAxMCIsIngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsidXNlciIsInNlbGYiXX0sInplcm8iOnt9LCJyb2xlcyI6WyJzZWxmIiwidXNlciJdLCJaRVJPX1VTRVJfSUQiOiIxMDAwMDAwMDAwMDAwMDEwIiwiZGVmYXVsdFJvbGUiOiJ1c2VyIiwiZXhwIjoxNzc0OTQ4NjMwLCJpc3MiOiIxMDAwMDAwMDAwMDAwMDAwIiwiaWF0IjoxNzQzNDEyNjMwfQ.8hKf73ztJa1jZd62shy3K-EMFyqp5lKD10zo5lE8kXw"}, // 保存token
 	pendingPromise: <any>null, // 存储请求的Promise
 }
 export async function wxMiniLogin(payload ?: wxMiniLoginRequest) {

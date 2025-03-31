@@ -1,5 +1,6 @@
 import { DeleteOptions, Directive, Fields, OperateOptions, QueryOptions, UpdateOptions } from "@/types/ezInstance";
 import ezInstance from "./index";
+import utils from "./utils";
 class CurdService {
     // 定义私有变量
     private name: string;
@@ -16,6 +17,8 @@ class CurdService {
         this.fields = fields;
         this.operate = ezInstance.ezserver.operate;
     }
+
+
     // 查询方法，传入查询参数
     private async find(options: {
         pageNumber?: number;
@@ -33,31 +36,35 @@ class CurdService {
             aggregate_fields = 'count'
         } = options;
         // 调用ezInstance.ezserver.find方法查询
-        return await ezInstance.ezserver.find({
-            name: this.name,
-            args,
-            page_number: pageNumber,
-            page_size: pageSize,
-            fields,
-            aggregate_fields,
-        })
+        return await utils.throttleExecution(`find-${this.name}`, async () =>
+            await ezInstance.ezserver.find({
+                name: this.name,
+                args,
+                page_number: pageNumber,
+                page_size: pageSize,
+                fields,
+                aggregate_fields,
+            })
+        )
     }
     // 根据主键查询方法，传入id和fields
     private async queryByPk(id: number, fields: Fields = this.fields, directives?: Array<Directive>) {
         // 调用ezInstance.ezserver.query方法查询
-        return await ezInstance.ezserver.query({
-            name: `${this.name}_by_pk`,
-            args: { id },
-            fields,
-            directives,
-        })
+        return await utils.throttleExecution(`queryByPk-${this.name}`, async () =>
+            await ezInstance.ezserver.query({
+                name: `${this.name}_by_pk`,
+                args: { id },
+                fields,
+                directives,
+            })
+        )
     }
     private buildUpdateArgs(pkColumnsOrWhere: any, isPkColumns: boolean, _set?: any, _inc?: any) {
         const baseArgs = {
             _set: _set || null,
             _inc: _inc || null
         };
-        return isPkColumns 
+        return isPkColumns
             ? { ...baseArgs, where: pkColumnsOrWhere }
             : { ...baseArgs, pk_columns: { id: pkColumnsOrWhere } };
     }
@@ -71,12 +78,12 @@ class CurdService {
             ? ['affected_rows', fields ? { name: 'returning', fields } : '']
             : (fields || this.fields);
     }
-     /**
-     * 查询方法，传入查询参数
-     * @param options 查询参数
-     * @returns 
-     */
-     public async query(options: QueryOptions = {}) {
+    /**
+    * 查询方法，传入查询参数
+    * @param options 查询参数
+    * @returns 
+    */
+    public async query(options: QueryOptions = {}) {
         // 解构查询参数
         const { id, limit, offset, fields = this.fields, aggregate_fields = 'count', directives, ...rest } = options;
         // 如果传入id，调用queryByPk方法查询
@@ -94,26 +101,30 @@ class CurdService {
             });
         }
         // 调用ezInstance.ezserver.query方法查询
-        return await ezInstance.ezserver.query({
-            name: this.name,
-            args: rest,
-            fields,
-            directives,
-        })
+        return await utils.throttleExecution(`query-${this.name}`, async () =>
+            await ezInstance.ezserver.query({
+                name: this.name,
+                args: rest,
+                fields,
+                directives,
+            })
+        )
     }
     // 插入方法，传入data和fields
     public async insert(data: any | any[], fields?: Fields) {
         // 判断data是否为数组
         const isArray = Array.isArray(data);
         // 调用operate方法插入
-        return await this.operate({
-            opMethod: "mutation",
-            opName: `insert_${isArray ? this.name : `${this.name}_one`}`,
-            opArgs: isArray ? { objects: data } : { object: data },
-            opFields: isArray 
-                ? ['affected_rows', fields ? { name: 'returning', fields } : ''] 
-                : (fields || this.fields),
-        })
+        return await utils.throttleExecution(`insert-${this.name}`, async () =>
+            await this.operate({
+                opMethod: "mutation",
+                opName: `insert_${isArray ? this.name : `${this.name}_one`}`,
+                opArgs: isArray ? { objects: data } : { object: data },
+                opFields: isArray
+                    ? ['affected_rows', fields ? { name: 'returning', fields } : '']
+                    : (fields || this.fields),
+            })
+        )
     }
     // 更新方法，传入options
     public async update(options: UpdateOptions) {
@@ -134,12 +145,14 @@ class CurdService {
         // 构建更新参数
         const opArgs = this.buildUpdateArgs(pkColumnsOrWhere, isPkColumns, _set, _inc);
         // 调用operate方法更新
-        return await this.operate({
-            opMethod: "mutation",
-            opName: `update_${isPkColumns ? this.name : `${this.name}_by_pk`}`,
-            opArgs,
-            opFields: this.buildReturnFields(isPkColumns, fields),
-        })
+        return await utils.throttleExecution(`update-${this.name}`, async () =>
+            await this.operate({
+                opMethod: "mutation",
+                opName: `update_${isPkColumns ? this.name : `${this.name}_by_pk`}`,
+                opArgs,
+                opFields: this.buildReturnFields(isPkColumns, fields),
+            })
+        )
     }
     // 删除方法，传入options和isForceDelete
     public async delete(options: DeleteOptions, isForceDelete = false) {
@@ -163,12 +176,14 @@ class CurdService {
         // 构建删除参数
         const opArgs = this.buildDeleteArgs(pkColumnsOrWhere, isPkColumns);
         // 调用operate方法删除
-        return await this.operate({
-            opMethod: "mutation",
-            opName: `delete_${isPkColumns ? this.name : `${this.name}_one`}`,
-            opArgs: this.buildDeleteArgs(pkColumnsOrWhere, isPkColumns),
-            opFields: this.buildReturnFields(isPkColumns, fields),
-        })
+        return await utils.throttleExecution(`delete-${this.name}`, async () =>
+            await this.operate({
+                opMethod: "mutation",
+                opName: `delete_${isPkColumns ? this.name : `${this.name}_one`}`,
+                opArgs,
+                opFields: this.buildReturnFields(isPkColumns, fields),
+            })
+        )
     }
 }
 // 导出一个默认函数，用于创建CurdService实例
