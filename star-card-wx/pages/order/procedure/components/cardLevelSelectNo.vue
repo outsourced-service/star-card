@@ -1,20 +1,22 @@
 <template>
-	<view class="card-level-select">
+	<view class="card-level-select" @click="handleSubmissionReview">
 		<view class="level-select-left">
 			<view class="select-left-top">
 				<view class="left-top-name">{{ data.name }}</view>
 				<view class="left-top-price">{{ data.price }}元/张</view>
 			</view>
 			<view class="select-left-bottom">
-				<view>卡价上限：{{ data.card_price_limit }}元/张</view>
-				<view>官方评分时长：{{ data.card_often }}</view>
-				<view>特殊限制：{{ data.card_special_restrictions }}</view>
-				<view>预估总时效：{{ data.estimated_time_frame }}</view>
+				<view v-if="data.card_price_limit">卡价上限：{{ data.card_price_limit }}元/张</view>
+				<view v-else>卡价上限：-</view>
+				<view>官方评分时长：{{ data.card_often || '-' }}</view>
+				<view>特殊限制：{{ data.card_special_restrictions || '-' }}</view>
+				<view>预估总时效：{{ data.estimated_time_frame || '-' }}</view>
 			</view>
 		</view>
 		<view class="level-select-right">
-			<view class="select-right-top">{{ data.label_name }}</view>
-			<uv-icon name="circle" color="209, 209, 214" size="40rpx"></uv-icon>
+			<view class="select-right-top" v-if="data.label_name">{{ data.label_name }}</view>
+			<view class="select-right-bottom" v-else></view>
+			<view class="circle-ring"></view>
 			<view class="select-right-bottom"></view>
 		</view>
 	</view>
@@ -38,7 +40,11 @@
 			return {
 			}
 		},
+		emit: ['handleSubmissionReview'],
 		methods: {
+			handleSubmissionReview() {
+				this.$emit('handleSubmissionReview')
+			}
 		},
 		mounted() {
 		}
@@ -113,5 +119,13 @@
 	
 	.select-right-bottom {
 		height: 42rpx;
+	}
+	
+	.circle-ring {
+	    width: 40rpx;       /* 圆环的宽度 */
+	    height: 40rpx;      /* 圆环的高度 */
+	    border: 2rpx solid #d1d1d6; /* 圆环的边框 */
+	    border-radius: 50%;  /* 圆环的圆角半径为宽度和高度的50% */
+	    background: transparent; /* 背景透明 */
 	}
 </style>

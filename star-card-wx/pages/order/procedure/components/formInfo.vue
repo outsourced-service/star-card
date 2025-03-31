@@ -2,7 +2,7 @@
 	<view class="address-page">
 		<view class="address-page-form">
 			<view class="page-form-item-top">
-				<view class="form-item-top">
+				<view class="form-item-top" @click="handlePopup('submissionReview')">
 					<view class="page-form-label">
 						<view class="form-label-title">
 							送评档位<uv-icon name="question-circle" color="rgba(0, 0, 0, 0.2)" size="32rpx" bold></uv-icon>
@@ -12,15 +12,15 @@
 						</view>
 					</view>
 					<view class="page-form-select">
-						<view class="address-page-nonotes" v-if="!formData.submissionReview">请选择</view>
+						<view class="form-select-text" v-if="!formData.evaluation_insurance_id">请选择</view>
 						<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.44)" size="28rpx" bold></uv-icon>
 					</view>
 				</view>
-				<view v-if="formData.submissionReview">
-					<cardLevelSelect :data="data[0]"></cardLevelSelect>
+				<view v-if="formData.evaluation_insurance_id">
+					<cardLevelSelect :data="submissionReviewData"></cardLevelSelect>
 				</view>
 			</view>
-			<view class="page-form-item">
+			<view class="page-form-item" v-if="data.showSignature" @click="handlePopup('signatureReview')">
 				<view class="page-form-label">
 					<view class="form-label-title">
 						签字选项<uv-icon name="question-circle" color="rgba(0, 0, 0, 0.2)" size="32rpx" bold></uv-icon>
@@ -30,14 +30,15 @@
 					</view>
 				</view>
 				<view class="page-form-select">
-					<view class="address-page-signature">
+					<view class="address-page-signature" v-if="formData.signature_id">
 						<view class="form-signature">{{ formData.signature }}</view>
-						<view class="form-signature-num">+{{ formData.signatureNum }}元/张</view>
+						<view class="form-signature-num" v-if="formData.signatureNum">+{{ formData.signatureNum }}元/张</view>
 					</view>
+					<view class="address-page-nonotes" v-else>请选择</view>
 					<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.44)" size="28rpx" bold></uv-icon>
 				</view>
 			</view>
-			<view class="page-form-item">
+			<view class="page-form-item" v-if="data.showSize" @click="handlePopup('sizeReview')">
 				<view class="page-form-label">
 					<view class="form-label-title">
 						尺寸选项<uv-icon name="question-circle" color="rgba(0, 0, 0, 0.2)" size="32rpx" bold></uv-icon>
@@ -48,7 +49,11 @@
 				</view>
 				<view class="page-form-select">
 					<!-- <view v-if="formData.notes">{{ formData.size }}</view> -->
-					<view class="address-page-nonotes">{{ formData.size }}</view>
+					<view class="address-page-signature" v-if="formData.size_id">
+						<view class="form-signature">{{ formData.size }}</view>
+						<view class="form-signature-num" v-if="formData.sizeNum">+{{ formData.sizeNum }}元/张</view>
+					</view>
+					<view class="address-page-nonotes" v-else>请选择</view>
 					<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.2)" size="28rpx" bold></uv-icon>
 				</view>
 			</view>
@@ -65,7 +70,7 @@
 				<view class="page-form-number">
 					<uv-image src="https://img.picui.cn/free/2025/03/25/67e1b8096217f.png" width="40rpx" height="40rpx" @click="handleSubtract"></uv-image>
 					<view class="form-number-input">
-						<uv-input placeholder="" border="surround" v-model="formData.number" inputAlign="center" type="number"></uv-input>
+						<uv-input placeholder="" border="surround" v-model="formData.number" inputAlign="center" type="number" @change="changeInput" @input="changeInput" @blur="changeInput"></uv-input>
 					</view>
 					<uv-image src="https://img.picui.cn/free/2025/03/25/67e1b85d88652.png" width="40rpx" height="40rpx" @click="handleAdd"></uv-image>
 				</view>
@@ -76,15 +81,27 @@
 
 <script>
 	import cardLevelSelect from './cardLevelSelect.vue';
+	import formPopup from './popup.vue';
 	export default {
 		options: {
 		    styleIsolation: 'shared'
 		},
 		components: {
-			cardLevelSelect
+			cardLevelSelect,
+			formPopup
 		},
 		props: {
 			data: {
+				type: Object,
+				required: true,
+				default: () => ({}),
+			},
+			formData: {
+				type: Object,
+				required: true,
+				default: () => ({}),
+			},
+			submissionReviewData: {
 				type: Object,
 				required: true,
 				default: () => ({}),
@@ -92,24 +109,33 @@
 		},
 		data() {
 			return {
-				formData: {
-					submissionReview: '慢速档 ValueBulk',
-					signature: '卡品+签字双分',
-					signatureNum: 50,
-					img: null,
-					is_img: false,
-					number: 0,
-					size: '常规尺寸'
-				},
 				fileList: []
 			}
 		},
+		emit: ['handlePopup', 'changeNumber'],
 		methods: {
 			handleAdd() {
 				this.formData.number++
+				this.$emit('changeNumber')
 			},
 			handleSubtract() {
 				this.formData.number--
+				if(this.formData.number < 0) {
+					this.formData.number = 0
+				}
+				this.$emit('changeNumber')
+			},
+			handlePopup(value) {
+				this.$emit('handlePopup', value)
+			},
+			changeInput() {
+				if(this.formData.number < 0) {
+					this.formData.number = 0
+				}
+				if (this.formData.number) {
+					this.formData.number = String(Number(this.formData.number))
+				}
+				this.$emit('changeNumber')
 			}
 		},
 		mounted() {
@@ -165,7 +191,7 @@
 	
 	.page-form-select {
 		display: flex;
-		align-items: center;
+		align-items: baseline;
 		gap: 4rpx;
 	}
 	
@@ -177,6 +203,15 @@
 		font-weight: 400;
 		font-size: 28rpx;
 		color: rgba(0, 0, 0, 0.33);
+	}
+	
+	.form-select-text {
+		display: flex;
+		justify-content: end;
+		align-items: center;
+		font-weight: 600;
+		font-size: 28rpx;
+		color: rgba(254, 168, 0, 1);
 	}
 	
 	.page-form-item-end {
@@ -239,5 +274,9 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+	}
+	
+	.popup-page {
+		padding: 32rpx;
 	}
 </style>

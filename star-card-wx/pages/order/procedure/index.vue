@@ -13,25 +13,26 @@
 					<uv-steps-item title="快递信息"></uv-steps-item>
 				</uv-steps>
 			</view>
-			<orderPackageCard v-if="stepsCurrent == 2" :data="order"></orderPackageCard>
+			<orderPackageCard v-if="stepsCurrent == 2" :data="order" @handleBack="handleBackOne" @handleOpenDetail="handleOpenDetail"></orderPackageCard>
 		</view>
 		<view class="procedure-page-form" v-if="stepsCurrent == 0">
 			<view class="page-form">
 				<view class="page-form-title">寄回地址</view>
 				<view class="page-form-card">
-					<formAddress></formAddress>
+					<formAddress :data="addressData" :is_default="addressData.id == addressDefault ? true : false" @handleAddress="handleAddress" @handleAddressEidt="handleAddressEidt"></formAddress>
 				</view>
 			</view>
 			<view class="page-form">
 				<view class="page-form-title">送评信息</view>
 				<view class="page-form-card">
-					<formInfo :data="evaluation.evaluation_insurance"></formInfo>
+					<formInfo :data="{showSignature, showSize}" :formData="formData" :submissionReviewData="submissionReviewData" 
+						@handlePopup="handlePopup" @changeNumber="calculatePrice"></formInfo>
 				</view>
 			</view>
 			<view class="page-form">
 				<view class="page-form-title">其他信息</view>
 				<view class="page-form-card">
-					<formOther></formOther>
+					<formOther @handleNotes="handleNotes" :data="formData"></formOther>
 				</view>
 			</view>
 		</view>
@@ -39,7 +40,7 @@
 			<view class="page-form">
 				<view class="page-form-title">附加服务</view>
 				<view class="page-form-card">
-					<formAdditional></formAdditional>
+					<formAdditional @handleService="handlePopup('serviceReview')" :data="formData" :addressData="addressData" @handleInsurance="calculatePrice"></formAdditional>
 				</view>
 			</view>
 		</view>
@@ -51,7 +52,7 @@
 				</view>
 				<view class="page-form-tip">请准确填写快递单号，并妥善包装卡牌；因玩家自身造成的包裹丢失、损坏、延误等，由玩家自行负责。</view>
 				<view class="page-form-card">
-					<courierCard :data="addressInfo"></courierCard>
+					<courierCard :data="formData" @handleCourier="handlePopup('courierReview')"></courierCard>
 				</view>
 			</view>
 		</view>
@@ -59,23 +60,25 @@
 			<view class="page-nav-price" v-if="stepsCurrent == 0 || stepsCurrent == 1">
 				<view class="nav-price-text">预计总价</view>
 				<view class="nav-price-icon">￥</view>
-				<view class="nav-price-num">5000</view>
-				<view class="nav-price-tip">查看明细</view>
-				<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.66)" size="20rpx" bold></uv-icon>
+				<view class="nav-price-num">{{formData.total_price}}</view>
+				<view class="nav-price-tip" @click="handleOpenDetail">
+					查看明细
+					<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.66)" size="20rpx" bold></uv-icon>
+				</view>
 			</view>
 			<view class="page-nav-safety" v-else>
-				<!-- <uv-radio-group v-model="is_safety" @change="handleSafety">
-					<uv-radio shape="circle" activeColor="#fea800" name="safety"></uv-radio>
-				</uv-radio-group> -->
-				<uv-radio shape="circle" activeColor="#fea800" name="safety" @change="handleSafety" v-model="is_safety"></uv-radio>
-				我已知晓
-				<view class="nav-safety">
-					《代送评注意事项》
-				</view>
-				与
-				<view class="nav-safety">
-					《保险说明》
-				</view>
+				<uv-checkbox v-model="is_safety" shape="circle" activeColor="#fea800" @change="handleSafety">
+					<view class="nav-safety-text">
+						我已知晓
+						<view class="nav-safety">
+							《代送评注意事项》
+						</view>
+						与
+						<view class="nav-safety">
+							《保险说明》
+						</view>
+					</view>
+				</uv-checkbox>
 			</view>
 			<view class="page-nav-line"></view>
 			<view class="page-nav-button-one" v-if="stepsCurrent == 0">
@@ -98,6 +101,12 @@
 				</view>
 			</view>
 		</view>
+		<uv-popup ref="popup" mode="bottom" round="40rpx" closeable safeAreaInsetBottom>
+			<formPopup :data="evaluationData" :type="evaluationType" @confirm="confirm"></formPopup>
+		</uv-popup>
+		<uv-popup ref="popupDetail" mode="bottom" round="40rpx" closeable safeAreaInsetBottom>
+			<formPopupDetail :data="evaluation" :formData="formData"></formPopupDetail>
+		</uv-popup>
 	</view>
 </template>
 
@@ -108,6 +117,8 @@
 	import formAdditional from './components/formAdditional.vue';
 	import orderPackageCard from './components/orderPackageCard.vue';
 	import courierCard from './components/courierCard.vue';
+	import formPopup from './components/popup.vue';
+	import formPopupDetail from './components/formPopupDetail.vue';
 	import { timestampToDateString, calculateDaysDifference } from '../getData';
 	import {
 		evaluation
@@ -115,6 +126,9 @@
 	import {
 		order
 	} from '/mock/order';
+	import {
+		addressList, courierList
+	} from '/mock/address';
 	export default {
 		options: {
 		    styleIsolation: 'shared'
@@ -125,20 +139,65 @@
 			formOther,
 			formAdditional,
 			orderPackageCard,
-			courierCard
+			courierCard,
+			formPopup,
+			formPopupDetail
 		},
 		data() {
 			return {
 				evaluation: evaluation,
+				courierList: courierList,
 				order: order,
 				stepsCurrent: 0,
 				is_safety: '',
-				addressInfo: {
-					name: '王先生',
-					phone: 13256322563,
-					address: '广东省深圳市南山区打石一路与留新三街交叉口西北方向84米万科云城六期3栋A座1106',
-					courier_name: '顺丰速运'
-				}
+				addressId: 8,
+				addressData: {},
+				addressList: addressList,
+				formData: {
+					// 档位
+					evaluation_insurance_id: 0,
+					evaluation_insurance_name: '',
+					evaluation_insurance_price: 0,
+					// 签字选项
+					signature: '',
+					signature_id: 0,
+					signatureNum: 0,
+					// 尺寸选项
+					size: '',
+					sizeNum: 0,
+					size_id: 0,
+					// 张数
+					number: 0,
+					// 备注
+					note: '',
+					// 图片
+					img: null,
+					is_img: false,
+					// 投保
+					is_insurance: false,
+					insurance: 0,
+					// 验品服务
+					is_service: false,
+					service: '',
+					serviceNum: 0,
+					service_id: 0,
+					// 地址信息
+					addressData: {},
+					// 快递公司
+					courier: '',
+					courier_id: 0,
+					// 总价
+					total_price: 0,
+					discount_price: 0,
+					rating_price: 0,
+					additional_price: 0
+				},
+				evaluationData: [],
+				evaluationType: '',
+				submissionReviewData: {},
+				showSignature: false,
+				showSize: false,
+				addressDefault: 8
 			}
 		},
 		methods: {
@@ -150,19 +209,146 @@
 			handleBack() {
 				this.stepsCurrent--
 			},
+			handleBackOne() {
+				this.stepsCurrent = 0
+			},
 			handleSafety(value) {
-				if(this.is_safety == value) {
-					this.is_safety = ''
-					console.log(this.is_safety)
+				this.is_safety = value;
+			},
+			handleAddress() {
+			    uni.$once('returnAddressId', (e) => {
+			        this.addressId = e.address_id;
+					this.addressDefault = e.address_default;
+			        this.addressData = this.addressList.find(item => item.id == e.address_id);
+					this.formData.addressData = this.addressData
+			    })
+			    uni.navigateTo({
+			        url: '/pages/profile/address/index?id=' + this.formData.addressData.id
+			    })
+			},
+			handleAddressEidt() {
+				uni.navigateTo({
+					url: '/pages/profile/address/edit?id=' + this.formData.addressData.id + '&defaultId=' + this.addressDefault
+				})
+			},
+			handleNotes() {
+				uni.$once('returnNote', (e) => {
+					this.formData.note = e.note
+				})
+				uni.navigateTo({
+				    url: '/pages/order/procedure/notes'
+				})
+			},
+			handleOpenDetail() {
+				this.$refs.popupDetail.open();
+			},
+			calculatePrice() {
+				this.formData.rating_price = Number(((this.formData.evaluation_insurance_price + this.formData.signatureNum + this.formData.sizeNum) * this.formData.number).toFixed(2));
+				if(this.formData.number >= 50) {
+					this.formData.discount_price = Number((this.formData.rating_price - (this.formData.rating_price * 0.95)).toFixed(2))
+				} else if (this.formData.number >= 15) {
+					this.formData.discount_price = Number((this.formData.rating_price - (this.formData.rating_price * 0.98)).toFixed(2))
 				} else {
-					this.is_safety = 'safety'
-					console.log(this.is_safety)
+					this.formData.discount_price = 0
 				}
+				if (this.formData.insurance) {
+					this.formData.insurance = String(Number(this.formData.insurance))
+				}
+				const insurance = Number(this.formData.insurance)
+				const serviceNum = Number(this.formData.serviceNum)
+				this.formData.additional_price = Number((insurance + (insurance / 20) + (serviceNum * this.formData.number) + (serviceNum * this.formData.number / 20)).toFixed(2))
+				this.formData.total_price = Number((this.formData.rating_price - this.formData.discount_price + this.formData.additional_price).toFixed(2))
+			},
+			handlePopup(value) {
+				this.evaluationType = value
+				if(value == 'submissionReview') {
+					this.evaluationData = this.evaluation.evaluation_insurance.map(item => {
+					    return {
+					        ...item,
+					        selected: this.formData.evaluation_insurance_id == item.id ? true : false
+					    };
+					});
+				} else if(value == 'signatureReview') {
+					this.evaluationData = this.submissionReviewData.evaluation_insurance_info.filter(item => item.type == '签字选项')
+					this.evaluationData = this.evaluationData.map(item => {
+					    return {
+					        ...item,
+					        selected: this.formData.signature_id == item.id ? true : false
+					    };
+					});
+				} else if(value == 'sizeReview') {
+					this.evaluationData = this.submissionReviewData.evaluation_insurance_info.filter(item => item.type == '尺寸选项')
+					this.evaluationData = this.evaluationData.map(item => {
+					    return {
+					        ...item,
+					        selected: this.formData.size_id == item.id ? true : false
+					    };
+					});
+				} else if(value == 'serviceReview') {
+					this.evaluationData = this.submissionReviewData.evaluation_insurance_info.filter(item => item.type == '验品服务')
+					this.evaluationData = this.evaluationData.map(item => {
+					    return {
+					        ...item,
+					        selected: this.formData.service_id == item.id ? true : false
+					    };
+					});
+				} else if(value == 'courierReview') {
+					this.evaluationData = this.courierList;
+				}
+				this.$refs.popup.open();
+			},
+			confirm(id, index, type) {
+				if(type == 'submissionReview') {
+					this.formData.evaluation_insurance_id = id;
+					this.submissionReviewData = this.evaluation.evaluation_insurance[index];
+					this.formData.evaluation_insurance_name = this.submissionReviewData.name;
+					this.formData.evaluation_insurance_price = this.submissionReviewData.price;
+					if(this.submissionReviewData.evaluation_insurance_info.find(item => item.type == '签字选项')) {
+						this.showSignature = true
+					} else {
+						this.showSignature = false
+					}
+					if(this.submissionReviewData.evaluation_insurance_info.find(item => item.type == '尺寸选项')) {
+						this.showSize = true
+					} else {
+						this.showSize = false
+					}
+					this.formData.signature_id = 0;
+					this.formData.signature = '';
+					this.formData.signatureNum = 0;
+					this.formData.size_id = 0;
+					this.formData.size = '';
+					this.formData.sizeNum = 0;
+					this.formData.service_id = 0;
+					this.formData.service = '';
+					this.formData.serviceNum = 0;
+					this.formData.courier_id = 0;
+					this.formData.courier = '';
+				} else if(type == 'signatureReview') {
+					this.formData.signature_id = id;
+					this.formData.signature = this.evaluationData[index].name;
+					this.formData.signatureNum = this.evaluationData[index].price;
+				} else if(type == 'sizeReview') {
+					this.formData.size_id = id;
+					this.formData.size = this.evaluationData[index].name;
+					this.formData.sizeNum = this.evaluationData[index].price;
+				} else if(type == 'serviceReview') {
+					this.formData.service_id = id;
+					this.formData.service = this.evaluationData[index].name;
+					this.formData.serviceNum = this.evaluationData[index].price;
+				} else if(type == 'courierReview') {
+					this.formData.courier_id = id;
+					this.formData.courier = this.evaluationData[index].name;
+				}
+				this.calculatePrice();
+				this.$refs.popup.close();
 			}
 		},
 		mounted() {
 			this.timestampToDateString()
 			this.calculateDaysDifference()
+			this.addressData = this.addressList.find(item => item.id == this.addressId)
+			this.formData.addressData = this.addressData
 		}
 	}
 </script>
@@ -284,14 +470,24 @@
 		font-weight: 600;
 		font-size: 22rpx;
 		color: rgba(0, 0, 0, 0.66);
+		display: flex;
+		align-items: baseline;
+		gap: 4rpx;
 	}
 	
 	.page-nav-safety {
 		display: flex;
+		margin-top: 4rpx;
+		align-items: center;
+	}
+	
+	.nav-safety-text {
+		display: flex;
 		font-weight: 500;
 		font-size: 26rpx;
 		color: rgba(0, 0, 0, 0.33);
-		margin-top: 4rpx;
+		align-items: center;
+		margin-bottom: 2rpx;
 	}
 	
 	.nav-safety {
@@ -303,12 +499,13 @@
 	}
 	
 	.page-nav-button-one {
-		
+		margin-bottom: 40rpx;
 	}
 	
 	.page-nav-button-two {
 		display: flex;
 		justify-content: space-between;
+		margin-bottom: 40rpx;
 	}
 	
 	.nav-button {

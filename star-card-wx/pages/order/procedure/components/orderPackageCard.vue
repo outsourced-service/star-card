@@ -2,7 +2,7 @@
 	<view class="order-package-card">
 		<view class="package-card-top">
 			<view class="card-top-left">订单已生成，请尽快寄出哟~</view>
-			<view class="card-top-right">修改订单</view>
+			<view class="card-top-right" @click="handleBack">修改订单</view>
 		</view>
 		<view class="package-card-item">
 			<view class="card-item-logo">
@@ -25,8 +25,7 @@
 				<view class="item-price">
 					<view class="item-price-unit">￥</view>
 					<view class="item-price-num">{{ data.price }}</view>
-					<view class="item-price-text">查看明细</view>
-					<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.66)" size="24rpx" bold></uv-icon>
+					<view class="item-price-text" @click="handleOpenDetail">查看明细</view>
 				</view>
 			</view>
 		</view>
@@ -51,7 +50,14 @@
 			return {
 			}
 		},
+		emit: ['handleBack', 'handleOpenDetail'],
 		methods: {
+			handleBack() {
+				this.$emit('handleBack')
+			},
+			handleOpenDetail() {
+				this.$emit('handleOpenDetail')
+			}
 		},
 		mounted() {
 		}

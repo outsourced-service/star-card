@@ -6,14 +6,16 @@
 				<view class="left-top-price">{{ data.price }}元/张</view>
 			</view>
 			<view class="select-left-bottom">
-				<view>卡价上限：{{ data.card_price_limit }}元/张</view>
-				<view>官方评分时长：{{ data.card_often }}</view>
-				<view>特殊限制：{{ data.card_special_restrictions }}</view>
-				<view>预估总时效：{{ data.estimated_time_frame }}</view>
+				<view v-if="data.card_price_limit">卡价上限：{{ data.card_price_limit }}元/张</view>
+				<view v-else>卡价上限：-</view>
+				<view>官方评分时长：{{ data.card_often || '-' }}</view>
+				<view>特殊限制：{{ data.card_special_restrictions || '-' }}</view>
+				<view>预估总时效：{{ data.estimated_time_frame || '-' }}</view>
 			</view>
 		</view>
 		<view class="level-select-right">
-			<view class="select-right-top">{{ data.label_name }}</view>
+			<view class="select-right-top" v-if="data.label_name">{{ data.label_name }}</view>
+			<view class="select-right-bottom" v-else></view>
 			<view class="select-right-icon">
 				<uv-icon name="checkmark-circle-fill" color="#fea800" size="40rpx"></uv-icon>
 			</view>
