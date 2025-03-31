@@ -1,78 +1,77 @@
-declare const uni : any;
+import { getCode } from "./index";
 import ezInstance from "@/utils/ezInstance";
 import { LocalSync } from "@/utils/storage"
-const { api, ezserver, apiInit, ezclient } = ezInstance;
+const { ezserver, ezclient, toast } = ezInstance;
 
-// 获取wxcode
-export async function getCode(provider : String = 'weixin') {
-	return await new Promise(async (resolve, reject) => {
-		return await uni.login({
-			provider,
-			success: (res : any) => {
-				if (res.code) return resolve(res.code);
-				return reject(res);
-			},
-			fail(err : any) {
-				return reject(err);
-			},
-		});
-	}).then((code) => code).catch((e) => { return ""; });
+// 配置ezserver信息
+const apiInitConfig = (token : wxMiniLoginResponse) => {
+	// 验证是否已经初始化
+	const clientinfoEzserver = ezserver.getClientinfo();
+	const headersEzserver = ezserver.getHeaders();
+
+	const headersEzclient = ezclient.getHeaders();
+
+	// 设置客户端信息
+	!clientinfoEzserver?.user_token && token?.userToken && ezserver.setClientinfo({ token: token?.userToken });
+
+	// 设置请求头
+	!headersEzserver?.Authorization && token?.jwtToken && ezserver.setHeaders({ Authorization: `Bearer ${token.jwtToken}` })
+	!headersEzclient?.Authorization && token?.jwtToken && ezclient.setHeaders({ Authorization: `Bearer ${token.jwtToken}` })
+
+	return token
 }
 
-//获取token
-export async function getToken(userToken : any) {
+// 验证token是否过期,过期则重新获取
+const getToken = async (userToken ?: wxMiniLoginResponse, payload ?: wxMiniLoginRequest) => {
 	// 获取token
 	const token = userToken || LocalSync.get("token");
-	// 判断他token是否过期,如果过期重新请求
-	if (token?.code && token?.ExpireTime > Date.now()) return token;
-	else {
-		await headers()
-		LocalSync.remove("token");
-		const wxCode = await getCode();
-		return await ezserver.callScf({
-			scf_dir: "/user/",
-			scf_name: "wxMiniLogin",
-			payload: {
-				// user_token: token?.code ?? '',
-				code: wxCode,
-			},
-		}).then(result => {
-			const token = {
-				ExpireTime: result.expires_in,
-				code: result?.user_token
-			}
-			LocalSync.set("token", token);
-			LocalSync.set('loginTime', Date.now());
-			return token
-		})
-	}
+	// 验证token是否过期
+	if (token && Date.now() < token?.expires_in) return apiInitConfig(token)
+
+	// 获取code
+	const wxCode = await getCode();
+	return await ezserver.callScf({
+		scf_dir: "/login/",
+		scf_name: "wxMiniLogin",
+		payload: {
+			...payload,
+			code: wxCode,
+		}
+	}).then((res : wxMiniLoginResponse) => {
+		const token = {
+			...res,
+			expires_in: Date.now() + res.expires_in * 1000
+		}
+		// 存储token
+		LocalSync.set("token", token);
+		return apiInitConfig(token)
+	}).catch(() => {
+		toast("微信登录失败，请重试")
+		throw new Error("微信登录失败，请重试")
+	})
 }
-const value = {
+
+const value : any = {
 	isRequesting: false, // 请求状态标志
-	token: null, // 保存token
+	token: { "userToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzUsImV4cGlyZXNfaW4iOjE3NDMxNjM5NDAyODN9.ncBBzg3PULSD8nZkWOgh3Vuk7lq4GCP2R7P4DgBNVJQ=", "userID": 35, "expires_in": 1743163940945, "jwtToken": "eyJhbGciOiJIUzI1NiJ9.eyJ6ZXJvIjp7fSwicm9sZXMiOlsic2VsZiIsInVzZXIiXSwiWkVST19VU0VSX0lEIjoiMTAwMDAwMDAwMDAwMDAxMCIsImRlZmF1bHRSb2xlIjoidXNlciIsImhhc3VyYV9jbGFpbXMiOnsieC1oYXN1cmEtdXNlci1pZCI6IjEwMDAwMDAwMDAwMDAwMTAiLCJ4LWhhc3VyYS1hbGxvd2VkLXJvbGVzIjpbInVzZXIiLCJzZWxmIl0sIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InVzZXIifSwiZXhwIjoxNzc0NjkyNzQwLCJpc3MiOiIxMDAwMDAwMDAwMDAwMDAwIiwiaWF0IjoxNzQzMTU2NzQwfQ.9g_S5sretweysLND35a0hp-QUQnLDQ0SflPeq_8Zt7E" }, // 保存token
 	pendingPromise: <any>null, // 存储请求的Promise
 }
-export async function wxMiniLogin(userToken ?: string) {
+export async function wxMiniLogin(payload ?: wxMiniLoginRequest) {
 	// 如果已经有请求在进行中的pendingPromise，则直接返回pendingPromise
 	if (value.isRequesting && value.pendingPromise) return value.pendingPromise;
 	// 设置请求状态
 	value.isRequesting = true;
-	//开启延时
-	apiInit(true);
 	// 获取token
 	// 创建一个新的Promise
-	const promise = getToken(userToken ? {
-		ExpireTime: Date.now() + 1000 * 60 * 30,
-		code: userToken
-	} : null).then(result => {
-		ezserver.setClientinfo({ user_token: result?.code });
-		return result
+	const promise = getToken(value.token, payload).then((token : wxMiniLoginResponse) => {
+		value.token = token;
+		return token;
 	}).catch(error => {
 		value.pendingPromise = null;
-		throw new Error(`获取用户信息失败: ${error.message}`);
+		toast("微信登录失败，请重试")
+		throw new Error(error)
 	}).finally(() => {
 		value.isRequesting = false;
-		apiInit(false);
 	})
 	// 如果存在旧的pendingPromise，使用Promise.race来确保只处理第一个请求的结果
 	if (value.pendingPromise) {
@@ -82,22 +81,4 @@ export async function wxMiniLogin(userToken ?: string) {
 	}
 	// 返回新的Promise
 	return value.pendingPromise;
-}
-
-export async function headers() {
-	const getHeaders = ezserver.getHeaders()
-	if (!getHeaders?.authorization) {
-		const { jwt } = await ezclient.mutation({
-			name: "loginWithWechatMiniApp",
-			args: {
-				code: await getCode(),
-				createIfNotExists: true // 如果用户不存在，则创建新用户
-			},
-			fields: `account{ email id permissionRoles phoneNumber profileImageUrl roles{ id name } thirdPartyInfo{ provider userInfo{ name openId type unionId } } username } jwt{ token }` // 查询字段，包括账户信息和jwt token
-		})
-		console.log(jwt);
-		ezserver.setHeaders({
-			authorization: jwt?.token ?? ''
-		})
-	}
 }

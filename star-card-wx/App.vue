@@ -1,11 +1,13 @@
 <script>
-	import * as wxMiniLogin from "@/api/login/wxMiniLogin"
+	import addInterceptor from "@/addInterceptor";
+	import {
+		getUserInfo
+	} from "@/api/user/index";
 	export default {
-		onLaunch: function() {
-			wxMiniLogin.getCode().then(res => {
-				console.log(res);
-			})
+		onLaunch: async function() {
 			console.log('App Launch')
+			addInterceptor();
+			await getUserInfo();
 		},
 		onShow: function() {
 			console.log('App Show')

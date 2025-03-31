@@ -1,4 +1,4 @@
-const __NEXT_NAME__ = 'SnapHire'; // 项目名称
+const __NEXT_NAME__ = 'starCard'; // 项目名称
 
 /**
  * Local 本地永久缓存
@@ -21,8 +21,8 @@ export const Local = {
 		return new Promise((resolve, reject) => {
 			uni.getStorage({
 				key: this.setKey(key),
-				success: (res) => resolve(res.data),
-				fail: (err) => reject(err),
+				success: (res: { data: unknown; }) => resolve(res.data),
+				fail: (err: any) => reject(err),
 			});
 		});
 	},
@@ -31,8 +31,8 @@ export const Local = {
 		return new Promise((resolve, reject) => {
 			uni.getStorageInfo({
 				key: this.setKey(key),
-				success: (res) => resolve(res),
-				fail: (err) => reject(err),
+				success: (res: unknown) => resolve(res),
+				fail: (err: any) => reject(err),
 			});
 		});
 	},
@@ -63,7 +63,6 @@ export const Local = {
 export const LocalSync = {
 	// 设置永久缓存
 	set(key : any, val : any) {
-		console.log(key, val);
 		uni.setStorageSync(this.setKey(key), val);
 	},
 	// 获取永久缓存

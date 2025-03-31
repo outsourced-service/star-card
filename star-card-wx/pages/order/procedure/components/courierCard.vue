@@ -6,15 +6,15 @@
 					<view class="page-form-title">
 						星卡仓库地址
 					</view>
-					<uv-button text="一键复制" color="rgba(209, 209, 214, 1)" size="small" :plain="true" shape="circle" :customStyle="{color: 'rgba(0, 0, 0, 0.44)', height: '50rpx'}" @click="handleCopy"></uv-button>
+					<uv-button text="一键复制" color="rgba(209, 209, 214, 1)" size="small" :plain="true" shape="circle" :customStyle="{color: 'rgba(0, 0, 0, 0.44)', height: '50rpx'}"></uv-button>
 				</view>
 				<view class="form-item-input">
-					<view class="form-delivery-person">{{ data.addressData.consignee }} {{ data.addressData.phone }}</view>
-					<view class="item-input-address">{{data.addressData.province}}{{data.addressData.city}}{{data.addressData.area}}{{data.addressData.address_detail}}{{data.addressData.house}}</view>
+					<view class="form-delivery-person">{{ data.name }} {{ data.phone }}</view>
+					<view class="item-input-address">{{ data.address }}</view>
 				</view>
 			</view>
 			<view class="page-form-item-top">
-				<view class="form-item-top" @click="handleCourier">
+				<view class="form-item-top">
 					<view class="page-form-label">
 						<view class="form-label-title">
 							快递公司<uv-icon name="question-circle" color="rgba(0, 0, 0, 0.2)" size="32rpx" bold></uv-icon>
@@ -24,7 +24,7 @@
 						</view>
 					</view>
 					<view class="page-form-text">
-						{{ data.courier }}
+						{{ data.courier_name }}
 						<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.44)" size="28rpx" bold></uv-icon>
 					</view>
 				</view>
@@ -60,11 +60,6 @@
 				type: Object,
 				required: true,
 				default: () => ({}),
-			},
-			addressData: {
-				type: Object,
-				required: true,
-				default: () => ({}),
 			}
 		},
 		data() {
@@ -75,30 +70,12 @@
 				fileList: []
 			}
 		},
-		emit: ['handleCourier'],
 		methods: {
-			handleCourier() {
-				this.$emit('handleCourier')
+			handleAdd() {
+				this.formData.number++
 			},
-			handleCopy() {
-				const address = `${this.data.addressData.province}${this.data.addressData.city}${this.data.addressData.area}${this.data.addressData.address_detail}${this.data.addressData.house}`
-				uni.setClipboardData({
-					data: address,
-					success: () => {
-						uni.showToast({
-							title: '地址已复制',
-							icon: 'success',
-							duration: 2000
-						})
-					},
-					fail: () => {
-						uni.showToast({
-							title: '复制失败',
-							icon: 'error',
-							duration: 2000
-						})
-					}
-				})
+			handleSubtract() {
+				this.formData.number--
 			}
 		},
 		mounted() {

@@ -1,7 +1,7 @@
 <template>
 	<view class="address-page">
 		<view class="address-page-form">
-			<view class="page-form-notes" @click="handleNotes">
+			<view class="page-form-notes">
 				<view class="page-form-label">
 					<view class="form-label-title">
 						备注<uv-icon name="question-circle" color="rgba(0, 0, 0, 0.2)" size="32rpx" bold></uv-icon>
@@ -11,7 +11,7 @@
 					</view>
 				</view>
 				<view class="page-form-select">
-					<view class="address-page-notes" v-if="data.note">{{ data.note }}</view>
+					<view v-if="formData.notes">{{ formData.notes }}</view>
 					<view class="address-page-nonotes" v-else>例：请按标签顺序送评</view>
 					<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.44)" size="28rpx" bold></uv-icon>
 				</view>
@@ -25,9 +25,9 @@
 						这里有一段描述
 					</view>
 				</view>
-				<uv-switch v-model="data.is_img" activeColor="#fea800"></uv-switch>
+				<uv-switch v-model="formData.is_img" activeColor="#fea800"></uv-switch>
 			</view>
-			<view class="page-form-img" v-if="data.is_img">
+			<view class="page-form-img" v-if="formData.is_img">
 				<uv-upload
 					:fileList="fileList"
 					multiple 
@@ -45,23 +45,17 @@
 		},
 		components: {
 		},
-		props: {
-			data: {
-				type: Object,
-				required: true,
-				default: () => ({}),
-			}
-		},
 		data() {
 			return {
+				formData: {
+					notes: '',
+					img: null,
+					is_img: false
+				},
 				fileList: []
 			}
 		},
-		emit: ['handleNotes'],
 		methods: {
-			handleNotes() {
-				this.$emit('handleNotes')
-			}
 		},
 		mounted() {
 		}
@@ -116,18 +110,7 @@
 	.page-form-select {
 		display: flex;
 		align-items: center;
-		justify-content: flex-end;
 		gap: 4rpx;
-		max-width: 65%;
-	}
-	
-	.address-page-notes {
-		font-weight: 600;
-		font-size: 28rpx;
-		color: rgba(0, 0, 0, 0.99);
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
 	}
 	
 	.address-page-nonotes {

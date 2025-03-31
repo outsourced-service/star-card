@@ -58,15 +58,7 @@
             "minified" : true
         },
         "usingComponents" : true,
-        "permission" : {
-            "scope.userLocation": {
-                "desc": "你的位置信息将用于地址选择"
-            }
-        },
-        "requiredPrivateInfos": [
-            "getLocation",
-            "chooseLocation"
-        ]
+        "permission" : {}
     },
     "vueVersion" : "3"
 }

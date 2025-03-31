@@ -1,6 +1,7 @@
 declare const uni: any;
 import EzCloudBase from "ezcloudbase";
 import ezConfigJson from "../ez.config.json";
+import { login } from "@/api/login";
 // 实例化EzCloudBase并解构出EzServer
 const ezserver = new EzCloudBase.EzServer(ezConfigJson);
 const ezclient = new EzCloudBase.EzClient(ezConfigJson);
@@ -69,6 +70,12 @@ type ApiConfig = {
 	isErrorToast?: boolean;
 }
 
+async function loop(): Promise<any> {
+	if (!isApiInited) return
+	await new Promise((resolve) => setTimeout(resolve, 50));
+	return await loop()
+}
+
 // 封装API调用函数
 async function api(
 	scf_dir: string,
@@ -83,12 +90,9 @@ async function api(
 	// 显示加载动画
 	const is_loading = isReqLoading && changeloading(true, loadingText);
 	if (is_loading && isClog) console.log({ scf_dir, scf_name, payload });
-	async function loop(): Promise<any> {
-		if (!isApiInited) return
-		await new Promise((resolve) => setTimeout(resolve, 50));
-		return await loop()
-	}
+	
 	await loop()
+
 	// 调用SCF函数
 	return await ezserver
 		.callScf({
@@ -122,10 +126,12 @@ export default {
 		return isApiInited;
 	},
 	api: async (scf_dir: string, scf_name: string, payload?: any, apiConfig?: any) => {
+
+
 		const key = `${scf_dir}-${scf_name}`; // 生成唯一的节流键
 		if (throttleMap[key]) return apiPromises[key]; // 如果节流键存在，返回正在进行的请求的 Promise
-
 		throttleMap[key] = true; // 设置节流状态为 true
+
 		// 发起 API 请求并存储 Promise
 		apiPromises[key] = api(scf_dir, scf_name, payload, apiConfig).finally(() => {
 			throttleMap[key] = false; // 请求完成后重置节流状态
@@ -134,4 +140,5 @@ export default {
 	},
 	ezserver,
 	ezclient,
+	toast
 };

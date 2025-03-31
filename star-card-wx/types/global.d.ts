@@ -1,6 +1,7 @@
 // 申明外部 npm 插件模块
 declare module 'uv-ui';
 declare module 'vue';
+declare const uni : any;
 
 
 // 声明一个模块，防止引入文件时报错
@@ -17,7 +18,5 @@ declare module '*.mjs';
 interface Array<T> { }
 
 interface ImportMeta {
-    glob: any;
+	glob : any;
 }
-
-
