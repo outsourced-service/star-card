@@ -59,8 +59,8 @@ import utils from "./utils";
  * 
  * // 批量删除
  * await userCurd.delete({
- *   where: { status: 'inactive' }
- * }, true);
+ *   where: { status: { _eq 'inactive'} }
+ * });
  * ```
  */
 export default class CurdService {
