@@ -169,6 +169,13 @@
 					"backgroundColor": "#f2f3f6",
 					"backgroundColorTop": "#f2f3f6"
 				}
+			}, {
+				"path": "tabsPage/rating/search",
+				"style": {
+					"navigationBarTitleText": "搜索",
+					"backgroundColor": "#f2f3f6",
+					"backgroundColorTop": "#f2f3f6"
+				}
 			}]
 		},
 		{
