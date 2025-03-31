@@ -52,8 +52,31 @@ class CurdService {
             directives,
         })
     }
-    // 查询方法，传入查询参数
-    public async query(options: QueryOptions = {}) {
+    private buildUpdateArgs(pkColumnsOrWhere: any, isPkColumns: boolean, _set?: any, _inc?: any) {
+        const baseArgs = {
+            _set: _set || null,
+            _inc: _inc || null
+        };
+        return isPkColumns 
+            ? { ...baseArgs, where: pkColumnsOrWhere }
+            : { ...baseArgs, pk_columns: { id: pkColumnsOrWhere } };
+    }
+    private buildDeleteArgs(pkColumnsOrWhere: any, isPkColumns: boolean) {
+        return isPkColumns
+            ? { where: pkColumnsOrWhere }
+            : { id: pkColumnsOrWhere };
+    }
+    private buildReturnFields(isPkColumns: boolean, fields?: Fields) {
+        return isPkColumns
+            ? ['affected_rows', fields ? { name: 'returning', fields } : '']
+            : (fields || this.fields);
+    }
+     /**
+     * 查询方法，传入查询参数
+     * @param options 查询参数
+     * @returns 
+     */
+     public async query(options: QueryOptions = {}) {
         // 解构查询参数
         const { id, limit, offset, fields = this.fields, aggregate_fields = 'count', directives, ...rest } = options;
         // 如果传入id，调用queryByPk方法查询
@@ -146,25 +169,6 @@ class CurdService {
             opArgs: this.buildDeleteArgs(pkColumnsOrWhere, isPkColumns),
             opFields: this.buildReturnFields(isPkColumns, fields),
         })
-    }
-    private buildUpdateArgs(pkColumnsOrWhere: any, isPkColumns: boolean, _set?: any, _inc?: any) {
-        const baseArgs = {
-            _set: _set || null,
-            _inc: _inc || null
-        };
-        return isPkColumns 
-            ? { ...baseArgs, where: pkColumnsOrWhere }
-            : { ...baseArgs, pk_columns: { id: pkColumnsOrWhere } };
-    }
-    private buildDeleteArgs(pkColumnsOrWhere: any, isPkColumns: boolean) {
-        return isPkColumns
-            ? { where: pkColumnsOrWhere }
-            : { id: pkColumnsOrWhere };
-    }
-    private buildReturnFields(isPkColumns: boolean, fields?: Fields) {
-        return isPkColumns
-            ? ['affected_rows', fields ? { name: 'returning', fields } : '']
-            : (fields || this.fields);
     }
 }
 // 导出一个默认函数，用于创建CurdService实例
