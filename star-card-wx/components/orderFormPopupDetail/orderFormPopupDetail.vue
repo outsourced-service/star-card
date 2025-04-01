@@ -100,11 +100,11 @@
 						</view>
 						<view class="card-info-item">
 							<view class="info-item-label">拆壳费用（5元/张）</view>
-							<view class="info-item-data">费用需待星卡入库后确认</view>
+							<view class="info-item-data" style="font-weight: 400;">费用需待星卡入库后确认</view>
 						</view>
 						<view class="card-info-item">
 							<view class="info-item-label">包装费用（1元/张）</view>
-							<view class="info-item-data">费用需待星卡入库后确认</view>
+							<view class="info-item-data" style="font-weight: 400;">费用需待星卡入库后确认</view>
 						</view>
 					</view>
 				</view>
@@ -192,7 +192,7 @@
 	
 	.page-label-title {
 		font-weight: 600;
-		font-size: 30rpx;
+		font-size: 28rpx;
 		color: rgba(0, 0, 0, 0.99);
 	}
 	
@@ -211,24 +211,24 @@
 	
 	.info-item-label {
 		font-weight: 400;
-		font-size: 28rpx;
+		font-size: 26rpx;
 		color: rgba(0, 0, 0, 0.33);
 	}
 	
 	.info-item-price {
 		font-weight: 400;
-		font-size: 28rpx;
+		font-size: 26rpx;
 		color: rgba(0, 0, 0, 0.99);
 		display: block;
 	}
 	
 	.info-item-data {
 		font-weight: 600;
-		font-size: 28rpx;
+		font-size: 26rpx;
 		color: rgba(0, 0, 0, 0.99);
 		max-width: 75%;
+		line-height: 32rpx;
 		text-align: right;
-		line-height: 40rpx;
 	}
 	
 	.page-card-line {
@@ -249,7 +249,7 @@
 	
 	.allprice-num {
 		font-weight: 600;
-		font-size: 40rpx;
+		font-size: 36rpx;
 		color: rgba(254, 168, 0, 1);
 	}
 	
@@ -268,12 +268,12 @@
 	.formdata-item-num {
 		color: rgba(254, 168, 0, 1);
 		font-weight: 600;
-		font-size: 32rpx;
+		font-size: 30rpx;
 	}
 	
 	.formdata-item-price {
 		font-weight: 600;
-		font-size: 32rpx;
+		font-size: 30rpx;
 		color: rgba(0, 0, 0, 0.99);
 	}
 	

@@ -1,6 +1,6 @@
 <template>
 	<view class="order-package-card">
-		<view class="package-card-top" v-if="!is_list">
+		<view class="package-card-top" v-if="!is_list && !is_pay">
 			<view class="card-top-left">订单已生成，请尽快寄出哟~</view>
 			<view class="card-top-right" @click="handleBack">修改订单</view>
 		</view>
@@ -32,7 +32,7 @@
 					<view class="order-info-bottom" v-else>-</view>
 				</view>
 			</view>
-			<view class="card-item-price" v-if="!is_list">
+			<view class="card-item-price" v-if="!is_list && !is_pay">
 				<view class="item-price-title">预计总价</view>
 				<view class="item-price">
 					<view class="item-price-unit">￥</view>
@@ -40,7 +40,7 @@
 					<view class="item-price-text" @click="handleOpenDetail">查看明细</view>
 				</view>
 			</view>
-			<view class="card-item-price" v-else>
+			<view class="card-item-price" v-else-if="is_list">
 				<view class="item-price-id">
 					订单号：{{data.order_id}}
 				</view>
@@ -54,6 +54,16 @@
 				</view>
 				<view class="item-price" v-else>
 					<view class="item-price-text-process">已支付</view>
+				</view>
+			</view>
+			<view class="card-item-price" v-else>
+				<view class="item-price-id">
+					订单号：{{data.order_id}}
+				</view>
+				<view class="item-price">
+					<view class="item-price-unit">￥</view>
+					<view class="item-price-num-pay">{{ data.total_price || 0 }}</view>
+					<view class="item-price-text-pay" @click="handleOpenDetail">查看明细<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.66)" size="20rpx" bold></uv-icon></view>
 				</view>
 			</view>
 		</view>
@@ -72,6 +82,11 @@
 				default: () => ({}),
 			},
 			is_list: {
+				type: Boolean,
+				required: true,
+				default: () => (false),
+			},
+			is_pay: {
 				type: Boolean,
 				required: true,
 				default: () => (false),
@@ -95,7 +110,7 @@
 					'background-size': 'cover',
 					'background-position': 'center',
 					'background-repeat': 'no-repeat',
-					'margin-top': this.is_list ? '0' : '-38rpx'
+					'margin-top': this.is_list || this.is_pay ? '0' : '-38rpx'
 				};
 			}
 		},
@@ -104,7 +119,7 @@
 				this.$emit('handleBack')
 			},
 			handleOpenDetail() {
-				this.$emit('handleOpenDetail')
+				this.$emit('handleOpenDetail', this.data.id)
 			},
 			handleMore(id) {
 				this.$emit('handleMore', id)
@@ -211,7 +226,7 @@
 	.card-item-price {
 		display: flex;
 		justify-content: space-between;
-		align-items: baseline;
+		align-items: center;
 		padding-top: 20rpx;
 		border-top: 2rpx dashed rgba(209, 209, 214, 1)
 	}
@@ -242,6 +257,9 @@
 	}
 	
 	.item-price-text {
+		display: flex;
+		align-items: baseline;
+		gap: 4rpx;
 		font-weight: 500;
 		font-size: 24rpx;
 		color: rgba(0, 0, 0, 0.66);
@@ -298,5 +316,21 @@
 		font-weight: 600;
 		font-size: 22rpx;
 		color: rgba(0, 0, 0, 0.2);
+	}
+	
+	.item-price-num-pay {
+		font-weight: 600;
+		font-size: 36rpx;
+		color: rgba(254, 168, 0, 1);
+		margin-right: 4rpx;
+	}
+	
+	.item-price-text-pay {
+		font-weight: 600;
+		font-size: 22rpx;
+		color: rgba(0, 0, 0, 0.66);
+		display: flex;
+		align-items: baseline;
+		gap: 4rpx;
 	}
 </style>
