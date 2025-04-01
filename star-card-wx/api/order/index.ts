@@ -11,6 +11,7 @@ export default {
 			fields: ['id', 'mode', 'title', 'exp_time', 'evaluation_name', {
 				name: 'order_info',
 				args: {
+					limit: params.limit,
 					where: {
 						status: params.status ? { _eq: params.status } : {},
 						process_status: params.process_status ? { _eq: params.process_status } : {}

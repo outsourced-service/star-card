@@ -1,7 +1,6 @@
 import utils from "./utils";
 import EzCloudBase from "ezcloudbase";
 import ezConfigJson from "@/ez.config.json";
-import CurdService from "./curd";
 import { ApiConfig } from "@/types/ezInstance";
 
 // 实例化EzCloudBase并解构出EzServer
@@ -18,6 +17,5 @@ export default {
     ...utils,
     ezserver,
     ezclient,
-    CurdService,
     api,
 };
