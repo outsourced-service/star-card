@@ -3,13 +3,15 @@
 		<recordCard></recordCard>
 		<!-- 标签页 -->
 		<uv-sticky :offsetTop="offsetTop">
-			<tabPage :tabList="orderTabList" @tabChange="tabChange" @tagChange="tagChange" @handleSearch="handleSearch"></tabPage>
+			<tabPage :tabList="orderTabList" @tabChange="tabChange" @tagChange="tagChange" @handleSearch="handleSearch">
+			</tabPage>
 		</uv-sticky>
 		<view class="page-list">
 			<uv-collapse @change="change" @close="close" @open="open" :border="false" :value="index">
 				<uv-collapse-item v-for="(item, index) in data" :key="index" :title="item.title" :name="0">
-					<ratingOrderCard :data="itemOrder" :is_list="true" :evaluationData="item.evaluation" v-for="(itemOrder, indexOrder) in item.order_info" :key="indexOrder"
-						@handleMore="handleMore"></ratingOrderCard>
+					<ratingOrderCard :data="itemOrder" :is_list="true" :evaluationData="item.evaluation"
+						v-for="(itemOrder, indexOrder) in item.order_info" :key="indexOrder" @handleMore="handleMore">
+					</ratingOrderCard>
 				</uv-collapse-item>
 			</uv-collapse>
 			<!-- <view class="page-list-order" v-for="(item, index) in data" :key="index">
@@ -56,15 +58,17 @@
 <script>
 	import recordCard from './components/recordCard.vue';
 	import tabPage from './components/tabPage.vue';
-	
-	import { orderTabList } from '/mock/CategoryTagList.js'
+
+	import {
+		orderTabList
+	} from '/mock/CategoryTagList.js'
 	export default {
 		components: {
 			recordCard,
 			tabPage
 		},
 		options: {
-		    styleIsolation: 'shared'
+			styleIsolation: 'shared'
 		},
 		props: {
 			data: {
@@ -85,6 +89,7 @@
 			}
 		},
 		emit: ['handleStatus', 'handleEvaluation'],
+		
 		methods: {
 			handlePayButton() {
 				uni.navigateTo({
@@ -112,10 +117,10 @@
 				this.tag = name
 				this.$emit('handleEvaluation', name)
 			},
-			pullDownRefresh(){
+			pullDownRefresh() {
 				console.log("下来刷新");
 			},
-			reachBottom(){
+			reachBottom() {
 				console.log("上拉加载");
 			},
 			cancelDelete() {
@@ -129,9 +134,9 @@
 		},
 		mounted() {
 			// #ifndef WEB
-			this.offsetTop = this.$system.BarHeight();
-			this.offsetBottom = this.$system.safeHeight() + 154
+			// this.offsetTop = this.$system.BarHeight();
 			// #endif
+			this.offsetBottom = this.$system.safeHeight() + 154
 		}
 	}
 </script>
@@ -141,21 +146,21 @@
 		width: 100vw;
 		background-color: #f6f7f9;
 	}
-	
+
 	.page-list {
 		display: flex;
 		flex-direction: column;
 		padding: 28rpx 0;
 		margin-bottom: 108rpx;
 	}
-	
+
 	.popup-page {
 		display: flex;
 		flex-direction: column;
 		gap: 40rpx;
 		padding: 40rpx 0;
 	}
-	
+
 	.popup-page-list {
 		display: flex;
 		flex-direction: column;
@@ -164,21 +169,21 @@
 		gap: 40rpx;
 		padding: 0 32rpx;
 	}
-	
+
 	.popup-page-text {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 	}
-	
+
 	.page-list-line {
 		border: 1rpx solid rgba(234, 234, 239, 1)
 	}
-	
+
 	.popup-page-line {
 		border: 4rpx solid rgba(246, 247, 249, 1);
 	}
-	
+
 	/* 自定义弹窗样式 */
 	.custom-modal {
 		position: fixed;
@@ -192,7 +197,7 @@
 		align-items: center;
 		z-index: 9999;
 	}
-	
+
 	.modal-content {
 		margin: 0 112rpx;
 		border-radius: 32rpx;
@@ -202,7 +207,7 @@
 		flex-direction: column;
 		align-items: center;
 	}
-	
+
 	.modal-content-top {
 		padding: 16rpx 8rpx 40rpx 8rpx;
 		display: flex;
@@ -210,25 +215,25 @@
 		align-items: center;
 		gap: 24rpx;
 	}
-	
+
 	.modal-title {
 		font-weight: 600;
 		font-size: 32rpx;
 		text-align: center;
 		color: rgba(0, 0, 0, 0.99);
 	}
-	
+
 	.modal-message {
 		font-size: 26rpx;
 		text-align: center;
 		color: rgba(0, 0, 0, 0.66);
 	}
-	
+
 	.modal-buttons {
 		display: flex;
 		justify-content: space-between;
 	}
-	
+
 	.modal-button {
 		width: 45%;
 		height: 80rpx;
@@ -238,7 +243,7 @@
 		border-radius: 40rpx;
 		font-size: 30rpx;
 	}
-	
+
 	.modal-button.cancel {
 		display: flex;
 		justify-content: center;
@@ -252,7 +257,7 @@
 		font-weight: 600;
 		font-size: 28rpx;
 	}
-	
+
 	.modal-button.delete {
 		display: flex;
 		justify-content: center;
@@ -267,14 +272,14 @@
 		font-weight: 600;
 		font-size: 28rpx;
 	}
-	
+
 	.page-pay {
 		position: fixed;
 		bottom: 172rpx;
 		right: 32rpx;
 		z-index: 100;
 	}
-	
+
 	.page-pay-button {
 		display: flex;
 		justify-content: space-between;
@@ -284,7 +289,7 @@
 		border-radius: 2000rpx;
 		background: rgba(254, 168, 0, 1);
 	}
-	
+
 	.pay-button-icon {
 		width: 84rpx;
 		height: 84rpx;
@@ -292,7 +297,7 @@
 		padding: 4rpx;
 		background: rgba(254, 185, 51, 1);
 	}
-	
+
 	.pay-button-text {
 		display: flex;
 		align-items: baseline;

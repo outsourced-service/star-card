@@ -1,7 +1,7 @@
 <template>
 	<view class="width-full height-full" style="background-color: #F6F7F9;">
 		<!-- 顶部导航栏 -->
-		<navbar title='订单列表' fixed bgColor="#fff"></navbar>
+		<!-- <navbar title='订单列表' fixed bgColor="#fff"></navbar> -->
 		<!-- 标签页 -->
 		<!-- <view class="justify-center">
 			<uv-tabs :current='current' :list="tabsList" @click="click" lineWidth="40rpx" lineHeight="4rpx"
@@ -10,7 +10,8 @@
 		</view> -->
 		<!-- 评级 -->
 		<view v-if="true" class="flex-1">
-			<rating ref="ratingRef" :data="orderList" @handleStatus="handleStatus" @handleEvaluation="handleEvaluation" />
+			<rating ref="ratingRef" :data="orderList" @handleStatus="handleStatus"
+				@handleEvaluation="handleEvaluation" />
 		</view>
 		<!-- 底部导航栏 -->
 		<tabBar :value='1' />
@@ -35,9 +36,13 @@
 					limit: 10,
 					offset: 0,
 					where: {
-						mode: { _eq: '送评订单' },
-						order_info: { 
-							id:{_gt: 0}
+						mode: {
+							_eq: '送评订单'
+						},
+						order_info: {
+							id: {
+								_gt: 0
+							}
 						}
 					}
 				},
@@ -61,7 +66,9 @@
 					limit: 10,
 					offset: 0,
 					where: {
-						mode: { _eq: '送评订单' },
+						mode: {
+							_eq: '送评订单'
+						},
 						// order_info: { _is_null: true }
 					},
 					status: this.status,
@@ -74,8 +81,7 @@
 		},
 		computed: {
 			tabsList() {
-				return [
-					{
+				return [{
 						name: '交换板',
 					},
 					{
@@ -110,7 +116,15 @@
 		// 下来刷新
 		onPullDownRefresh() {},
 		// 上拉加载
-		onReachBottom() {}
+		onReachBottom() {},
+		onPageScroll(e) {
+			const scrollTop = e.scrollTop;
+			if (scrollTop > this.$system.BarHeight()) {
+				console.log("变更", e);
+			} else {
+				console.log("还原", e);
+			}
+		},
 	}
 </script>
 

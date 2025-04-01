@@ -21,7 +21,8 @@
 					justify-content:space-between; 
 					align-items:center;">
 			</uv-tabs>
-			<uv-icon name="search" color="rgba(0, 0, 0, 0.44)" size="36rpx" bold style="padding-top: 2rpx;" @click="handleSearch"></uv-icon>
+			<uv-icon name="search" color="rgba(0, 0, 0, 0.44)" size="36rpx" bold style="padding-top: 2rpx;"
+				@click="handleSearch"></uv-icon>
 		</view>
 		<!-- 分割线 -->
 		<view class="divider"></view>
@@ -29,7 +30,7 @@
 		<view class="container-page-tag" ref="tag">
 			<view class="page-tag-tabs">
 				<uv-tabs :list="currentTagList" :current="currentTagIndex" @change="onTagChange" :scrollable="true"
-					 lineWidth="0" lineHeight="0" :activeStyle="{
+					lineWidth="0" lineHeight="0" :activeStyle="{
 							color: 'rgba(254, 168, 0, 1)',
 							backgroundColor: 'rgba(255, 246, 229, 1)',
 							fontWeight: '500',
@@ -104,9 +105,8 @@
 		box-shadow: 0 0 12rpx 0 rgba(0, 0, 0, 0.04);
 		border-top-right-radius: 32rpx;
 		border-top-left-radius: 32rpx;
-		margin-top: -40rpx;
 	}
-	
+
 	.container {
 		padding: 28rpx 32rpx 20rpx 14rpx;
 		background-color: #fff;
@@ -124,7 +124,7 @@
 		background-color: #F2F3F6;
 		margin-top: -24rpx
 	}
-	
+
 	.container-page-tag {
 		display: flex;
 		justify-content: space-between;
@@ -132,11 +132,11 @@
 		gap: 40rpx;
 		padding: 20rpx 32rpx 24rpx 28rpx;
 	}
-	
+
 	.page-tag-tabs {
 		width: calc(100vw - 100rpx - 124rpx);
 	}
-	
+
 	.page-tag-right {
 		display: flex;
 		align-items: center;
