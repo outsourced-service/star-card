@@ -2,20 +2,21 @@
 	<view class="uv-cell" :class="[customClass]" :style="[$uv.addStyle(customStyle)]"
 		:hover-class="(!disabled && (clickable || isLink)) ? 'uv-cell--clickable' : ''" :hover-stay-time="250"
 		@click="clickHandler">
-		<view class="uv-cell__body" 
-			:class="[ center && 'uv-cell--center', size === 'large' && 'uv-cell__body--large']"
-			:style="[cellStyle]"
-		>
+		<view class="uv-cell__body" :class="[ center && 'uv-cell--center', size === 'large' && 'uv-cell__body--large']"
+			:style="[cellStyle]">
 			<view class="uv-cell__body__content">
 				<view class="uv-cell__left-icon-wrap">
 					<slot name="icon">
-						<uv-icon v-if="icon" :name="icon" :custom-style="iconStyle" :size="size === 'large' ? 22 : 18"></uv-icon>
+						<uv-icon v-if="icon" :name="icon" :custom-style="iconStyle"
+							:size="size === 'large' ? 22 : 18"></uv-icon>
 					</slot>
 				</view>
 				<view class="uv-cell__title">
 					<slot name="title">
-						<text v-if="title" class="uv-cell__title-text" :style="[titleTextStyle]"
-							:class="[disabled && 'uv-cell--disabled', size === 'large' && 'uv-cell__title-text--large']">{{ title }}</text>
+						<view class="" style="display: flex; flex-wrap: nowrap;">
+							<text v-if="title" class="uv-cell__title-text" :style="[titleTextStyle]"
+								:class="[disabled && 'uv-cell--disabled', size === 'large' && 'uv-cell__title-text--large']">{{ title }}</text>
+						</view>
 					</slot>
 					<slot name="label">
 						<text class="uv-cell__label" v-if="label"
@@ -28,11 +29,10 @@
 					:class="[disabled && 'uv-cell--disabled', size === 'large' && 'uv-cell__value--large']"
 					v-if="!$uv.test.empty(value)">{{ value }}</text>
 			</slot>
-			<view class="uv-cell__right-icon-wrap"
-				:class="[`uv-cell__right-icon-wrap--${arrowDirection}`]">
+			<view class="uv-cell__right-icon-wrap" :class="[`uv-cell__right-icon-wrap--${arrowDirection}`]">
 				<slot name="right-icon">
-					<uv-icon v-if="isLink" :name="rightIcon" :custom-style="rightIconStyle" :color="disabled ? '#c8c9cc' : 'info'"
-						:size="size === 'large' ? 18 : 16"></uv-icon>
+					<uv-icon v-if="isLink" :name="rightIcon" :custom-style="rightIconStyle"
+						:color="disabled ? '#c8c9cc' : 'info'" :size="size === 'large' ? 18 : 16"></uv-icon>
 				</slot>
 			</view>
 		</view>
@@ -125,6 +125,7 @@
 	$uv-cell-right-icon-wrap-margin-left: 4px !default;
 	$uv-cell-title-flex: 1 !default;
 	$uv-cell-label-margin-top: 5px !default;
+
 	.uv-cell {
 		&__body {
 			@include flex();
@@ -134,16 +135,19 @@
 			padding: $uv-cell-padding;
 			font-size: $uv-cell-font-size;
 			color: $uv-cell-color;
+
 			&__content {
 				@include flex(row);
 				align-items: center;
 				flex: 1;
 			}
+
 			&--large {
 				padding-top: $uv-cell-padding-top-large;
 				padding-bottom: $uv-cell-padding-bottom-large;
 			}
 		}
+
 		&__left-icon-wrap,
 		&__right-icon-wrap {
 			@include flex();
@@ -151,57 +155,71 @@
 			// height: $uv-cell-line-height;
 			font-size: $uv-cell-icon-size;
 		}
+
 		&__left-icon-wrap {
 			margin-right: $uv-cell-left-icon-wrap-margin-right;
 		}
+
 		&__right-icon-wrap {
 			margin-left: $uv-cell-right-icon-wrap-margin-left;
 			transition: transform 0.3s;
+
 			&--up {
 				transform: rotate(-90deg);
 			}
+
 			&--down {
 				transform: rotate(90deg);
 			}
 		}
+
 		&__title {
 			flex: $uv-cell-title-flex;
+
 			&-text {
 				font-size: $uv-cell-title-font-size;
 				line-height: $uv-cell-title-line-height;
 				color: $uv-cell-title-color;
+
 				&--large {
 					font-size: $uv-cell-title-font-size-large;
 				}
 			}
 		}
+
 		&__label {
 			margin-top: $uv-cell-label-margin-top;
 			font-size: $uv-cell-label-font-size;
 			color: $uv-cell-label-color;
 			line-height: $uv-cell-label-line-height;
+
 			&--large {
 				font-size: $uv-cell-label-font-size-large;
 			}
 		}
+
 		&__value {
 			text-align: right;
 			font-size: $uv-cell-value-font-size;
 			line-height: $uv-cell-line-height;
 			color: $uv-cell-value-color;
+
 			&--large {
 				font-size: $uv-cell-value-font-size-large;
 			}
 		}
+
 		&--clickable {
 			background-color: $uv-cell-clickable-color;
 		}
+
 		&--disabled {
 			color: $uv-cell-disabled-color;
 			/* #ifndef APP-NVUE */
 			cursor: not-allowed;
 			/* #endif */
 		}
+
 		&--center {
 			align-items: center;
 		}

@@ -9,7 +9,7 @@
 			<functionList></functionList>
 		</view>
 		<!-- <tabBar :value='4' /> -->
-		<tabBar :value='2' />
+		<tabBar :value='5' />
 	</view>
 </template>
 

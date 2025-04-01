@@ -1,43 +1,31 @@
 <template>
 	<view class="uv-collapse-item">
-		<uv-cell
-			:title="title"
-			:value="value"
-			:label="label"
-			:icon="icon"
-			:isLink="isLink"
-			:clickable="clickable"
-			:border="parentData.border && showBorder"
-			@click="clickHandler"
-			:arrowDirection="expanded ? 'up' : 'down'"
-			:disabled="disabled"
-		>
-			<!-- #ifndef MP-WEIXIN -->
+		<uv-cell :title="title" :value="value" :label="label" :icon="icon" :isLink="isLink" :clickable="clickable"
+			:border="border || parentData.border && showBorder" @click="clickHandler"
+			:arrowDirection="expanded ? 'down' : 'left'" :disabled="disabled">
 			<!-- 微信小程序不支持，因为微信中不支持 <slot name="title" slot="title" />的写法 -->
-			<template slot="title">
+			<template v-slot:label>
+				<slot name="label"></slot>
+			</template>
+			<!-- #ifndef MP-WEIXIN -->
+			<template v-slot:title>
 				<slot name="title"></slot>
 			</template>
-			<template slot="icon">
+			<template v-slot:icon>
 				<slot name="icon"></slot>
 			</template>
-			<template slot="value">
+			<template v-slot:value>
 				<slot name="value"></slot>
 			</template>
-			<template slot="right-icon">
+			<template v-slot:right-icon>
 				<slot name="right-icon"></slot>
 			</template>
 			<!-- #endif -->
 		</uv-cell>
-		<view
-			class="uv-collapse-item__content"
-			:animation="animationData"
-			ref="animation"
-		>
-			<view
-				class="uv-collapse-item__content__text content-class"
-				:id="elId"
-				:ref="elId"
-			><slot /></view>
+		<view class="uv-collapse-item__content" :animation="animationData" ref="animation">
+			<view class="uv-collapse-item__content__text content-class" :id="elId" :ref="elId">
+				<slot />
+			</view>
 		</view>
 		<uv-line v-if="parentData.border"></uv-line>
 	</view>
@@ -103,6 +91,7 @@
 			this.elId = this.$uv.guid();
 		},
 		mounted() {
+			console.log(this.$slots)
 			this.init()
 		},
 		methods: {
@@ -212,6 +201,7 @@
 <style lang="scss" scoped>
 	@import '@/uni_modules/uv-ui-tools/libs/css/components.scss';
 	@import '@/uni_modules/uv-ui-tools/libs/css/color.scss';
+
 	.uv-collapse-item {
 
 		&__content {

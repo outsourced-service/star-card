@@ -15,7 +15,7 @@
 				@handleEvaluation="handleEvaluation" />
 		</view>
 		<!-- 底部导航栏 -->
-		<tabBar :value='1' />
+		<tabBar :value='3' />
 	</view>
 </template>
 

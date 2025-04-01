@@ -7,7 +7,7 @@
 		onLaunch: async function() {
 			console.log('App Launch')
 			addInterceptor();
-			await getUserInfo();
+			// await getUserInfo();
 		},
 		onShow: function() {
 			console.log('App Show')
