@@ -21,7 +21,8 @@
 
 <script>
 	import rating from '@/pages/order/tabsPage/rating/index.vue';
-	import {order, orderInfo} from "@/api/order";
+	import order from "@/api/order";
+	import orderInfo from "@/api/order";
 	export default {
 		components: {
 			rating

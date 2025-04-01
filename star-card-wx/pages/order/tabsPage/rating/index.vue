@@ -7,7 +7,7 @@
 			</tabPage>
 		</uv-sticky>
 		<view class="page-list">
-			<uv-collapse :border="false" :value="index">
+			<uv-collapse :border="false" :value="[data[0].title, data[1].title, data[2].title]">
 				<uv-collapse-item v-for="(item, index) in data" :key="index" :title="item.title" :name="0">
 					<ratingOrderCard :data="itemOrder" :is_list="true" :evaluationData="item.evaluation"
 						v-for="(itemOrder, indexOrder) in item.order_info" :key="indexOrder" @handleMore="handleMore">
@@ -44,14 +44,14 @@
 				</view>
 			</view>
 		</view>
-		<!-- <view class="page-pay" :style="{bottom: offsetBottom + 'rpx'}">
+		<view class="page-pay" :style="{bottom: offsetBottom + 'rpx'}">
 			<view class="page-pay-button" @click="handlePayButton">
 				<view class="pay-button-icon"></view>
 				<view class="pay-button-text">
 					5个订单待支付<uv-icon name="arrow-right" color="#fff" size="24rpx" bold></uv-icon>
 				</view>
 			</view>
-		</view> -->
+		</view>
 	</view>
 </template>
 
