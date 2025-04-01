@@ -95,7 +95,7 @@
 					'background-size': 'cover',
 					'background-position': 'center',
 					'background-repeat': 'no-repeat',
-					'margin-top': this.is_top ? '-38rpx' : '0'
+					'margin-top': this.is_list ? '0' : '-38rpx'
 				};
 			}
 		},

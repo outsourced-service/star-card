@@ -2,6 +2,7 @@
 	<view class="width-full height-full" style="background-color: #F6F7F9;">
 		<!-- 顶部导航栏 -->
 		<!-- <navbar title='订单列表' fixed bgColor="#fff"></navbar> -->
+		<!-- <navbar title='订单列表' fixed bgColor="#fff"></navbar> -->
 		<!-- 标签页 -->
 		<!-- <view class="justify-center">
 			<uv-tabs :current='current' :list="tabsList" @click="click" lineWidth="40rpx" lineHeight="4rpx"
@@ -20,7 +21,7 @@
 
 <script>
 	import rating from '@/pages/order/tabsPage/rating/index.vue';
-	import order from "@/api/order";
+	import {order, orderInfo} from "@/api/order";
 	export default {
 		components: {
 			rating
@@ -46,7 +47,18 @@
 						}
 					}
 				},
+				paramsInfo: {
+					limit: 10,
+					offset: 0,
+					where: {
+						mode: { _eq: '送评订单' },
+						order_info: { 
+							id:{_gt: 0}
+						}
+					}
+				},
 				orderList: [],
+				orderTotal: 0,
 				status: '未入库',
 				evaluation: '全部'
 			}
@@ -69,19 +81,33 @@
 						mode: {
 							_eq: '送评订单'
 						},
-						// order_info: { _is_null: true }
+						order_info: {
+							id:{_gt: 0}
+						}
 					},
-					status: this.status,
 					evaluationName: evaluationName
 				};
 				order.getOrderList(this.params).then(res => {
+					this.orderList = res;
+				});
+			},
+			getOrderInfoListData() {
+				this.paramsInfo = {
+					limit: 10,
+					offset: 0,
+					where: {
+						order_order: this.orderList[0].id
+					},
+				};
+				orderInfo.getOrderList(this.params).then(res => {
 					this.orderList = res;
 				});
 			}
 		},
 		computed: {
 			tabsList() {
-				return [{
+				return [
+					{
 						name: '交换板',
 					},
 					{
