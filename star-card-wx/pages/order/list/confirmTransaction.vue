@@ -1,9 +1,6 @@
 <template>
 	<view class="page">
-		<!-- <uv-sticky :offsetTop="0"> -->
-		<tabs :tabList="tabList" :activeTextSize="'30rpx'" @tabChange="tabChange"></tabs>
-		<!-- </uv-sticky> -->
-		<view class="page-list">
+		<!-- <view class="page-list">
 			<view class="page-list-item" v-for="(item, index) in orderList" :key="index">
 				<view class="page-list-order" v-if="item.order_info.length > 0">
 					<view class="list-order-title">{{item.title}}</view>
@@ -16,37 +13,69 @@
 					</view>
 				</view>
 			</view>
+		</view> -->
+		<view class="page-list">
+			<view class="page-list-item" v-for="(item, index) in orderList" :key="index">
+				<view class="page-list-order" v-if="item.order_info.length > 0">
+					<!-- <view class="list-order-title">{{item.title}}</view> -->
+					<view class="list-order-item">
+						<ratingOrderCard v-for="(itemOrder, indexOrder) in item.order_info" :key="indexOrder" :data="itemOrder" :is_transaction="true" :is_list="false" :is_pay="false" :evaluationData="item.evaluation" @handleOpenDetail="handleOpenDetail"></ratingOrderCard>
+					</view>
+				</view>
+			</view>
 		</view>
 		<view class="page-bottom">
-			<uv-checkbox-group v-model="checkboxValue" labelDisabled shape="circle" activeColor="#fea800" iconSize="36rpx">
-				<uv-checkbox v-model="is_all_select" :customStyle="{width: '100%', paddingRight: '8rpx', gap: '4rpx'}">
-					<view class="page-bottom-checkbox">全选</view>
+			<view class="page-bottom-safety">
+				<uv-checkbox v-model="is_safety" shape="circle" activeColor="#fea800" @change="handleSafety">
+					<view class="bottom-safety-text">
+						我已知晓
+						<view class="bottom-safety">
+							《代送评注意事项》
+						</view>
+						与
+						<view class="bottom-safety">
+							《保险说明》
+						</view>
+					</view>
 				</uv-checkbox>
-			</uv-checkbox-group>
-			<view class="page-bottom-right">
-				<view class="bottom-right-info">
-					<view class="right-info-price">
+			</view>
+			<view class="page-bottom-line"></view>
+			<view class="page-bottom-button">
+				<view class="bottom-button-info">
+					<view class="button-info-price">
 						<span class="info-price-text">总价</span>
 						<span class="info-price-unit">￥</span>
 						<span class="info-price-num">{{total_price}}</span>
+						<span class="info-price-discount">￥5300</span>
 					</view>
-					<view class="right-info-data">
-						查看明细<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.66)" size="20rpx" bold></uv-icon>
+					<view class="button-info-detail">
+						<span class="info-detail-discount">共优惠￥300</span>
+						<view class="info-detail-icon" @click="handleOpenOrderDetail">
+							查看明细<uv-icon name="arrow-down" color="rgba(0, 0, 0, 0.66)" size="20rpx" bold></uv-icon>
+						</view>
 					</view>
 				</view>
-				<uv-button @click="handleConfirmTransaction" :text="'结算 (' + total_num + ')'" color="#fea800" size="large" shape="circle" :customStyle="{width: '240rpx', height: '88rpx'}"></uv-button>
+				<uv-button @click="handlePay" text="确认并支付" color="#fea800" size="large" shape="circle" :customStyle="{width: '240rpx', height: '88rpx'}"></uv-button>
 			</view>
 		</view>
 	</view>
+	<uv-popup ref="popup" mode="bottom" round="40rpx" closeable safeAreaInsetBottom>
+		<orderDetail @handlePay="handlePay"></orderDetail>
+	</uv-popup>
+	<uv-popup ref="payPopup" mode="bottom" round="40rpx" closeable safeAreaInsetBottom>
+		<payPopup></payPopup>
+	</uv-popup>
 	<uv-popup ref="popupDetail" mode="bottom" round="40rpx" closeable safeAreaInsetBottom>
 		<orderFormPopupDetail :data="evaluation" :formData="formData"></orderFormPopupDetail>
 	</uv-popup>
 </template>
 
 <script>
+	import orderDetail from './components/orderDetail.vue';
 	import order from "@/api/order";
 	export default {
 		components: {
+			orderDetail
 		},
 		options: {
 		    styleIsolation: 'shared'
@@ -54,11 +83,6 @@
 		data() {
 			return {
 				offsetTop: 0,
-				tabList: [{
-					name: '送评订单'
-				}, {
-					name: '补款订单'
-				}],
 				params: {
 					limit: 10,
 					offset: 0,
@@ -77,10 +101,12 @@
 		},
 		emit: [],
 		methods: {
-			handleConfirmTransaction() {
-				uni.navigateTo({
-					url: '/pages/order/list/confirmTransaction'
-				})
+			handlePay() {
+				this.$refs.popup.close();
+				this.$refs.payPopup.open();
+			},
+			handleOpenOrderDetail(id) {
+				this.$refs.popup.open();
 			},
 			handleOpenDetail(id) {
 				this.$refs.popupDetail.open();
@@ -100,8 +126,6 @@
 				order.getOrderAllList(this.params).then(res => {
 					this.orderList = res.filter(item => item.order_info?.length > 0); // 过滤空数据
 				});
-			},
-			tabChange(value) {
 			}
 		},
 		onLoad() {
@@ -121,6 +145,7 @@
 		height: 100vh;
 		display: flex;
 		flex-direction: column;
+		width: 100vw;
 	}
 	
 	.page-list {
@@ -149,18 +174,38 @@
 	}
 	
 	.page-bottom {
-		background-color: #fff;
-		padding: 24rpx;
-		border-top-width: 2rpx;
-		box-shadow: 0 4rpx 16rpx 0 rgba(0, 0, 0, 0.1);
 		display: flex;
-		justify-content: space-between;
+		flex-direction: column;
+		box-shadow: 0px 8rpx 16rpx 0px rgba(0, 0, 0, 0.1);
+		background-color: rgba(255, 255, 255, 1);
+		width: 100vw;
+		// width: calc(100vw - 64rpx);
+		gap: 28rpx;
+		border-top-width: 2rpx;
+		padding: 24rpx;
+		z-index: 10;
+	}
+	
+	.page-bottom-safety {
+		display: flex;
 		align-items: center;
-		// position: sticky;
-		// bottom: 0;
-		// left: 0;
-		// right: 0;
-		// z-index: 1;
+	}
+	
+	.bottom-safety-text {
+		display: flex;
+		font-weight: 500;
+		font-size: 26rpx;
+		color: rgba(0, 0, 0, 0.33);
+		align-items: center;
+		margin-bottom: 2rpx;
+	}
+	
+	.bottom-safety {
+		color: rgba(254, 168, 0, 1);
+	}
+	
+	.page-bottom-line {
+		border-top: 2rpx dashed rgba(209, 209, 214, 1)
 	}
 	
 	.page-bottom-checkbox {
@@ -169,20 +214,22 @@
 		color: rgba(0, 0, 0, 0.66);
 	}
 	
-	.page-bottom-right {
+	.page-bottom-button {
 		display: flex;
 		gap: 24rpx;
 		align-items: center;
+		justify-content: flex-end;
+		margin-top: 4rpx;
 	}
 	
-	.bottom-right-info {
+	.bottom-button-info {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-end;
 		gap: 8rpx;
 	}
 	
-	.right-info-price {
+	.button-info-price {
 		display: flex;
 		align-items: baseline;
 		gap: 4rpx;
@@ -207,7 +254,26 @@
 		color: rgba(254, 168, 0, 1);
 	}
 	
-	.right-info-data {
+	.info-price-discount {
+		font-weight: 600;
+		font-size: 24rpx;
+		text-decoration: line-through;
+		color: rgba(0, 0, 0, 0.33);
+		margin-left: 4rpx;
+	}
+	
+	.button-info-detail {
+		display: flex;
+		align-items: flex-start;
+		gap: 12rpx;
+	}
+	
+	.info-detail-discount {
+		font-size: 24rpx;
+		color: rgba(254, 168, 0, 1);
+	}
+	
+	.info-detail-icon {
 		display: flex;
 		align-items: baseline;
 		gap: 4rpx;

@@ -52,7 +52,7 @@
 				<cardLevelSelect :data="item" v-if="item.selected"></cardLevelSelect>
 				<cardLevelSelectNo :data="item" v-else @handleSubmissionReview="handleSelect(item.id, index)"></cardLevelSelectNo>
 			</view>
-			<view class="page-select-signature" v-for="(item, index) in data" v-if="type == 'signatureReview'">
+			<view class="page-select-signature" v-for="(item, index) in data" :key="index" v-if="type == 'signatureReview'">
 				<view :class="item.selected ? 'select-signature' : 'select-signature-no'" @click="handleSelect(item.id, index)">
 					<uv-image :src="item.cover.url" width="100%" height="280rpx" @click="handleSubtract"></uv-image>
 					<view class="select-signature-bottom">

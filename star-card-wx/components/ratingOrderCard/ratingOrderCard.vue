@@ -1,6 +1,6 @@
 <template>
 	<view class="order-package-card">
-		<view class="package-card-top" v-if="!is_list && !is_pay">
+		<view class="package-card-top" v-if="is_form">
 			<view class="card-top-left">订单已生成，请尽快寄出哟~</view>
 			<view class="card-top-right" @click="handleBack">修改订单</view>
 		</view>
@@ -32,7 +32,35 @@
 					<view class="order-info-bottom" v-else>-</view>
 				</view>
 			</view>
-			<view class="card-item-price" v-if="!is_list && !is_pay">
+			<view class="card-item-discount" v-if="is_transaction">
+				<view class="item-discount-info">
+					<view class="discount-info-left">
+						<view class="info-left-title">优惠券<uv-icon name="question-circle" color="rgba(0, 0, 0, 0.2)" size="32rpx"></uv-icon></view>
+						<view class="info-left-description">这里有一段描述</view>
+					</view>
+					<view class="discount-info-right">
+						<view class="info-right-price">
+							<view class="right-price-num">已优惠165元</view>
+							<view class="right-price-text">慢速档专用免单券</view>
+						</view>
+						<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.44)" size="28rpx" bold></uv-icon>
+					</view>
+				</view>
+				<view class="item-discount-info">
+					<view class="discount-info-left">
+						<view class="info-left-title">积分抵扣<uv-icon name="question-circle" color="rgba(0, 0, 0, 0.2)" size="32rpx"></uv-icon></view>
+						<view class="info-left-description">剩余30000积分</view>
+					</view>
+					<view class="discount-info-right">
+						<view class="info-right-price">
+							<view class="right-price-num">已优惠24.5元</view>
+							<view class="right-price-text">使用16500</view>
+						</view>
+						<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.44)" size="28rpx" bold></uv-icon>
+					</view>
+				</view>
+			</view>
+			<view class="card-item-price" v-if="is_form">
 				<view class="item-price-title">预计总价</view>
 				<view class="item-price">
 					<view class="item-price-unit">￥</view>
@@ -91,6 +119,16 @@
 				required: true,
 				default: () => (false),
 			},
+			is_transaction: {
+				type: Boolean,
+				required: false,
+				default: () => (false),
+			},
+			is_form: {
+				type: Boolean,
+				required: false,
+				default: () => (false),
+			},
 			evaluationData: {
 				type: Object,
 				required: true,
@@ -110,7 +148,7 @@
 					'background-size': 'cover',
 					'background-position': 'center',
 					'background-repeat': 'no-repeat',
-					'margin-top': this.is_list || this.is_pay ? '0' : '-38rpx'
+					'margin-top': !this.is_form ? '0' : '-38rpx'
 				};
 			}
 		},
@@ -159,8 +197,8 @@
 	.package-card-item {
 		display: flex;
 		flex-direction: column;
-		gap: 16rpx;
-		padding: 20rpx 32rpx;
+		gap: 20rpx;
+		padding: 20rpx 32rpx 24rpx 32rpx;
 		border-radius: 32rpx;
 		border: 2rpx solid;
 		border-image-source: linear-gradient(90deg, #FFFFFF 0%, rgba(255, 255, 255, 0.66) 100%);
@@ -220,6 +258,61 @@
 	.order-info-bottom {
 		font-weight: 600;
 		font-size: 30rpx;
+		color: rgba(0, 0, 0, 0.99);
+	}
+	
+	.card-item-discount {
+		display: flex;
+		flex-direction: column;
+		gap: 24rpx;
+		padding: 28rpx 0 8rpx 0;
+		border-top: 2rpx dashed rgba(209, 209, 214, 1)
+	}
+	
+	.item-discount-info {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	
+	.discount-info-left {
+		display: flex;
+		flex-direction: column;
+		gap: 4rpx;
+	}
+	
+	.info-left-title {
+		display: flex;
+		align-items: center;
+		font-size: 26rpx;
+		color: rgba(0, 0, 0, 0.99);
+	}
+	
+	.info-left-description {
+		font-size: 22rpx;
+		color: rgba(0, 0, 0, 0.33);
+	}
+	
+	.discount-info-right {
+		display: flex;
+		align-items: center;
+		gap: 4rpx;
+	}
+	
+	.info-right-price {
+		display: flex;
+		align-items: center;
+		gap: 16rpx;
+	}
+	
+	.right-price-num {
+		font-size: 22rpx;
+		color: rgba(255, 59, 48, 1);
+	}
+	
+	.right-price-text {
+		font-weight: 600;
+		font-size: 26rpx;
 		color: rgba(0, 0, 0, 0.99);
 	}
 	

@@ -9,7 +9,7 @@
 		<view class="page-list">
 			<uv-collapse :border="false" :value="openCollapse">
 				<uv-collapse-item v-for="(item, index) in data" :key="index" :title="item.title" :name="item?.id">
-					<ratingOrderCard :data="itemOrder" :is_list="true" :evaluationData="item.evaluation" :is_pay="false"
+					<ratingOrderCard :data="itemOrder" :is_list="true" :evaluationData="item.evaluation" :is_pay="false" :is_transaction="false"
 						v-for="(itemOrder, indexOrder) in item.order_info" :key="indexOrder" @handleMore="handleMore">
 					</ratingOrderCard>
 				</uv-collapse-item>

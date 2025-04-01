@@ -183,6 +183,22 @@
 				"style": {
 					"navigationBarTitleText": "订单列表"
 				}
+			}, {
+				"path": "list/confirmTransaction",
+				"style": {
+					"navigationBarTitleText": "确认交易"
+				}
+			}, {
+				"path": "paymentPage/wechatSuccessful",
+				"style": {
+					"navigationBarTitleText": "",
+					"navigationStyle": "custom" // 隐藏系统导航栏
+				}
+			}, {
+				"path": "paymentPage/alipaySuccessful",
+				"style": {
+					"navigationBarTitleText": "支付宝支付"
+				}
 			}]
 		},
 		{

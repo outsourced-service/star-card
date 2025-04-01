@@ -147,7 +147,7 @@
 <style scoped lang="scss">
 	.popup-page {
 		padding: 40rpx 32rpx;
-		max-height: 60vh;
+		// max-height: 60vh;
 		display: flex;
 		flex-direction: column;
 		gap: 40rpx;
@@ -174,6 +174,7 @@
 	}
 	
 	.popup-page-info {
+		max-height: 840rpx; /* 设置最大高度 */
 		overflow-y: auto;
 		display: flex;
 		flex-direction: column;
