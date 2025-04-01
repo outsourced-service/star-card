@@ -126,7 +126,7 @@ async function request(name: any, callback: (isLog: boolean) => Promise<any>, ap
         throw e;
     }).finally(() => {
         // 隐藏加载动画
-        isReqLoading && handleLoading(false, loadingText, name, Boolean(isDebug));
+        isReqLoading && handleLoading(false, loadingText, name, true);
     }))
 }
 

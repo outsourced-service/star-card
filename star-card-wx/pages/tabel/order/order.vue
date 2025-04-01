@@ -10,7 +10,7 @@
 		</view> -->
 		<!-- 评级 -->
 		<view v-if="true" class="flex-1">
-			<rating ref="ratingRef" />
+			<rating ref="ratingRef" :data="orderList" @handleStatus="handleStatus" @handleEvaluation="handleEvaluation" />
 		</view>
 		<!-- 底部导航栏 -->
 		<tabBar :value='1' />
@@ -31,42 +31,86 @@
 		data() {
 			return {
 				current: 1,
+				params: {
+					limit: 10,
+					offset: 0,
+					where: {
+						mode: { _eq: '送评订单' },
+						order_info: { 
+							id:{_gt: 0}
+						}
+					}
+				},
+				orderList: [],
+				status: '未入库',
+				evaluation: '全部'
 			}
 		},
-		methods: {},
+		methods: {
+			handleStatus(value) {
+				this.status = value;
+				this.getOrderListData();
+			},
+			handleEvaluation(value) {
+				this.evaluation = value;
+				this.getOrderListData();
+			},
+			getOrderListData() {
+				const evaluationName = this.evaluation === '全部' ? '' : this.evaluation;
+				this.params = {
+					limit: 10,
+					offset: 0,
+					where: {
+						mode: { _eq: '送评订单' },
+						// order_info: { _is_null: true }
+					},
+					status: this.status,
+					evaluationName: evaluationName
+				};
+				order.getOrderList(this.params).then(res => {
+					this.orderList = res;
+				});
+			}
+		},
 		computed: {
-			tabsList: () => [{
-				name: '交换板',
-			}, {
-				name: '评级',
-			}, {
-				name: '代购'
-			}],
-			activeStyle: () => ({
-				fontFamily: 'PingFang SC',
-				color: '#000000FC',
-				fontWeight: '600',
-				lineHeight: '20px',
-				fontSize: '32rpx'
-			}),
+			tabsList() {
+				return [
+					{
+						name: '交换板',
+					},
+					{
+						name: '评级',
+					},
+					{
+						name: '代购'
+					}
+				];
+			},
+			activeStyle() {
+				return {
+					fontFamily: 'PingFang SC',
+					color: '#000000FC',
+					fontWeight: '600',
+					lineHeight: '20px',
+					fontSize: '32rpx'
+				};
+			},
 			inactiveStyle() {
 				return {
 					...this.activeStyle,
 					fontWeight: '400',
-					color: '##00000054',
-					fontSize: '30rpx',
-				}
+					color: '#00000054',
+					fontSize: '30rpx'
+				};
 			}
 		},
-		onShow: function(options) {
-			order.getOrderList().then(res => {
-				console.log(res);
-			})
+		onLoad() {
+			this.getOrderListData();
 		},
 		// 下来刷新
 		onPullDownRefresh() {},
 		// 上拉加载
-		onReachBottom() {},
+		onReachBottom() {}
 	}
 </script>
 

@@ -176,6 +176,11 @@
 					"backgroundColor": "#f2f3f6",
 					"backgroundColorTop": "#f2f3f6"
 				}
+			}, {
+				"path": "list/index",
+				"style": {
+					"navigationBarTitleText": "订单列表"
+				}
 			}]
 		},
 		{

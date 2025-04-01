@@ -13,8 +13,8 @@
 				fontSize: inactiveTextSize,
 				lineHeight: inactiveTextLineHeight,
 			}" itemStyle="
-				padding-left:20rpx;
-				padding-right:20rpx;
+				padding-left:32rpx;
+				padding-right:32rpx;
 				height:62rpx;
 				display:flex; 
 				flex-direction:column; 
@@ -74,7 +74,7 @@
 		background-color: #fff;
 		display: flex;
 		justify-content: center;
-		padding-bottom: 12rpx;
+		/* padding-bottom: 12rpx; */
 	}
 
 	/* 分割线 */
@@ -82,6 +82,6 @@
 		width: 100%;
 		height: 2rpx;
 		background-color: #F2F3F6;
-		margin-top: -18rpx;
+		/* margin-top: -18rpx; */
 	}
 </style>
