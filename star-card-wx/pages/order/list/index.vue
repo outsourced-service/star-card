@@ -1,9 +1,9 @@
 <template>
 	<view class="page">
-		<uv-sticky :offsetTop="0">
-			<tabs :tabList="tabList" :activeTextSize="'30rpx'" @tabChange="tabChange"></tabs>
-		</uv-sticky>
-		<view class="page-list">
+		<!-- <uv-sticky :offsetTop="0"> -->
+		<tabs :tabList="tabList" :activeTextSize="'30rpx'" @tabChange="tabChange"></tabs>
+		<!-- </uv-sticky> -->
+		<view class="page-list" >
 			<view class="page-list-item" v-for="(item, index) in orderList" :key="index">
 				<view class="page-list-order" v-if="item.order_info.length > 0">
 					<view class="list-order-title">{{item.title}}</view>
@@ -14,6 +14,7 @@
 				</view>
 			</view>
 		</view>
+		
 	</view>
 </template>
 
