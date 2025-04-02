@@ -20,7 +20,7 @@
 						@click="$previewImage({ current: index, urls: urls })" />
 					<view v-if="urls.length - 3 > 0" class="more-pictures" @click="$previewImage({ urls: urls })">
 						<uv-text :text="`+${urls.length - 3}`" align="center" size="22.9rpx" color="#000000A8"
-							line-height="30.53rpx" bold></uv-text>
+							line-height="30.53rpx" bold ></uv-text>
 					</view>
 				</view>
 			</uv-collapse-item>

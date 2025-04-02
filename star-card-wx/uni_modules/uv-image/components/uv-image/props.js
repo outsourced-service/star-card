@@ -83,7 +83,7 @@ export default {
 		// 背景颜色，用于深色页面加载图片时，为了和背景色融合
 		bgColor: {
 			type: String,
-			default: '#f3f4f6'
+			default: '#f3f4f600'
 		},
 		// nvue模式下 是否直接显示，在uv-list等cell下面使用就需要设置
 		cellChild: {

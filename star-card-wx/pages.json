@@ -224,6 +224,7 @@
 			}]
 		}
 	],
+	"lazyCodeLoading": "requiredComponents",
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
@@ -233,7 +234,6 @@
 			"background": "#fff"
 		}
 	},
-	"lazyCodeLoading": "requiredComponents",
 	"easycom": {
 		"autoscan": true,
 		"custom": {}

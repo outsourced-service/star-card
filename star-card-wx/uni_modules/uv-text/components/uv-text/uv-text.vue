@@ -18,7 +18,7 @@
 				{{ value }}
 			</button>
 		</template>
-		<text v-else class="uv-text__value" :style="[valueStyle]" :class="[
+		<text v-else class="uv-text__value" :style="[valueStyle,textStyle]" :class="[
           type && `uv-text__value--${type}`,
           lines && `uv-line-${lines}`
         ]">{{ value }}</text>
@@ -83,7 +83,7 @@
 				};
 				!this.type && (style.color = this.color);
 				this.isNvue && this.lines && (style.lines = this.lines);
-				if (this.isNvue && this.mode != 'price' && !this.prefixIcon && !this.suffixIcon ) {
+				if (this.isNvue && this.mode != 'price' && !this.prefixIcon && !this.suffixIcon) {
 					style.flex = 1;
 					style.textAlign = this.align === 'left' ? 'flex-start' : this.align === 'center' ? 'center' : 'right';
 				}
@@ -144,6 +144,7 @@
 		}
 
 		&__value {
+			max-width: 100%;
 			font-size: 14px;
 			@include flex;
 			color: $uv-content-color;
@@ -151,6 +152,7 @@
 			// flex: 1;
 			text-overflow: ellipsis;
 			align-items: center;
+			white-space: normal;
 
 			&--primary {
 				color: $uv-primary;
