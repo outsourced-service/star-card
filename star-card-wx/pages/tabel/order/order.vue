@@ -12,7 +12,7 @@
 		<!-- 评级 -->
 		<view v-if="true" class="flex-1">
 			<rating ref="ratingRef" :data="orderList" @handleStatus="handleStatus"
-				@handleEvaluation="handleEvaluation" />
+				@handleEvaluation="handleEvaluation" :openCollapse="openCollapse" :is_stickyBg="is_stickyBg"/>
 		</view>
 		<!-- 底部导航栏 -->
 		<tabBar :value='3' />
@@ -52,16 +52,14 @@
 					limit: 10,
 					offset: 0,
 					where: {
-						mode: { _eq: '送评订单' },
-						order_info: { 
-							id:{_gt: 0}
-						}
 					}
 				},
 				orderList: [],
 				orderTotal: 0,
 				status: '未入库',
-				evaluation: '全部'
+				evaluation: '全部',
+				openCollapse: [],
+				is_stickyBg: false
 			}
 		},
 		methods: {
@@ -83,25 +81,38 @@
 							_eq: '送评订单'
 						},
 						order_info: {
-							id:{_gt: 0}
+							id: {_gt: 0}
 						}
 					},
 					evaluationName: evaluationName
 				};
 				order.getOrderList(this.params).then(res => {
-					this.orderList = res;
+					this.orderList = [...this.orderList, ...res];
+					this.paramsInfo = {
+						limit: 10,
+						offset: 0,
+						where: {
+							order_order: { _eq: res[0]?.id }
+						},
+					};
+					this.getOrderInfoListData();
 				});
 			},
 			getOrderInfoListData() {
-				this.paramsInfo = {
-					limit: 10,
-					offset: 0,
-					where: {
-						order_order: this.orderList[0].id
-					},
-				};
-				orderInfo.getOrderList(this.params).then(res => {
-					this.orderList = res;
+				orderInfo.getOrderInfoList(this.paramsInfo).then(res => {
+					// 找到 id 为 1 的对象并添加 order_info 字段
+					for (let i = 0; i < this.orderList.length; i++) {
+					  if (this.orderList[i].id == this.orderList[0]?.id) {
+					    // 如果对象中没有 order_info 字段，则创建一个空数组
+					    if (!this.orderList[i].hasOwnProperty('order_info')) {
+					      this.orderList[i].order_info = [];
+					    }
+					    // 将 res 添加到 order_info 数组中
+					    this.orderList[i].order_info = [...this.orderList[i].order_info, ...res];
+					    break; // 找到后退出循环
+					  }
+					}
+					this.openCollapse = [this.orderList[0].id]
 				});
 			}
 		},
@@ -138,6 +149,7 @@
 			}
 		},
 		onLoad() {
+			this.orderList = []
 			this.getOrderListData();
 		},
 		// 下来刷新
@@ -147,9 +159,9 @@
 		onPageScroll(e) {
 			const scrollTop = e.scrollTop;
 			if (scrollTop > this.$system.BarHeight()) {
-				console.log("变更", e);
+				this.is_stickyBg = true
 			} else {
-				console.log("还原", e);
+				this.is_stickyBg = false
 			}
 		},
 	}

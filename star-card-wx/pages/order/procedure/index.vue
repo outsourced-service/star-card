@@ -432,9 +432,9 @@
 		flex-direction: column;
 		box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
 		background-color: rgba(255, 255, 255, 1);
-		// width: 100vw;
-		width: calc(100vw - 64rpx);
-		gap: 20px;
+		width: 100vw;
+		// width: calc(100vw - 64rpx);
+		gap: 40rpx;
 		border-top-width: 2rpx;
 		padding: 24rpx 32rpx;
 		z-index: 10;

@@ -2,14 +2,14 @@
 	<view class="page">
 		<recordCard></recordCard>
 		<!-- 标签页 -->
-		<uv-sticky :offsetTop="offsetTop">
+		<uv-sticky :offsetTop="offsetTop" :bgColor="is_stickyBg ? '#fff' : ''">
 			<tabPage :tabList="orderTabList" @tabChange="tabChange" @tagChange="tagChange" @handleSearch="handleSearch">
 			</tabPage>
 		</uv-sticky>
 		<view class="page-list">
-			<uv-collapse :border="false" :value="[data[0].title, data[1].title, data[2].title]">
-				<uv-collapse-item v-for="(item, index) in data" :key="index" :title="item.title" :name="0">
-					<ratingOrderCard :data="itemOrder" :is_list="true" :evaluationData="item.evaluation"
+			<uv-collapse :border="false" :value="openCollapse">
+				<uv-collapse-item v-for="(item, index) in data" :key="index" :title="item.title" :name="item?.id">
+					<ratingOrderCard :data="itemOrder" :is_list="true" :evaluationData="item.evaluation" :is_pay="false" :is_transaction="false"
 						v-for="(itemOrder, indexOrder) in item.order_info" :key="indexOrder" @handleMore="handleMore">
 					</ratingOrderCard>
 				</uv-collapse-item>
@@ -75,6 +75,16 @@
 				type: Object,
 				required: true,
 				default: () => ({}),
+			},
+			openCollapse: {
+				type: Object,
+				required: true,
+				default: () => ([]),
+			},
+			is_stickyBg: {
+				type: Boolean,
+				required: true,
+				default: () => (false),
 			}
 		},
 		data() {

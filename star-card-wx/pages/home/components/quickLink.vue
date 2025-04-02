@@ -68,7 +68,7 @@
 	}
 	
 	.quick-link-item {
-		width: 370rpx !important;
+		width: calc((100vw - 48rpx - 16rpx) / 2) !important;
 		height: 160rpx;
 		border: solid 2rpx rgba(254, 168, 0, 1);
 		border-radius: 24rpx;
