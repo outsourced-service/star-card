@@ -16,7 +16,7 @@
 						<text>{{label}}</text>
 					</view>
 				</template>
-				<view class="picture-container flex-row" style="gap:10px;padding-bottom: 32rpx;">
+				<view class="picture-container flex-row" style="gap:10px;">
 					<uv-image v-for="(item,index) in displayUrls" :key="index" :src="ImageFormatWebp(item)"
 						mode="aspectFit" width="90px" height="90px" bgColor="#F2F3F6" webp radius="8px"
 						@click="$previewImage({current:index,urls:urls})" />
@@ -50,7 +50,7 @@
 		},
 		data() {
 			return {
-value: ['1']
+				value: ['1']
 			};
 		},
 		computed: {
@@ -87,6 +87,10 @@ value: ['1']
 		min-height: 62.98rpx;
 		border-radius: 32rpx;
 		box-shadow: 0px 2px 8px 0px #0000001A;
+
+		::v-deep .uv-collapse-item__content__text {
+			padding: 16px;
+		}
 
 		::v-deep .uv-cell__body {
 			padding: 38.17rpx 22.9rpx 22.9rpx 22.9rpx;

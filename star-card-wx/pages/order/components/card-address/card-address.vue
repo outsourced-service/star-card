@@ -2,7 +2,7 @@
 	<view class="card-picture-list">
 		<uv-collapse ref="collapse" :value="value" :border="false" @close="onClose" @open="onOpen">
 			<uv-collapse-item title="寄回信息" name="1" :border="value.includes('1')">
-				<view class="picture-container flex-col" style="gap:16px;padding-bottom: 32rpx;">
+				<view class="picture-container flex-col" style="gap:16px;">
 					<view class="address align-center">
 						<view class="flex-1 flex-col">
 							<view class="name flex-row" style="gap: 6px;">
@@ -98,10 +98,14 @@
 		min-height: 62.98rpx;
 		border-radius: 32rpx;
 		box-shadow: 0px 2px 8px 0px #0000001A;
+		
+		::v-deep .uv-collapse-item__content__text{
+			padding: 16px;
+		}
 
 		::v-deep .uv-cell__body {
 			padding: 40rpx 24rpx 24rpx 24rpx;
-
+			
 			.uv-cell__title {
 				flex-direction: row;
 				align-items: center;
