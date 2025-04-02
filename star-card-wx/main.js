@@ -28,6 +28,8 @@ export function createApp() {
   pluginsInit(app);
   app.config.globalProperties.$ImageFormatWebp = "?x-oss-process=image/format,webp"; //webP格式后缀
   app.config.globalProperties.$previewImage = uni.previewImage; //预览图片
+  app.config.globalProperties.$setClipboardData = uni.setClipboardData; //设置剪贴版
+  
   app.config.globalProperties.$system = System
 
   return {

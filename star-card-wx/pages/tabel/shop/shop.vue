@@ -1,6 +1,7 @@
 <template>
 	<view class="width-full height-full flex" style="background-color: #fefefe;">
-		<cardPictureList/>
+		<cardPictureList />
+		<cardAddress />
 		<!-- 底部导航栏 -->
 		<tabBar :value='1' />
 	</view>
@@ -8,10 +9,11 @@
 
 <script>
 	import cardPictureList from '@/pages/order/components/card-pictureList/card-pictureList.vue';
-
+	import cardAddress from '@/pages/order/components/card-address/card-address.vue';
 	export default {
 		components: {
-			cardPictureList
+			cardPictureList,
+			cardAddress
 		},
 		componentPlaceholder: {},
 		options: {

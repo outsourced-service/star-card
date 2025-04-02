@@ -1,7 +1,7 @@
 <template>
 	<view class="card-picture-list">
-		<uv-collapse ref="collapse" :value="['1']" :border="false">
-			<uv-collapse-item title="卡牌信息" name="1" :border="true">
+		<uv-collapse ref="collapse" :value="value" :border="false" @close="onClose" @open="onOpen">
+			<uv-collapse-item title="卡牌信息" name="1" :border="value.includes('1')">
 				<template #label>
 					<view v-if="label === '已出分'" class="label justify-center align-center"
 						style="display: inline-flex;gap:2px;background: #FEA80033;">
@@ -16,7 +16,7 @@
 						<text>{{label}}</text>
 					</view>
 				</template>
-				<view class="picture-container flex-row" style="gap:10px;">
+				<view class="picture-container flex-row" style="gap:10px;padding-bottom: 32rpx;">
 					<uv-image v-for="(item,index) in displayUrls" :key="index" :src="ImageFormatWebp(item)"
 						mode="aspectFit" width="90px" height="90px" bgColor="#F2F3F6" webp radius="8px"
 						@click="$previewImage({current:index,urls:urls})" />
@@ -50,7 +50,7 @@
 		},
 		data() {
 			return {
-
+value: ['1']
 			};
 		},
 		computed: {
@@ -70,6 +70,12 @@
 			handlePictureClick(index) {
 				// 点击图片时的处理逻辑
 				this.$emit('picture-click', index);
+			},
+			onOpen(v) {
+				this.value.push(v)
+			},
+			onClose(v) {
+				this.value = this.value.find(i => i != v) || []
 			}
 		}
 	}
@@ -81,8 +87,6 @@
 		min-height: 62.98rpx;
 		border-radius: 32rpx;
 		box-shadow: 0px 2px 8px 0px #0000001A;
-		padding: 38.17rpx 0 30.53rpx;
-
 
 		::v-deep .uv-cell__body {
 			padding: 38.17rpx 22.9rpx 22.9rpx 22.9rpx;
