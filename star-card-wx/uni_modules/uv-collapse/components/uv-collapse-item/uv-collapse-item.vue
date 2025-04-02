@@ -91,7 +91,6 @@
 			this.elId = this.$uv.guid();
 		},
 		mounted() {
-			console.log(this.$slots)
 			this.init()
 		},
 		methods: {
