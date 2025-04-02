@@ -83,7 +83,7 @@
 				};
 				!this.type && (style.color = this.color);
 				this.isNvue && this.lines && (style.lines = this.lines);
-				if (this.isNvue && this.mode != 'price' && !this.prefixIcon && !this.suffixIcon) {
+				if (this.isNvue && this.mode != 'price' && !this.prefixIcon && !this.suffixIcon ) {
 					style.flex = 1;
 					style.textAlign = this.align === 'left' ? 'flex-start' : this.align === 'center' ? 'center' : 'right';
 				}
