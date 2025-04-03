@@ -199,6 +199,11 @@
 				"style": {
 					"navigationBarTitleText": "支付宝支付"
 				}
+			}, {
+				"path": "index/index",
+				"style": {
+					"navigationBarTitleText": "订单详情"
+				}
 			}]
 		},
 		{
