@@ -18,7 +18,7 @@
 					<uv-image v-for="(item, index) in displayUrls" :key="index" :src="ImageFormatWebp(item)"
 						mode="aspectFit" width="90px" height="90px" bgColor="#F2F3F6" webp radius="8px"
 						@click="$previewImage({ current: index, urls: urls })" />
-					<view v-if="urls.length - 3 > 0" class="more-pictures" @click="$previewImage({ urls: urls })">
+					<view v-if="urls.length - 3 > 0" class="more-pictures" @click="handleMore(urls)">
 						<uv-text :text="`+${urls.length - 3}`" align="center" size="22.9rpx" color="#000000A8"
 							line-height="30.53rpx" bold ></uv-text>
 					</view>
@@ -56,7 +56,12 @@ export default {
 			return this.urls.slice(0, 3);
 		}
 	},
+	emit: ['handleMoreCardInfo'],
 	methods: {
+		handleMore(urls) {
+			// $previewImage({ urls: urls })
+			this.$emit('handleMoreCardInfo')
+		},
 		ImageFormatWebp(src) {
 			// #ifdef MP-WEIXIN
 			return src + this.$ImageFormatWebp

@@ -14,9 +14,9 @@
 			<cardOrderInfo :orderInfo="orderInfo" @handleElectronicStub="handleElectronicStub"></cardOrderInfo>
 		</view>
 		<view class="container-other-info">
-			<cardPictureList></cardPictureList>
+			<cardPictureList @handleMoreCardInfo="handleMoreCardInfo"></cardPictureList>
 			<cardAddress></cardAddress>
-			<cardProgress></cardProgress>
+			<cardProgress @handleInspectionReport="handleInspectionReport"></cardProgress>
 		</view>
 	</view>
 </template>
@@ -56,6 +56,12 @@
 		},
 		emit: [],
 		methods: {
+			handleMoreCardInfo() {
+				
+			},
+			handleInspectionReport() {
+				
+			},
 			handleElectronicStub() {
 				
 			},

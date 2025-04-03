@@ -11,7 +11,7 @@
 						</template>
 						<template v-slot:title>
 							<view class="steps-active" v-if="current >= 0">
-								<view class="steps-active-title">订单创建，待用户寄出</view>
+								<view class="steps-active-title" :style="current == 0 ? 'color: rgba(254, 168, 0, 1); font-weight: 600;' : ''">订单创建，待用户寄出</view>
 								<view class="steps-active-time">2024-05-21</view>
 							</view>
 							<view class="steps-inactive" v-else>
@@ -31,7 +31,7 @@
 						</template>
 						<template v-slot:title>
 							<view class="steps-active" v-if="current >= 1">
-								<view class="steps-active-title">用户已寄出</view>
+								<view class="steps-active-title" :style="current == 1 ? 'color: rgba(254, 168, 0, 1); font-weight: 600;' : ''">用户已寄出</view>
 								<view class="steps-active-time">2024-05-21</view>
 							</view>
 							<view class="steps-inactive" v-else>
@@ -52,7 +52,7 @@
 						</template>
 						<template v-slot:title>
 							<view class="steps-active" v-if="current >= 2">
-								<view class="steps-active-title">快递已签收</view>
+								<view class="steps-active-title" :style="current == 2 ? 'color: rgba(254, 168, 0, 1); font-weight: 600;' : ''">快递已签收</view>
 								<view class="steps-active-time">2024-05-21</view>
 							</view>
 							<view class="steps-inactive" v-else>
@@ -72,7 +72,7 @@
 						</template>
 						<template v-slot:title>
 							<view class="steps-active" v-if="current >= 3">
-								<view class="steps-active-title">已拆包入库，订单准备中</view>
+								<view class="steps-active-title" :style="current == 3 ? 'color: rgba(254, 168, 0, 1); font-weight: 600;' : ''">已拆包入库，订单准备中</view>
 								<view class="steps-active-time">2024-05-21</view>
 							</view>
 							<view class="steps-inactive" v-else>
@@ -93,7 +93,7 @@
 						</template>
 						<template v-slot:title>
 							<view class="steps-active" v-if="current >= 4">
-								<view class="steps-active-title">已完成验品，待发车</view>
+								<view class="steps-active-title" :style="current == 4 ? 'color: rgba(254, 168, 0, 1); font-weight: 600;' : ''">已完成验品，待发车</view>
 								<view class="steps-active-time">2024-05-21</view>
 							</view>
 							<view class="steps-inactive" v-else>
@@ -101,7 +101,7 @@
 							</view>
 						</template>
 						<template v-slot:desc>
-							<view :class="current >= 4 ? 'steps-desc-button' : 'steps-desc-text'">
+							<view :class="current >= 4 ? 'steps-desc-button' : 'steps-desc-text'" @click="handleInspectionReport">
 								验品报告
 							</view>
 						</template>
@@ -114,7 +114,7 @@
 						</template>
 						<template v-slot:title>
 							<view class="steps-active" v-if="current >= 5">
-								<view class="steps-active-title">已发车, 待抵达评级机构</view>
+								<view class="steps-active-title" :style="current == 5 ? 'color: rgba(254, 168, 0, 1); font-weight: 600;' : ''">已发车, 待抵达评级机构</view>
 								<view class="steps-active-time">2024-05-21</view>
 							</view>
 							<view class="steps-inactive" v-else>
@@ -135,7 +135,7 @@
 						</template>
 						<template v-slot:title>
 							<view class="steps-active" v-if="current >= 6">
-								<view class="steps-active-title">抵达机构 Arrived</view>
+								<view class="steps-active-title" :style="current == 6 ? 'color: rgba(254, 168, 0, 1); font-weight: 600;' : ''">抵达机构 Arrived</view>
 								<view class="steps-active-time">2024-05-21</view>
 							</view>
 							<view class="steps-inactive" v-else>
@@ -155,7 +155,7 @@
 						</template>
 						<template v-slot:title>
 							<view class="steps-active" v-if="current >= 7">
-								<view class="steps-active-title">信息核对中 Research&ID</view>
+								<view class="steps-active-title" :style="current == 7 ? 'color: rgba(254, 168, 0, 1); font-weight: 600;' : ''">信息核对中 Research&ID</view>
 								<view class="steps-active-time">2024-05-21</view>
 							</view>
 							<view class="steps-inactive" v-else>
@@ -175,7 +175,7 @@
 						</template>
 						<template v-slot:title>
 							<view class="steps-active" v-if="current >= 8">
-								<view class="steps-active-title">评分中 Grading</view>
+								<view class="steps-active-title" :style="current == 8 ? 'color: rgba(254, 168, 0, 1); font-weight: 600;' : ''">评分中 Grading</view>
 								<view class="steps-active-time">2024-05-21</view>
 							</view>
 							<view class="steps-inactive" v-else>
@@ -195,7 +195,7 @@
 						</template>
 						<template v-slot:title>
 							<view class="steps-active" v-if="current >= 9">
-								<view class="steps-active-title">封装中 Assembly</view>
+								<view class="steps-active-title" :style="current == 9 ? 'color: rgba(254, 168, 0, 1); font-weight: 600;' : ''">封装中 Assembly</view>
 								<view class="steps-active-time">2024-05-21</view>
 							</view>
 							<view class="steps-inactive" v-else>
@@ -215,7 +215,7 @@
 						</template>
 						<template v-slot:title>
 							<view class="steps-active" v-if="current >= 10">
-								<view class="steps-active-title">已出分, 待机构寄回 Shipping</view>
+								<view class="steps-active-title" :style="current == 10 ? 'color: rgba(254, 168, 0, 1); font-weight: 600;' : ''">已出分, 待机构寄回 Shipping</view>
 								<view class="steps-active-time">2024-05-21</view>
 							</view>
 							<view class="steps-inactive" v-else>
@@ -235,7 +235,7 @@
 						</template>
 						<template v-slot:title>
 							<view class="steps-active" v-if="current >= 11">
-								<view class="steps-active-title">机构已寄出 Shipped</view>
+								<view class="steps-active-title" :style="current == 11 ? 'color: rgba(254, 168, 0, 1); font-weight: 600;' : ''">机构已寄出 Shipped</view>
 								<view class="steps-active-time">2024-05-21</view>
 							</view>
 							<view class="steps-inactive" v-else>
@@ -256,7 +256,7 @@
 						</template>
 						<template v-slot:title>
 							<view class="steps-active" v-if="current >= 12">
-								<view class="steps-active-title">抵达星卡仓库, 打包中</view>
+								<view class="steps-active-title" :style="current == 12 ? 'color: rgba(254, 168, 0, 1); font-weight: 600;' : ''">抵达星卡仓库, 打包中</view>
 								<view class="steps-active-time">2024-05-21</view>
 							</view>
 							<view class="steps-inactive" v-else>
@@ -277,7 +277,7 @@
 						</template>
 						<template v-slot:title>
 							<view class="steps-active" v-if="current >= 13">
-								<view class="steps-active-title">已寄回玩家</view>
+								<view class="steps-active-title" :style="current == 13 ? 'color: rgba(254, 168, 0, 1); font-weight: 600;' : ''">已寄回玩家</view>
 								<view class="steps-active-time">2024-05-21</view>
 							</view>
 							<view class="steps-inactive" v-else>
@@ -297,7 +297,7 @@
 						</template>
 						<template v-slot:title>
 							<view class="steps-active" v-if="current >= 14">
-								<view class="steps-active-title">玩家已签收，订单完成</view>
+								<view class="steps-active-title" :style="current == 14 ? 'color: rgba(254, 168, 0, 1); font-weight: 600;' : ''">玩家已签收，订单完成</view>
 								<view class="steps-active-time">2024-05-21</view>
 							</view>
 							<view class="steps-inactive" v-else>
@@ -366,8 +366,11 @@
 				]
 			};
 		},
+		emit: ['handleInspectionReport'],
 		methods: {
-			
+			handleInspectionReport() {
+				this.$emit('handleInspectionReport')
+			},
 			onOpen(v) {
 				this.value.push(v)
 			},
@@ -405,6 +408,16 @@
 					margin-right: 8rpx;
 				}
 			}
+		}
+		
+		::v-deep .uv-steps-item__content {
+			margin-left: 24rpx !important;
+			margin-top: 0 !important;
+		}
+		
+		::v-deep .uv-steps-item__content--column {
+			margin-left: 24rpx !important;
+			margin-top: 0 !important;
 		}
 	}
 	
