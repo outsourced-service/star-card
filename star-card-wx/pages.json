@@ -19,7 +19,10 @@
 				// "navigationStyle": "custom", // 隐藏系统导航栏
 				"navigationBarTextStyle": "black", // 状态栏字体为白色，只能为 white-白色，black-黑色 二选一
 				"componentPlaceholder": {
-					"card-picture-list": "view"
+					"card-picture-list": "view",
+					"card-address": "view",
+					"card-shop": "view",
+					"card-cardbook-horizontal-list": "view"
 				}
 			}
 		},
@@ -226,6 +229,7 @@
 			}]
 		}
 	],
+	"lazyCodeLoading": "requiredComponents",
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
@@ -235,7 +239,6 @@
 			"background": "#fff"
 		}
 	},
-	"lazyCodeLoading": "requiredComponents",
 	"easycom": {
 		"autoscan": true,
 		"custom": {}

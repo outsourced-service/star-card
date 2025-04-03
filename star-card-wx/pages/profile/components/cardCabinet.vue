@@ -53,6 +53,7 @@ export default {
 
 <style scoped lang="scss">
 .custom-card {
+  
   /* width: 738rpx; */ /* 369px * 2 */
   // height: 660rpx; /* 330px * 2 */
 }
