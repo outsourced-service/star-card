@@ -23,7 +23,7 @@
 					<uv-icon name="info-circle" color="rgba(224, 148, 0, 1)" size="32rpx" style="transform: rotate(180deg)"></uv-icon>
 					此订单存在补款，请尽快核实后支付
 				</view>
-				<view class="item-payment-right">去补款</view>
+				<view class="item-payment-right" @click="handleAdditionalPayment">去补款</view>
 			</view>
 		</view>
 	</view>
@@ -46,8 +46,11 @@
 			return {
 			}
 		},
-		emit: ['handleElectronicStub'],
+		emit: ['handleElectronicStub', 'handleAdditionalPayment'],
 		methods: {
+			handleAdditionalPayment() {
+				this.$emit('handleAdditionalPayment')
+			},
 			handleElectronicStub() {
 				this.$emit('handleElectronicStub')
 			},
