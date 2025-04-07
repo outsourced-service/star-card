@@ -4,7 +4,7 @@
 			<view class="card-top-left">订单已生成，请尽快寄出哟~</view>
 			<view class="card-top-right" @click="handleBack">修改订单</view>
 		</view>
-		<view class="package-card-item" :style="dynamicBackground">
+		<view class="package-card-item" :style="dynamicBackground" @click="handleToDetail">
 			<view class="card-item-logo">
 				<uv-image :src="evaluationData.order_logo_img.url" width="280rpx" height="56rpx"></uv-image>
 				<view class="item-logo-text">{{evaluationData.order_title}}</view>
@@ -65,7 +65,7 @@
 				<view class="item-price">
 					<view class="item-price-unit">￥</view>
 					<view class="item-price-num">{{ data.price }}</view>
-					<view class="item-price-text" @click="handleOpenDetail">查看明细</view>
+					<view class="item-price-text" @click.stop="handleOpenDetail">查看明细</view>
 				</view>
 			</view>
 			<view class="card-item-price" v-else-if="is_list">
@@ -73,7 +73,7 @@
 					订单号：{{data.order_id}}
 				</view>
 				<view class="item-price" v-if="data.status == '未入库'">
-					<view class="item-price-button" @click="handleMore(data.id)">更多</view>
+					<view class="item-price-button" @click.stop="handleMore(data.id)">更多</view>
 					<view class="item-price-button">继续填写</view>
 				</view>
 				<view class="item-price" v-else-if="data.process_status != '已付款'">
@@ -91,7 +91,7 @@
 				<view class="item-price">
 					<view class="item-price-unit">￥</view>
 					<view class="item-price-num-pay">{{ data.total_price || 0 }}</view>
-					<view class="item-price-text-pay" @click="handleOpenDetail">查看明细<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.66)" size="20rpx" bold></uv-icon></view>
+					<view class="item-price-text-pay" @click.stop="handleOpenDetail">查看明细<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.66)" size="20rpx" bold></uv-icon></view>
 				</view>
 			</view>
 		</view>
@@ -139,7 +139,7 @@
 			return {
 			}
 		},
-		emit: ['handleMore'],
+		emit: ['handleMore', 'handleToDetail'],
 		computed: {
 			dynamicBackground() {
 				// 动态设置背景图片
@@ -153,6 +153,11 @@
 			}
 		},
 		methods: {
+			handleToDetail() {
+				if(this.is_list) {
+					this.$emit('handleToDetail', this.data.id)
+				}
+			},
 			handleBack() {
 				this.$emit('handleBack')
 			},

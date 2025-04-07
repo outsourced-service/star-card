@@ -10,7 +10,7 @@
 			<uv-collapse :border="false" :value="openCollapse">
 				<uv-collapse-item v-for="(item, index) in data" :key="index" :title="item.title" :name="item?.id">
 					<ratingOrderCard :data="itemOrder" :is_list="true" :evaluationData="item.evaluation" :is_pay="false" :is_transaction="false"
-						v-for="(itemOrder, indexOrder) in item.order_info" :key="indexOrder" @handleMore="handleMore">
+						v-for="(itemOrder, indexOrder) in item.order_info" :key="indexOrder" @handleMore="handleMore" @handleToDetail="handleToDetail">
 					</ratingOrderCard>
 				</uv-collapse-item>
 			</uv-collapse>
@@ -101,6 +101,11 @@
 		emit: ['handleStatus', 'handleEvaluation'],
 		
 		methods: {
+			handleToDetail(id) {
+				uni.navigateTo({
+					url: '/pages/order/index/index?order_info_id=' + id
+				})
+			},
 			handlePayButton() {
 				uni.navigateTo({
 					url: '/pages/order/list/index'
