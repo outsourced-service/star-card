@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<view v-for="(item, index) in cardInfo" :key="index">
+		<view v-for="(item, index) in cardInfo" :key="index" @click="handleCard">
 			<view class="container-item">
 				<uv-image :src="item.image.url" width="200rpx" height="200rpx"></uv-image>
 				<view class="container-item-right">
@@ -49,8 +49,11 @@
 			return {
 			}
 		},
-		emit: [],
+		emit: ['handleCard'],
 		methods: {
+			handleCard() {
+				this.$emit('handleCard', this.cardInfo.id)
+			}
 		},
 		onLoad() {
 		},

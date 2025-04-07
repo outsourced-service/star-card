@@ -148,6 +148,11 @@
 				"style": {
 					"navigationBarTitleText": "卡牌子页面"
 				}
+			}, {
+				"path": "ratingCardDetail/index",
+				"style": {
+					"navigationBarTitleText": "评级卡详情"
+				}
 			}]
 		},
 		{

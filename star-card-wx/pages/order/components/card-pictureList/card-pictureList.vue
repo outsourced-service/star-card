@@ -56,7 +56,11 @@
 				return this.urls.slice(0, 3);
 			}
 		},
+		emit: ['handleMore'],
 		methods: {
+			handleMore() {
+				this.$emit('handleMore')
+			},
 			ImageFormatWebp(src) {
 				// #ifdef MP-WEIXIN
 				return src + this.$ImageFormatWebp

@@ -6,7 +6,7 @@
 		</view>
 		<view class="container-card" v-else>
 			<cardAlbum v-if="tab != '出分信息'"></cardAlbum>
-			<cardReleaseScores v-else></cardReleaseScores>
+			<cardReleaseScores v-else @handleCard="handleCard"></cardReleaseScores>
 		</view>
 	</view>
 </template>
@@ -40,6 +40,11 @@
 		},
 		emit: [],
 		methods: {
+			handleCard() {
+				uni.navigateTo({
+					url: '/pages/card/ratingCardDetail/index'
+				})
+			},
 			tabChange(name) {
 				this.tab = name
 			}

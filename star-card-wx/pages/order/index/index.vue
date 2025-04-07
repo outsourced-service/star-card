@@ -14,7 +14,7 @@
 			<cardOrderInfo :orderInfo="orderInfo" @handleElectronicStub="handleElectronicStub" @handleAdditionalPayment="handleAdditionalPayment"></cardOrderInfo>
 		</view>
 		<view class="container-other-info">
-			<cardPictureList @handleMoreCardInfo="handleMoreCardInfo"></cardPictureList>
+			<cardPictureList @handleMore="handleMoreCardInfo"></cardPictureList>
 			<cardAddress></cardAddress>
 			<cardProgress @handleInspectionReport="handleInspectionReport"></cardProgress>
 		</view>
