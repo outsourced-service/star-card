@@ -20,7 +20,7 @@
 						@click="$previewImage({ current: index, urls: urls })" />
 					<view v-if="urls.length - 3 > 0" class="more-pictures" @click="$previewImage({ urls: urls })">
 						<uv-text :text="`+${urls.length - 3}`" align="center" size="22.9rpx" color="#000000A8"
-							line-height="30.53rpx" bold ></uv-text>
+							line-height="30.53rpx" bold></uv-text>
 					</view>
 				</view>
 			</uv-collapse-item>
@@ -29,113 +29,113 @@
 </template>
 
 <script>
-export default {
-	name: "card-pictureList",
-	props: {
-		urls: {
-			type: Array,
-			default: () => new Array(10).fill(
-				"https://s3-alpha-sig.figma.com/img/9fd0/d949/91f3db9af898cb3ff3578de1f7b2340e?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=tiwAlSnQMGhmwzbalTJ-Az-MnvYt6E-NHBpZe8Gkk4Uh9BiNMYhEI5bGuTa6LJcip0MaoDbdlmIc3SXplfiIm7POyV4SzgA1UjjOYsbzV75uu1Z7dobO4sWnIW9wNmjm6vF1-KOvmBk3pe8VuJHiPNPDLHCifQrMfOmlchyWwHSLUZ2itrP0u5qFe6DlbGp~Zl4zfUEeYt8dKe-krh8TPj58dTuBdGqGvybUMchiDlciSQ9TrOU9Hl4-WTuU5DcmPmPuHcFBu1v0JrVxpdUGlYw4QSjPEN00OS6~jL8mSYTKBxvcSKlytdsITZQdobCL2WK904PeHohWVc-3Jkhk8w__"
-			)
+	export default {
+		name: "card-pictureList",
+		props: {
+			urls: {
+				type: Array,
+				default: () => new Array(10).fill(
+					"https://s3-alpha-sig.figma.com/img/9fd0/d949/91f3db9af898cb3ff3578de1f7b2340e?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=tiwAlSnQMGhmwzbalTJ-Az-MnvYt6E-NHBpZe8Gkk4Uh9BiNMYhEI5bGuTa6LJcip0MaoDbdlmIc3SXplfiIm7POyV4SzgA1UjjOYsbzV75uu1Z7dobO4sWnIW9wNmjm6vF1-KOvmBk3pe8VuJHiPNPDLHCifQrMfOmlchyWwHSLUZ2itrP0u5qFe6DlbGp~Zl4zfUEeYt8dKe-krh8TPj58dTuBdGqGvybUMchiDlciSQ9TrOU9Hl4-WTuU5DcmPmPuHcFBu1v0JrVxpdUGlYw4QSjPEN00OS6~jL8mSYTKBxvcSKlytdsITZQdobCL2WK904PeHohWVc-3Jkhk8w__"
+				)
+			},
+			label: {
+				type: String,
+				default: "已出分"
+			}
 		},
-		label: {
-			type: String,
-			default: "已出分"
-		}
-	},
-	options: {
-		styleIsolation: 'shared'
-	},
-	data() {
-		return {
-			value: ['1']
-		};
-	},
-	computed: {
-		displayUrls() {
-			return this.urls.slice(0, 3);
-		}
-	},
-	methods: {
-		ImageFormatWebp(src) {
-			// #ifdef MP-WEIXIN
-			return src + this.$ImageFormatWebp
-			// #endif
-			// #ifndef MP-WEIXIN
-			return src
-			// #endif
+		options: {
+			styleIsolation: 'shared'
 		},
-		handlePictureClick(index) {
-			// 点击图片时的处理逻辑
-			this.$emit('picture-click', index);
+		data() {
+			return {
+				value: ['1'],
+			};
 		},
-		onOpen(v) {
-			this.value.push(v)
+		computed: {
+			displayUrls() {
+				return this.urls.slice(0, 3);
+			}
 		},
-		onClose(v) {
-			this.value = this.value.find(i => i != v) || []
-		}
-	}
-}
-</script>
-
-<style lang="scss">
-.card-picture-list {
-	width: 100%;
-	min-height: 62.98rpx;
-	border-radius: 32rpx;
-	box-shadow: 0px 2px 8px 0px #0000001A;
-
-	::v-deep .uv-collapse-item__content__text {
-		padding: 16px;
-	}
-
-	::v-deep .uv-cell__body {
-		padding: 38.17rpx 22.9rpx 22.9rpx 22.9rpx;
-
-		.uv-cell__title {
-			flex-direction: row;
-			align-items: center;
-
-			.uv-cell__title-text {
-				color: #000000FC;
-				font-family: PingFang SC;
-				font-weight: 600;
-				font-size: 32rpx;
-				line-height: 40.08rpx;
-				margin-right: 8rpx;
+		methods: {
+			ImageFormatWebp(src) {
+				// #ifdef MP-WEIXIN
+				return src + this.$ImageFormatWebp
+				// #endif
+				// #ifndef MP-WEIXIN
+				return src
+				// #endif
+			},
+			handlePictureClick(index) {
+				// 点击图片时的处理逻辑
+				this.$emit('picture-click', index);
+			},
+			onOpen(v) {
+				this.value.push(v)
+			},
+			onClose(v) {
+				this.value = this.value.find(i => i != v) || []
 			}
 		}
 	}
+</script>
 
-	.picture-container {
-		position: relative;
+<style lang="scss">
+	.card-picture-list {
+		width: 100%;
+		min-height: 62.98rpx;
+		border-radius: 32rpx;
+		box-shadow: 0px 2px 8px 0px #0000001A;
+
+		::v-deep .uv-collapse-item__content__text {
+			padding: 16px;
+		}
+
+		::v-deep .uv-cell__body {
+			padding: 38.17rpx 22.9rpx 22.9rpx 22.9rpx;
+
+			.uv-cell__title {
+				flex-direction: row;
+				align-items: center;
+
+				.uv-cell__title-text {
+					color: #000000FC;
+					font-family: PingFang SC;
+					font-weight: 600;
+					font-size: 32rpx;
+					line-height: 40.08rpx;
+					margin-right: 8rpx;
+				}
+			}
+		}
+
+		.picture-container {
+			position: relative;
+		}
+
+		.more-pictures {
+			flex: 1;
+			max-width: 89.69rpx;
+			background: #F2F3F6;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+		}
+
+		.label {
+			padding: 6rpx 19.08rpx;
+			width: fit-content;
+			height: fit-content;
+			min-height: 36.26rpx;
+			border-radius: 1000px;
+			gap: 3px;
+			background: #00000008;
+			font-family: PingFang SC;
+			font-weight: 400;
+			font-size: 20.99rpx;
+			letter-spacing: 0.06px;
+			color: #00000054;
+			margin-left: 7.63rpx;
+		}
 	}
-
-	.more-pictures {
-		flex: 1;
-		max-width: 89.69rpx;
-		background: #F2F3F6;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-	}
-
-	.label {
-		padding: 6rpx 19.08rpx;
-		width: fit-content;
-		height: fit-content;
-		min-height: 36.26rpx;
-		border-radius: 1000px;
-		gap: 3px;
-		background: #00000008;
-		font-family: PingFang SC;
-		font-weight: 400;
-		font-size: 20.99rpx;
-		letter-spacing: 0.06px;
-		color: #00000054;
-		margin-left: 7.63rpx;
-	}
-}
 </style>

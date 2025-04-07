@@ -63,11 +63,7 @@ export default {
 			value: ['1']
 		};
 	},
-	computed: {
-		displayUrls() {
-			return this.urls.slice(0, 3);
-		},
-	},
+	computed: {},
 	methods: {
 		success(res) {
 			uni.showToast({
