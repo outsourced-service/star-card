@@ -12,9 +12,7 @@
 							<text>{{ address.addressInfo }}</text>
 						</view>
 
-						<image class="cursor-pointer"
-							src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCQkJCQkJCTxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIgoJCQkJCQkJCWQ9Ik0xMS41ODI4IDIuMDM3NUMxMi4wNzEgMS41NDkzNSAxMi44NjI0IDEuNTQ5MzUgMTMuMzUwNiAyLjAzNzVMMTUuNjc3OSA0LjM2NDg3QzE2LjE2NjEgNC44NTMwMyAxNi4xNjYxIDUuNjQ0NDggMTUuNjc3OSA2LjEzMjY0TDcuMTU3MTcgMTQuNjUzNEM2Ljk1ODI1IDE0Ljg1MjMgNi42OTgwNSAxNC45NzgzIDYuNDE4NjQgMTUuMDExMUwzLjg5OTA4IDE1LjMwNkMzLjExODMgMTUuMzk3NSAyLjQ0Nzk2IDE0Ljc1NCAyLjUwNzI5IDEzLjk3MDJMMi43MDYzIDExLjM0MUMyLjcyODg2IDExLjA0MjkgMi44NTc0OCAxMC43NjI4IDMuMDY4ODUgMTAuNTUxNUwxMS41ODI4IDIuMDM3NVpNMTAuOTYxNSA1LjAxNTg1TDEyLjY5OTYgNi43NTM5NkwxNC4yMDQ4IDUuMjQ4NzZMMTIuNDY2NyAzLjUxMDY0TDEwLjk2MTUgNS4wMTU4NVpNMTEuNTIxMSA3LjkzMjQ4TDkuNzgyOTggNi4xOTQzNkw0LjM1NjU2IDExLjYyMDhMNC4yMDczNiAxMy41OTE5TDYuMDgxMDMgMTMuMzcyNUwxMS41MjExIDcuOTMyNDhaTTE3LjUgMTguMzMzMkwyLjUgMTguMzMzMlYxNi42NjY1TDE3LjUgMTYuNjY2NVYxOC4zMzMyWiIKCQkJCQkJCQlmaWxsPSIjRkVBODAwIiAvPgoJCQkJCQk8L3N2Zz4="
-							style="width: 40rpx; height: 40rpx;" @click="$emit('edit')" />
+						<icon-base64 name="edit" iconStyle="width: 40rpx; height: 40rpx;" @onClick="$emit('edit')" />
 					</view>
 					<uv-line dashed></uv-line>
 					<view class="flex-row align-center">
@@ -25,9 +23,8 @@
 								success: success
 							})">
 							<template #suffixIcon>
-								<image class="cursor-pointer"
-									src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyBjbGFzcz0iY3Vyc29yLXBvaW50ZXIiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDEyIDEyIiBmaWxsPSJub25lIgoJCQkJCQkJCQl4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgoJCQkJCQkJCQk8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIKCQkJCQkJCQkJCWQ9Ik05LjUgMkg1VjFIOS41QzEwLjA1MjMgMSAxMC41IDEuNDQ3NzIgMTAuNSAyVjcuNUg5LjVWMlpNMS41IDRDMS41IDMuNDQ3NzIgMS45NDc3MSAzIDIuNSAzSDcuNUM4LjA1MTIzIDMgOC41IDMuNDQ1ODYgOC41IDMuOTk5MTlWMTAuMDAyMUM4LjUgMTAuNTU2MyA4LjA1MSAxMSA3LjUwMDY1IDExSDIuNDk4ODhDMS45NDUxMyAxMSAxLjUgMTAuNTUwOCAxLjUgMTBWNFpNNy41IDRIMi41VjEwSDcuNVY0WiIKCQkJCQkJCQkJCWZpbGw9ImJsYWNrIiBmaWxsLW9wYWNpdHk9IjAuNDQiIC8+CgkJCQkJCQkJPC9zdmc+"
-									style="width: 24rpx; height: 24rpx;margin-left: 9.54rpx;" @click="$emit('edit')" />
+								<icon-base64 name="cody"
+									iconStyle="width: 24rpx; height: 24rpx;margin-left: 9.54rpx;" />
 							</template>
 						</uv-text>
 					</view>
