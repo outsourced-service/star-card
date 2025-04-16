@@ -27,45 +27,45 @@
 			</view>
 			<view class="info-text tag">
 				<text v-for="(item, index) in shopInfo.service" :key="index">{{ item }}</text>
-			</view>
-		</view>
+							</view>
+						</view>
 		<view class="info-item">
 			<view class="info-title">
 				<image
 					src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIKICAgICAgICAgICAgICAgICAgICAgICAgZD0iTTIuMDQxNzEgMS40NTgzNEMxLjcxOTU0IDEuNDU4MzQgMS40NTgzNyAxLjcxOTUxIDEuNDU4MzcgMi4wNDE2OFY1LjgzMzM0QzEuNDU4MzcgNi4xNTU1MSAxLjcxOTU0IDYuNDE2NjggMi4wNDE3MSA2LjQxNjY4SDUuODMzMzdDNi4xNTU1NCA2LjQxNjY4IDYuNDE2NzEgNi4xNTU1MSA2LjQxNjcxIDUuODMzMzRWMi4wNDE2OEM2LjQxNjcxIDEuNzE5NTEgNi4xNTU1NCAxLjQ1ODM0IDUuODMzMzcgMS40NTgzNEgyLjA0MTcxWk0yLjYyNTA0IDUuMjUwMDFWMi42MjUwMUg1LjI1MDA0VjUuMjUwMDFIMi42MjUwNFpNOC4xNjY3MSAxLjQ1ODM0QzcuODQ0NTQgMS40NTgzNCA3LjU4MzM3IDEuNzE5NTEgNy41ODMzNyAyLjA0MTY4VjUuODMzMzRDNy41ODMzNyA2LjE1NTUxIDcuODQ0NTQgNi40MTY2OCA4LjE2NjcxIDYuNDE2NjhIMTEuOTU4NEMxMi4yODA1IDYuNDE2NjggMTIuNTQxNyA2LjE1NTUxIDEyLjU0MTcgNS44MzMzNFYyLjA0MTY4QzEyLjU0MTcgMS43MTk1MSAxMi4yODA1IDEuNDU4MzQgMTEuOTU4NCAxLjQ1ODM0SDguMTY2NzFaTTguNzUwMDQgNS4yNTAwMVYyLjYyNTAxSDExLjM3NVY1LjI1MDAxSDguNzUwMDRaTTEuNDU4MzcgOC4xNjY2OEMxLjQ1ODM3IDcuODQ0NTEgMS43MTk1NCA3LjU4MzM0IDIuMDQxNzEgNy41ODMzNEg1LjgzMzM3QzYuMTU1NTQgNy41ODMzNCA2LjQxNjcxIDcuODQ0NTEgNi40MTY3MSA4LjE2NjY4VjExLjk1ODNDNi40MTY3MSAxMi4yODA1IDYuMTU1NTQgMTIuNTQxNyA1LjgzMzM3IDEyLjU0MTdIMi4wNDE3MUMxLjcxOTU0IDEyLjU0MTcgMS40NTgzNyAxMi4yODA1IDEuNDU4MzcgMTEuOTU4M1Y4LjE2NjY4Wk0yLjYyNTA0IDguNzUwMDFWMTEuMzc1SDUuMjUwMDRWOC43NTAwMUgyLjYyNTA0Wk04LjE2NjcxIDcuNTgzMzRDNy44NDQ1NCA3LjU4MzM0IDcuNTgzMzcgNy44NDQ1MSA3LjU4MzM3IDguMTY2NjhWMTEuOTU4M0M3LjU4MzM3IDEyLjI4MDUgNy44NDQ1NCAxMi41NDE3IDguMTY2NzEgMTIuNTQxN0gxMS45NTg0QzEyLjI4MDUgMTIuNTQxNyAxMi41NDE3IDEyLjI4MDUgMTIuNTQxNyAxMS45NTgzVjguMTY2NjhDMTIuNTQxNyA3Ljg0NDUxIDEyLjI4MDUgNy41ODMzNCAxMS45NTg0IDcuNTgzMzRIOC4xNjY3MVpNOC43NTAwNCAxMS4zNzVWOC43NTAwMUgxMS4zNzVWMTEuMzc1SDguNzUwMDRaIgogICAgICAgICAgICAgICAgICAgICAgICBmaWxsPSJ3aGl0ZSIgZmlsbC1vcGFjaXR5PSIwLjgiIC8+CiAgICAgICAgICAgICAgICA8L3N2Zz4="
 					style="width: 14px; height: 14px;" />
 				<text>经营类别</text>
-			</view>
+					</view>
 			<view class="info-text tag">
 				<text v-for="(item, index) in shopInfo.category" :key="index">{{ item }}</text>
-			</view>
-		</view>
+					</view>
+				</view>
 	</view>
 </template>
 
 <script>
-export default {
+	export default {
 	name: "card-shop",
-	props: {
+		props: {
 		shopInfo: {
-			type: Object,
-			default: () => ({
+				type: Object,
+				default: () => ({
 				address: '广东省深圳市南山区桃源街道丽山路12号暴泰丹华园一期2A2D',
 				openingHours: ['10:00', '22:00'],
 				service: ['宝可梦', '瑜伽', '足疗'],
 				category: ['评测', '开盒', 'Ptcg道馆', '代卖']
-			})
-		}
-	},
-	options: {
-		styleIsolation: 'shared'
-	},
-	data() {
+				})
+			}
+		},
+		options: {
+			styleIsolation: 'shared'
+		},
+		data() {
 		return {};
 	},
 	computed: {},
 	methods: {}
-}
+	}
 </script>
 
 <style lang="scss">
@@ -78,12 +78,12 @@ export default {
 	gap: 10px;
 	background: #0000001A;
 	backdrop-filter: blur(8px);
-	width: 100%;
+		width: 100%;
 	min-height: 40px;
 
 	text {
-		font-family: PingFang SC;
-		font-weight: 600;
+					font-family: PingFang SC;
+					font-weight: 600;
 		font-size: 24rpx;
 		line-height: 40rpx;
 		letter-spacing: -0.46rpx;
@@ -125,10 +125,10 @@ export default {
 				font-size: 22rpx;
 				line-height: 26rpx;
 				letter-spacing: 0.06px;
-				vertical-align: middle;
+					vertical-align: middle;
 				color: #FFFFFFCC;
+			}
 			}
 		}
 	}
-}
 </style>
