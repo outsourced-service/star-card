@@ -9,7 +9,7 @@ export const getOrderList = async (params: any) => {
 		where: params.where,
 		fields: ['id', 'mode', 'title', 'exp_time', 'evaluation_name', {
 			name: 'evaluation',
-			fields: ['id type name logo{id url} order_logo_img{id url} cover{id url} img{id url} exp_time order_title province city area ui_color_one ui_color_two']
+			fields: ['id type name logo{id url} order_logo_img{id url} cover{id url} img{id url} exp_time order_title province city area ui_color_one ui_color_two style_config']
 		}]
 	}, {isReqLoading: false});
 };
@@ -46,7 +46,7 @@ export const getOrderAllList = async (params: any) => {
 			// 		name: params.evaluationName ? { _ilike: `%${params.evaluationName}%` } : {}
 			// 	}
 			// },
-			fields: ['id type name logo{id url} order_logo_img{id url} cover{id url} img{id url} exp_time order_title province city area ui_color_one ui_color_two']
+			fields: ['id type name logo{id url} order_logo_img{id url} cover{id url} img{id url} exp_time order_title province city area ui_color_one ui_color_two style_config']
 		}]
 	}, {isReqLoading: false});
 };
@@ -83,7 +83,7 @@ export const getOrderInfoDetail = async (id: number) => {
 			fields: ['id img{id url}']
 		}, {
 			name: 'evaluation',
-			fields: ['id type name logo{id url} order_logo_img{id url} cover{id url} img{id url} exp_time order_title province city area ui_color_one ui_color_two']
+			fields: ['id type name logo{id url} order_logo_img{id url} cover{id url} img{id url} exp_time order_title province city area ui_color_one ui_color_two style_config']
 		}]
 	}, {isReqLoading: false});
 };

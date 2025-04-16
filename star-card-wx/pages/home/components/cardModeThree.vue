@@ -30,7 +30,7 @@
       </template>
       <view class="horizontal-list">
         <view class="list-container">
-			<cardModeOne v-for="(ite, index1) in item.card_list" :key="index1" :data="ite"></cardModeOne>
+			<cardModeOne v-for="(ite, index1) in item.card_list" :key="index1" :data="ite" :is_group="true" class="list-container-item"></cardModeOne>
         </view>
       </view>
     </uni-card>
@@ -148,5 +148,9 @@ export default {
   display: flex;
   flex-direction: row;
   gap: 20rpx; /* 10px * 2 */
+}
+
+.list-container-item {
+	width: 238rpx !important;
 }
 </style>

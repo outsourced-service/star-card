@@ -99,7 +99,6 @@
 			}
 		},
 		emit: ['handleStatus', 'handleEvaluation'],
-		
 		methods: {
 			handleToDetail(id) {
 				uni.navigateTo({
@@ -149,7 +148,7 @@
 		},
 		mounted() {
 			// #ifndef WEB
-			// this.offsetTop = this.$system.BarHeight();
+			this.offsetTop = this.$system.BarHeight();
 			// #endif
 			this.offsetBottom = this.$system.safeHeight() + 154
 		}
@@ -159,14 +158,14 @@
 <style scoped lang="scss">
 	.page {
 		width: 100vw;
-		background-color: #f6f7f9;
 	}
 
 	.page-list {
 		display: flex;
 		flex-direction: column;
-		padding: 28rpx 0;
-		margin-bottom: 108rpx;
+		padding-top: 28rpx;
+		padding-bottom: 108rpx;
+		background-color: #f6f7f9;
 	}
 
 	.popup-page {

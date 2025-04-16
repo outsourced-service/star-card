@@ -8,7 +8,7 @@
 					<view class="left-conter-id">星卡号：{{data.user_ID}}<uv-image src="https://img.picui.cn/free/2025/03/18/67d95845056cc.png" mode="scaleToFill" width="24rpx" height="24rpx"/></view>
 				</view>
 			</view>
-			<view class="page-top-right">
+			<view class="page-top-right" @click="handleHomepage">
 				<uv-image src="https://img.picui.cn/free/2025/03/18/67d958b22dd59.png" mode="scaleToFill" width="28rpx" height="28rpx"/>我的主页
 			</view>
 		</view>
@@ -62,6 +62,11 @@
 	    }
 	  },
 	  methods: {
+		  handleHomepage() {
+			  uni.navigateTo({
+				  url: '/pages/profile/index/index'
+			  })
+		  }
 	  },
 	  options: {
 	    styleIsolation: 'shared'

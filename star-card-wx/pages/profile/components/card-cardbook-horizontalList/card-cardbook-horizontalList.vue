@@ -56,7 +56,7 @@
 	.horizontal-list {
 		width: 100%;
 		min-height: 20px;
-		background: #000;
+		// background: #000;
 
 		.card-list {
 			min-width: 100%;

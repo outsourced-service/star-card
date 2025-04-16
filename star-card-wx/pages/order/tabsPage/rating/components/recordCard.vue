@@ -28,7 +28,7 @@
 
 <style lang="scss" scoped>
 	.record-page {
-		background: rgba(254, 189, 61, 1);
+		// background: rgba(254, 189, 61, 1);
 		padding: 32rpx 40rpx 72rpx 40rpx;
 		margin-bottom: -40rpx;
 	}

@@ -38,7 +38,7 @@
 			"path": "pages/tabel/order/order",
 			"style": {
 				"navigationBarTitleText": "订单",
-				// "navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationStyle": "custom", // 隐藏系统导航栏
 				"navigationBarTextStyle": "black", // 状态栏字体为白色，只能为 white-白色，black-黑色 二选一
 				"navigationBarBackgroundColor": "#ffffff",
 				"enablePullDownRefresh": true,
@@ -153,6 +153,17 @@
 				"style": {
 					"navigationBarTitleText": "评级卡详情"
 				}
+			}, {
+				"path": "album/index",
+				"style": {
+					"navigationBarTitleText": "",
+					"navigationStyle": "custom" // 隐藏系统导航栏
+				}
+			}, {
+				"path": "album/add",
+				"style": {
+					"navigationBarTitleText": "添加卡牌"
+				}
 			}]
 		},
 		{
@@ -217,6 +228,11 @@
 				"style": {
 					"navigationBarTitleText": "卡牌信息"
 				}
+			}, {
+				"path": "index/electronicStub",
+				"style": {
+					"navigationBarTitleText": "电子存根"
+				}
 			}]
 		},
 		{
@@ -235,6 +251,23 @@
 				"path": "address/edit",
 				"style": {
 					"navigationBarTitleText": "添加新地址"
+				}
+			}, {
+				"path": "index/index",
+				"style": {
+					"navigationBarTitleText": "",
+					"navigationStyle": "custom" // 隐藏系统导航栏
+				}
+			}, {
+				"path": "edit/index",
+				"style": {
+					"navigationBarTitleText": "编辑资料"
+				}
+			}, {
+				"path": "edit/edit",
+				"style": {
+					"navigationBarTitleText": "",
+					"navigationStyle": "custom" // 隐藏系统导航栏
 				}
 			}]
 		}

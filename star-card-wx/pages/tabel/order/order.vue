@@ -1,7 +1,7 @@
 <template>
-	<view class="width-full height-full" style="background-color: #F6F7F9;">
+	<view class="oder-list-page width-full height-full" style="background: linear-gradient(180deg, #FEA800 -9.82%, #FFEECC 21.04%);">
 		<!-- 顶部导航栏 -->
-		<!-- <navbar title='订单列表' fixed bgColor="#fff"></navbar> -->
+		<navbar title='订单列表' fixed :bgColor="bgColor"></navbar>
 		<!-- <navbar title='订单列表' fixed bgColor="#fff"></navbar> -->
 		<!-- 标签页 -->
 		<!-- <view class="justify-center">
@@ -59,7 +59,8 @@
 				status: '未入库',
 				evaluation: '全部',
 				openCollapse: [],
-				is_stickyBg: false
+				is_stickyBg: false,
+				bgColor: 'rgba(0,0,0,0)'
 			}
 		},
 		methods: {
@@ -163,8 +164,19 @@
 			} else {
 				this.is_stickyBg = false
 			}
-		},
+			if(scrollTop) {
+				this.bgColor = '#fff'
+			} else {
+				this.bgColor = 'rgba(0,0,0,0)'
+			}
+		}
 	}
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+	.oder-list-page {
+		::v-deep .uv-tabbar {
+			background-color: #f6f7f9;
+		}
+	}
+</style>

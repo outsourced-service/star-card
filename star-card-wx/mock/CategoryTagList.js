@@ -78,3 +78,18 @@ export const orderTabList = [
     ]
   }
 ]
+
+export const homeTabList = [
+  { name: '卡柜',
+    tagList: [
+      { name: '卡牌' },
+      { name: '卡册' }
+    ]
+  },
+  { name: '收藏',
+    tagList: [
+      { name: '卡牌' },
+      { name: '卡册' }
+    ]
+  }
+]

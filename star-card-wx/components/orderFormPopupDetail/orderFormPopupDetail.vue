@@ -1,6 +1,6 @@
 <template>
-	<view class="popup-page">
-		<view class="popup-page-top">
+	<view class="popup-page" :style="is_only_detail ? 'padding: 32rpx' : ''">
+		<view class="popup-page-top" v-if="!is_only_detail">
 			<view class="page-top-title">
 				订单明细
 				<uv-icon name="question-circle" color="rgba(0, 0, 0, 0.2)" size="32rpx" bold></uv-icon>
@@ -10,7 +10,7 @@
 			</view>
 		</view>
 		<view class="popup-page-info">
-			<view class="page-info-card">
+			<view class="page-info-card" v-if="!is_only_detail">
 				<view class="page-label-title">
 					服务信息
 				</view>
@@ -45,7 +45,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="page-info-formdata">
+			<view class="page-info-formdata" :style="is_only_detail ? 'gap: 24rpx' : ''">
 				<view class="info-formdata-other">
 					<view class="info-formdata-item">
 						<view class="page-label-title">优惠减免</view>
@@ -60,7 +60,7 @@
 						</view>
 					</view>
 				</view>
-				<view class="info-formdata-line"></view>
+				<view :class="is_only_detail ? 'info-formdata-line-or' : 'info-formdata-line'"></view>
 				<view class="info-formdata-other">
 					<view class="info-formdata-item">
 						<view class="page-label-title">评级费用</view>
@@ -82,7 +82,7 @@
 						</view>
 					</view>
 				</view>
-				<view class="info-formdata-line"></view>
+				<view :class="is_only_detail ? 'info-formdata-line-or' : 'info-formdata-line'"></view>
 				<view class="info-formdata-other">
 					<view class="info-formdata-item">
 						<view class="page-label-title">附加服务</view>
@@ -130,6 +130,10 @@
 				type: Object,
 				required: true,
 				default: () => ({}),
+			},
+			is_only_detail: {
+				type: Boolean,
+				default: () => (false)
 			}
 		},
 		data() {
@@ -280,6 +284,10 @@
 	
 	.info-formdata-line {
 		border-top: 2rpx dashed rgba(142, 142, 147, 1);
+	}
+	
+	.info-formdata-line-or {
+		border-top: 2rpx dashed rgba(229, 229, 234, 1);
 	}
 	
 	.info-formdata-other {

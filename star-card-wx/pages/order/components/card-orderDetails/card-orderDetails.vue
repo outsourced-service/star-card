@@ -30,38 +30,42 @@
 			orderDetails: {
 				type: Object,
 				default: () => ({
-					送评批次: '5月31日批次',
-					送评机构: 'PSA中国送',
-					送评服务: '慢速增值ValueBulk/卡品+签字双评/超过一行折行显示与【送评服务】标题间隔20px',
-					张数: '43张',
-					补款: '¥880',
-					订单号: '20389724896856'
+					// 送评批次: '5月31日批次',
+					// 送评机构: 'PSA中国送',
+					// 送评服务: '慢速增值ValueBulk/卡品+签字双评/超过一行折行显示与【送评服务】标题间隔20px',
+					// 张数: '43张',
+					// 补款: '¥880',
+					// 订单号: '20389724896856'
 				})
 			},
 			paymentDetails: {
 				type: Object,
 				default: () => ({
-					总价: '¥5000',
-					补款: '¥880',
-					订单号: '20389724896856',
-					下单微信: 'starry_card',
-					下单手机号: '18676726591',
-					支付方式: '-',
-					下单时间: '2024-04-01 01:36:16',
-					支付时间: '2024-04-01 01:36:16',
-					支付时间补款: '2024-04-01 01:36:16',
-					完成时间: '-'
+					// 总价: '¥5000',
+					// 补款: '¥880',
+					// 订单号: '20389724896856',
+					// 下单微信: 'starry_card',
+					// 下单手机号: '18676726591',
+					// 支付方式: '-',
+					// 下单时间: '2024-04-01 01:36:16',
+					// 支付时间: '2024-04-01 01:36:16',
+					// 支付时间补款: '2024-04-01 01:36:16',
+					// 完成时间: '-'
 				})
 			},
 			cardDetails: {
 				type: Object,
 				default: () => new Array(3).fill({
-					标题: '2023 Critical Blow #BT22138 Bursting Rage SEC ritical Blow #BT',
-					卡牌编号: '0016807181',
-					卡品: 'NEAR MINT 8',
-					签字: 'AUTO 10',
-					价格: '¥440',
-				}),
+					// 标题: '2023 Critical Blow #BT22138 Bursting Rage SEC ritical Blow #BT',
+					// 卡牌编号: '0016807181',
+					// 卡品: 'NEAR MINT 8',
+					// 签字: 'AUTO 10',
+					// 价格: '¥440',
+				})
+			},
+			title: {
+				type: String,
+				default: () => '订单明细'
 			}
 		},
 		data: () => {
@@ -99,7 +103,7 @@
 		computed: {
 			dataCard() {
 				const arr = [];
-				if (this.orderDetails) {
+				if (this.orderDetails && (this.title == '订单明细' || this.title == '补款明细')) {
 					arr.push({
 						title: '订单明细',
 						data: Object.entries(this.orderDetails)
@@ -113,7 +117,7 @@
 							.sort((a, b) => this.orderDetailsIdx[a.title] - this.orderDetailsIdx[b.title]),
 					});
 				}
-				if (this.paymentDetails) {
+				if (this.paymentDetails && this.title == '支付信息') {
 					arr.push({
 						title: '支付信息',
 						data: Object.entries(this.paymentDetails)
@@ -128,7 +132,7 @@
 					});
 				}
 
-				if (this.cardDetails?.length > 0) {
+				if (this.cardDetails?.length > 0 && this.title == '补款明细') {
 					arr.push({
 						title: '卡牌明细',
 						data: this.cardDetails.reduce((pre, cur, index) => {
@@ -181,6 +185,12 @@
 </script>
 
 <style lang="scss">
+	.width-full {
+		display: flex;
+		flex-direction: column;
+		gap: 24rpx;
+	}
+	
 	.card-orderDetails {
 		width: 100%;
 		min-height: 120px;
