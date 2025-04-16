@@ -1,7 +1,6 @@
 import CurdService from '@/utils/ezInstance/curd';
 
-// 创建卡牌列表的 CRUD 实例
-const cardList = new CurdService('card', [
+const fields = [
     'id',
     'title',
     'card_name',           // 卡片名称
@@ -15,15 +14,17 @@ const cardList = new CurdService('card', [
     'eng_category',      // 英文分类（如 Basketball）
     'eng_publisher',     // 英文发行商（如 Kobe Bryant）
     'card_cover',        // 卡片封面图片
-    'card_img{id url}',          // 卡片图片
+    'card_img{id url}',  // 卡片图片
     'is_new',           // 是否新卡
     'is_like',          // 是否被喜欢
     'like_number',      // 喜欢数量
-    'created_at',       // 创建时间
-    'updated_at'        // 更新时间
-]);
+]
+
+// 创建卡牌列表的 CRUD 实例
+const cardList = new CurdService('card', fields);
 
 export default {
+    fields,
     // 获取卡牌列表
     getCardList: async (params: any) => {
         return await cardList.query({
