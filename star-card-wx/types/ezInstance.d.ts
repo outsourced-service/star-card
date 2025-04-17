@@ -37,6 +37,7 @@ interface QueryOptions {
     fields?: Fields;
     aggregate_fields?: string;
     directives?: Array<Directive>;
+    [key: string]: any;
 }
 interface UpdateOptions {
     pk_columns?: string | number;

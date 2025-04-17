@@ -72,7 +72,7 @@ export default class CurdService {
         this.validateConstructorParams(name, fields);
         this.name = name;
         this.fields = fields;
-        this.operate = ezInstance.ezserver.operate;
+        this.operate = ezInstance.ezclient.operate;
     }
 
     /**
@@ -91,111 +91,84 @@ export default class CurdService {
         return `${operation}-${this.name}`;
     }
 
-    /**
-     * 分页查询
-     */
-    private async find({
-        pageNumber = 1,
-        pageSize = 10,
-        args = {},
-        fields = this.fields,
-        aggregate_fields = 'count'
-    }: {
-        pageNumber?: number;
-        pageSize?: number;
-        args?: Record<string, any>;
-        fields?: Fields;
-        aggregate_fields?: string;
-    }) {
-        return await utils.request(
-            this.getThrottleKey('find'),
-            () => ezInstance.ezserver.find({
-                name: this.name,
-                args,
-                page_number: pageNumber,
-                page_size: pageSize,
-                fields,
-                aggregate_fields,
-            })
-        );
+    // 定义一个异步方法execute，用于执行操作
+    private async execute(operation: string, opMethod: 'query' | 'mutation' = 'query', opName: string, opFields: Fields, apiConfig?: ApiConfig) {
+        return await utils.request(`${operation}-${this.name}`, () => this.operate({
+            opMethod,
+            opName,
+            opArgs: {},
+            opFields,
+        }).then(({ response }) => {
+            if (Array.isArray(opFields)) return response;
+            return response[opName]
+        }), apiConfig)
     }
 
     /**
      * 主键查询
      */
-    private async queryByPk(id: number, fields: Fields = this.fields, directives?: Array<Directive>, apiConfig?: ApiConfig) {
-        return await utils.request(
-            this.getThrottleKey('queryByPk'),
-            () => ezInstance.ezserver.query({
-                name: `${this.name}_by_pk`,
-                args: { id },
-                fields,
-                directives,
-            }),
-            apiConfig
-        );
+    private async queryByPk(id: number, fields: Fields = this.fields, alias: string = this.name, isOpFields: boolean = false, apiConfig?: ApiConfig) {
+        const opMethod = 'query'
+        const opFields = { alias, name: `${this.name}_by_pk`, args: { id }, fields };
+        if (isOpFields) return opFields
+        else return await this.execute("queryByPk", opMethod, alias, opFields, apiConfig)
     }
 
     /**
-     * 构建更新参数
+     * 分页查询
      */
-    private buildUpdateArgs(pkColumnsOrWhere: any, isPkColumns: boolean, _set?: any, _inc?: any) {
-        const baseArgs = {
-            _set: _set || null,
-            _inc: _inc || null
-        };
-        return isPkColumns
-            ? { ...baseArgs, where: pkColumnsOrWhere }
-            : { ...baseArgs, pk_columns: { id: pkColumnsOrWhere } };
+    private async find(options: any, alias: string = this.name, isOpFields: boolean = false, apiConfig?: ApiConfig) {
+        const {
+            offset = 1,
+            limit = 10,
+            args = {},
+            fields = this.fields,
+            aggregate_fields = 'count'
+        } = options
+        const opMethod = 'query'
+        const opFields = {
+            alias,
+            name: this.name,
+            args: {
+                limit: limit,
+                offset: (offset - 1) * limit,
+                ...args
+            },
+            fields: [fields, { name: 'aggregate', args, fields: aggregate_fields }]
+        }
+        if (isOpFields) return opFields
+        else return await this.execute("find", opMethod, alias, opFields, apiConfig) || []
     }
 
-    /**
-     * 构建删除参数
-     */
-    private buildDeleteArgs(pkColumnsOrWhere: any, isPkColumns: boolean) {
-        return isPkColumns
-            ? { where: pkColumnsOrWhere }
-            : { id: pkColumnsOrWhere };
-    }
+    private async executeQuery(options: any, isOpFields: boolean = false, apiConfig?: ApiConfig) {
+        const { id, alias = this.name, limit, offset, fields = this.fields, aggregate_fields = 'count', ...rest } = options;
+        
+        if (id) return await this.queryByPk(id, fields, alias, isOpFields, apiConfig);
 
-    /**
-     * 构建返回字段
-     */
-    private buildReturnFields(isPkColumns: boolean, fields?: Fields) {
-        return isPkColumns
-            ? ['affected_rows', fields ? { name: 'returning', fields } : '']
-            : (fields || this.fields);
+        if (limit && offset) return await this.find({
+            offset,
+            limit,
+            args: rest,
+            fields,
+            aggregate_fields
+        }, alias, isOpFields, apiConfig);
+
+        const opMethod = 'query'
+        const opFields = { alias, name: this.name, args: { limit, offset, ...rest }, fields };
+
+        if (isOpFields) return opFields
+        return await this.execute("query", opMethod, alias, opFields, apiConfig);
     }
 
     /**
      * 查询数据
      */
     public async query(options: QueryOptions = {}, apiConfig?: ApiConfig) {
-        const { id, limit, offset, fields = this.fields, aggregate_fields = 'count', directives, ...rest } = options;
-
-        if (id) {
-            return await this.queryByPk(id, fields, directives);
-        }
-
-        if (limit && offset) {
-            return await this.find({
-                pageNumber: offset,
-                pageSize: limit,
-                args: rest,
-                fields,
-                aggregate_fields
-            });
-        }
-
-        return await utils.request(
-            this.getThrottleKey('query'),
-            () => ezInstance.ezserver.query({
-                name: this.name,
-                args: rest,
-                fields,
-                directives,
-            }), apiConfig
-        );
+        if (!Array.isArray(options)) return await this.executeQuery(options, false, apiConfig);
+        const opMethod = 'query'
+        const opName = 'batch_query'
+        const opFields = await Promise.all(options.map(async item => await this.executeQuery(item, true, apiConfig)));
+        return await this.execute("query", opMethod, opName, opFields, apiConfig);
     }
 
     /**
@@ -282,5 +255,36 @@ export default class CurdService {
             }),
             apiConfig
         );
+    }
+
+    /**
+     * 构建更新参数
+     */
+    private buildUpdateArgs(pkColumnsOrWhere: any, isPkColumns: boolean, _set?: any, _inc?: any) {
+        const baseArgs = {
+            _set: _set || null,
+            _inc: _inc || null
+        };
+        return isPkColumns
+            ? { ...baseArgs, where: pkColumnsOrWhere }
+            : { ...baseArgs, pk_columns: { id: pkColumnsOrWhere } };
+    }
+
+    /**
+     * 构建删除参数
+     */
+    private buildDeleteArgs(pkColumnsOrWhere: any, isPkColumns: boolean) {
+        return isPkColumns
+            ? { where: pkColumnsOrWhere }
+            : { id: pkColumnsOrWhere };
+    }
+
+    /**
+     * 构建返回字段
+     */
+    private buildReturnFields(isPkColumns: boolean, fields?: Fields) {
+        return isPkColumns
+            ? ['affected_rows', fields ? { name: 'returning', fields } : '']
+            : (fields || this.fields);
     }
 }
