@@ -27,7 +27,7 @@
 
 	<!-- 标签卡 -->
 	<view class="container" ref="tag" style="padding-left: 10px;">
-		<uv-tabs :list="currentTagList" :current="currentTagIndex" @change="onTagChange" :scrollable="true"
+		<uv-tabs :list="tagList" keyName="enum_value" :current="currentTagIndex" @change="onTagChange" :scrollable="true"
 			 lineWidth="0px" lineHeight="0px" :activeStyle="{
 					color: '#FFFFFF',
 					backgroundColor: 'rgba(0, 0, 0, 0.99)',
@@ -67,19 +67,23 @@
 			tabList: {
 				type: Object,
 				default: () => ({})
+			},
+			tagList: {
+				type: Object,
+				default: () => ({})
 			}
 		},
-		emit: ['tabChange', 'tagChange'],
+		emits: ['tabChange', 'tagChange'],
 		mounted() {
 			this.currentTagList = this.tabList[0].tagList
 		},
 		methods: {
 			onTabChange(data) {
 				this.current = data.index
-				this.currentTagList = this.tabList[data.index].tagList
+				// this.currentTagList = this.tabList[data.index].tagList
 				this.currentTagIndex = 0
 				this.$emit("tabChange", data.name)
-				this.$emit("tagChange", this.tabList[data.index].tagList[0].name)
+				// this.$emit("tagChange", this.tabList[data.index].tagList[0].name)
 			},
 			onTagChange(data) {
 				this.currentTagIndex = data.index
