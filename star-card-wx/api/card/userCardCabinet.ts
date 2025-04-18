@@ -22,7 +22,7 @@ const userCardCabinetFields = [
 const userCardCabinet = new CurdService('user_cardcabinet', userCardCabinetFields);
 
 // 公共排序配置
-const defaultOrderBy = { is_pinned: 'desc', pin_time: 'desc', created_at: 'desc' };
+const defaultOrderBy = { is_pinned: () => 'desc', pin_time: () => 'desc', created_at: () => 'desc' };
 
 // 错误处理包装器
 const handleError = (error: any, message: string, defaultValue: any = null) => {
