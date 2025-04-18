@@ -1,12 +1,12 @@
 <template>
-	<view class="background-layer" :style="{ backgroundImage: 'url(' + bgImg + ')' }"></view>
+	<view class="background-layer" :style="{ backgroundImage: 'url(' + userInfo.background_image?.url + ')' }"></view>
 	<view class="overlay-layer"></view>
 	<view class="gradient-layer"></view>
 	<view class="page" :style="'padding-top:' + offsetTop + 'px'">
 		<uv-navbar title="" @leftClick="leftClick" :bg-color="bgColor" leftIconColor="#fff"></uv-navbar>
 		<view class="page-top">
-			<userInfo @handleEidt="handleEidt"></userInfo>
-			<cardShop></cardShop>
+			<userInfo @handleEidt="handleEidt" :userData="userInfo"></userInfo>
+			<!-- <cardShop></cardShop> -->
 			<cardCardbookHorizontalList @add="handAddAlbum('curated')"></cardCardbookHorizontalList>
 		</view>
 		<uv-sticky :offsetTop="offsetTop" :bgColor="is_stickyBg ? '#fff' : ''">
@@ -42,6 +42,8 @@
 	import cardCardbookHorizontalList from '@/pages/profile/components/card-cardbook-horizontalList/card-cardbook-horizontalList.vue';
 	import tabPage from './components/tabPage.vue';
 	import cardModeFour from './components/cardModeFour.vue';
+	
+	import { user } from '@/api/gloabal/index';
 	import {
 		homeTabList
 	} from '/mock/CategoryTagList.js';
@@ -62,6 +64,7 @@
 		},
 		data() {
 			return {
+				userInfo: {},
 				offsetTop: 0,
 				offsetBottom: 0,
 				safeHeight: 0,
@@ -143,6 +146,12 @@
 			this.safeHeight = this.$system.safeHeight();
 			// #endif
 		},
+		onLoad() {
+			user.getUserInfo().then(res => {
+				console.log(res)
+				this.userInfo = res
+			})
+		},
 		onPageScroll(e) {
 			const scrollTop = e.scrollTop;
 			console.log(e.scrollTop)
@@ -167,9 +176,11 @@
 		top: 0;
 		left: 0;
 		width: 100%;
-		height: 100%;
-		background-size: cover;
+		height: 1326rpx;
+		/* background-size: cover; */
+		background-size: auto;
 		background-position: center;
+		background-repeat: no-repeat;
 		z-index: 1;
 	}
 

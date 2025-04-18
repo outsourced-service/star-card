@@ -54,13 +54,13 @@
 					title: "主页",
 					path: "pages/tabel/home/home"
 				},
-				{
-					title: "商城",
-					path: "pages/tabel/shop/shop"
-				}, {
-					title: "卡牌",
-					path: "pages/tabel/card/card"
-				}, 
+				// {
+				// 	title: "商城",
+				// 	path: "pages/tabel/shop/shop"
+				// }, {
+				// 	title: "卡牌",
+				// 	path: "pages/tabel/card/card"
+				// }, 
 				{
 					title: "订单",
 					path: "pages/tabel/order/order"

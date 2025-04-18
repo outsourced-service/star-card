@@ -5,17 +5,17 @@
 				<uv-avatar :src="data?.avatar?.url" size="120rpx"></uv-avatar>
 				<view class="top-left-conter">
 					<view class="left-conter-name">{{ data?.nickname }}</view>
-					<view class="left-conter-id">星卡号：{{ data?.username }}<icon-base64 name="cody"
+					<view class="left-conter-id">星卡号：{{ data?.user_id || '-' }}<icon-base64 name="cody"
 							iconStyle="width: 24rpx; height: 24rpx;" />
 					</view>
 				</view>
 			</view>
-			<view class="page-top-right">
+			<view class="page-top-right" @click="handleHomepage">
 				<uv-image src="https://img.picui.cn/free/2025/03/18/67d958b22dd59.png" mode="scaleToFill" width="28rpx"
 					height="28rpx" />我的主页
 			</view>
 		</view>
-		<view class="info-page-conter">
+		<!-- <view class="info-page-conter">
 			<view class="page-conter-item">
 				<view class="conter-item-number">{{ data.available_points }}</view>
 				<view class="conter-item-title">可用积分</view>
@@ -28,7 +28,7 @@
 				<view class="conter-item-number">{{ data.coin_number }}</view>
 				<view class="conter-item-title">我的卡币</view>
 			</view>
-		</view>
+		</view> -->
 		<!-- <view v-if="false" class="info-page-bottom">
 			<view class="page-bottom-top">
 				<view class="bottom-top-vip">
@@ -65,6 +65,11 @@ export default {
 		}
 	},
 	methods: {
+		handleHomepage() {
+			  uni.navigateTo({
+				  url: '/pages/profile/index/index'
+			  })
+		  }
 	},
 	options: {
 		styleIsolation: 'shared'

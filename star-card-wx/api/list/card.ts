@@ -1,42 +1,49 @@
 import CurdService from '@/utils/ezInstance/curd';
 
 const fields = [
-    'id',
-    'user_cardcabinet_user_cardcabinet', // 用户卡柜
-    'card_id',                           // 评级卡卡片编号id
-    'evaluation',                        // 送评机构
+    // 'id',                               // 现有字段
+    // 'user_cardcabinet_user_cardcabinet', // 用户卡柜
+    'card_id',                           // 卡片编号id，唯一
+    // 'evaluation',                        // 送评机构
     'card_type',                         // 卡牌种类（评级卡/裸卡/原封砖）
-    'card_year',                         // 卡片年份
-    'particular_year',                   // 卡片年份日期格式
-    'card_category',                     // 卡片类型
-    'cn_category',                       // 卡片类别名称中文
+    // 'card_year',                         // 卡片年份
+    // 'particular_year',                   // 卡片年份日期格式
+    // 'card_category',                     // 卡片类型
+    // 'cn_category',                       // 卡片类别名称中文
     'eng_category',                      // 卡片类别名称英文
-    'cn_publisher',                      // 卡片发行商名称中文
-    'card_series',                       // 卡牌系列
-    'card_role',                         // 卡片角色昵称
-    'cn_sub_series',                     // 卡片子系列名称中文
-    'card_number',                       // 卡片编号
-    'rarity_degree',                     // 罕贵度
-    'limited_edition',                   // 卡片罕见度名称英文限编
-    'card_name',                         // 卡片名称
-    'card_cover{id url}',                // 卡片封面图（正面）
-    'card_img{id url}',                  // 卡片封面图（背面）
-    'card_sign',                         // 卡片签字
-    'category_score',                    // 卡品分数
-    'sign_score',                        // 卡片签字分
-    'current_score',                     // 当前评分存世量
-    'max_score',                         // 更高评分存世量
-    'edit_time',                         // 卡片录入小程序发布时间
-    // 'is_relation',                      // 是否关联爬虫信息标识
-    // 'is_new',                           // 是否展示new标识
-    // 'is_top',                           // 是否置顶
-    // 'is_select',                        // 编辑卡册时是否选中
-    // 'is_edit',                          // 是否完成编辑
-    // 'is_open',                          // 是否公开
-    // 'card_remarks',                     // 卡片备注
-    // 'date_obtained',                    // 获得日期
-    // 'get_price',                        // 获得价格
-    // 'status',                           // 卡片状态
+    // 'cn_publisher',                      // 卡片发行商名称中文
+    // 'card_series',                       // 卡牌系列
+    // 'card_role',                         // 卡片角色昵称
+    // 'cn_sub_series',                     // 卡片子系列名称中文
+    // 'card_number',                       // 卡片编号
+    // 'rarity_degree',                     // 罕贵度
+    // 'limited_edition',                   // 卡片罕见度名称英文限编
+    // 'card_name',                         // 卡片名称
+    // 'card_cover{id url}',                // 卡片封面图（正面）
+    // 'card_img{id url}',                  // 卡片封面图（背面）
+    // 'card_sign',                         // 卡片签字
+    // 'category_score',                    // 卡品分数
+    // 'sign_score',                        // 卡片签字分
+    // 'current_score',                     // 当前评分存世量
+    // 'max_score',                         // 更高评分存世量
+    // 'edit_time',                         // 卡片录入小程序发布时间
+    'acquisition_date',                  // 获得日期
+    'acquisition_price',                 // 获得价格
+    'is_card_public',                    // 是否公开卡牌
+    'is_card_pinned',                    // 是否置顶卡牌
+    'pin_time',                          // 置顶时间
+    'title',                             // 卡片标题
+    'front_img{id url}',                // 卡片正面
+    'back_img{id url}',                 // 卡片反面
+    // 'year',                              // 年份
+    // 'type',                              // 卡牌类型
+    // 'manufacturer',                      // 厂商
+    // 'series',                            // 系列
+    'character',                         // 角色
+	'eng_character',						// 角色(英文)
+    // 'signature',                         // 签字
+    // 'jersey',                            // 球衣
+    // 'rookie',                            // 新秀
     {
         alias: "collect_count",         // 收藏数量
         name: "user_visit_record_aggregate",
@@ -49,7 +56,11 @@ const fields = [
             name: "aggregate",
             fields: ['count']
         }]
-    }
+    },
+	{
+		name: 'user',
+		fields: ['id nickname avatar{id url}']
+	}
 ];
 
 // 创建卡牌列表的 CRUD 实例

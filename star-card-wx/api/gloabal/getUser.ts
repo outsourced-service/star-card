@@ -21,7 +21,8 @@ const userService = new CurdService('user', [
     'province',                  // 所在省份
     'city',                      // 所在城市
     'area',                      // 所在地区
-    'edit_time'                  // 更新时间
+    'edit_time',                  // 更新时间
+	'login_time'                  // 登录更新时间
 ]);
 
 // 获取用户信息（带缓存）
