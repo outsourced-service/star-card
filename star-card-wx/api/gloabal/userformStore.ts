@@ -44,6 +44,8 @@ class UserFormStore {
     
     // 表单是否被修改
     private isModified = reactive({ user: false } as { user: boolean });
+
+    getIsModified = () => this.isModified;
     
     // 获取用户表单数据
     getUserForm() {
