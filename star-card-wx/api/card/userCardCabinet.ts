@@ -11,16 +11,15 @@ const userCardCabinetFields: any = [
     'is_public',
     'is_featured',
     'is_pinned',
-    'pin_time',
-    {
-        alias: 'cardAggregate',
-        name: 'user_card_aggregate',
-        fields: ['aggregate{count}']
-    }
+    'pin_time'
 ];
 
 // 创建用户卡册的 CRUD 实例
-const userCardCabinet = new CurdService('user_cardcabinet', userCardCabinetFields);
+const userCardCabinet = new CurdService('user_cardcabinet', [...userCardCabinetFields, {
+    alias: 'cardAggregate',
+    name: 'user_card_aggregate',
+    fields: ['aggregate{count}']
+}]);
 
 // 公共排序配置
 const defaultOrderBy = { is_pinned: () => 'desc', pin_time: () => 'desc', created_at: () => 'desc' };
@@ -83,6 +82,13 @@ export default {
                 offset: (pageNumber - 1) * pageSize,
                 order_by: defaultOrderBy,
                 fields: [...userCardCabinetFields, {
+                    alias: 'cardAggregate',
+                    name: 'user_card_aggregate',
+                    fields: ['aggregate{count}', {
+                        name: 'nodes',
+                        fields: ["id front_img{id url} back_img{id url}"]
+                    }]
+                }, {
                     alias: 'collectedAggregate',
                     name: 'user_visit_record_aggregate', // 查询用户访问记录 中 收藏的数量
                     args: { where: { is_collected: { _eq: true } } },
