@@ -20,8 +20,6 @@
 	import functionList from '/pages/profile/components/functionList.vue';
 	import { user } from '@/api/gloabal/index';
 
-	import userCardCabinet from '@/api/card/userCardCabinet';
-	
 	import {
 		userInfo
 	} from '/mock/users';
@@ -47,7 +45,6 @@
 				this.userInfo = res
 			})
 
-			userCardCabinet.getPublicCardCabinet(3)
 		},
 		methods: {},
 		mounted() {}

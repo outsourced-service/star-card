@@ -9,19 +9,26 @@ const CACHE_EXPIRY = 5 * 60 * 1000; // 5分钟缓存时间
 const userService = new CurdService('user', [
     'id',
     'user_id',                   // 用户id,邀请码
-    "username",                  // 用户名
     'nickname',                  // 昵称
     'avatar{id url}',            // 用户头像
     'profile',                   // 个人简介
     'role',                      // 用户角色
-    'is_authentication',         // 是否商家认证
     'background_image{id url}',  // 背景图
-    'score',                     // 积分数量
-    'growth_value',              // 成长值
     'province',                  // 所在省份
     'city',                      // 所在城市
     'area',                      // 所在地区
-    'edit_time'                  // 更新时间
+    'location', // 中心地理位置
+    'address_detail',            // 账号详细地址，线下门店地址
+    'address_title',             // 地址简要信息
+    'address_info',              // 地图详细信息
+    'house',                     // 门牌号
+    'start_business_hours',      // 营业时间开始
+    'exp_business_hours',        // 营业时间结束
+    'edit_time',                 // 卡片最新更新时间
+    'login_time',                // 用户最新登录时间
+    'is_authentication',         // 是否商家认证
+    'score',                     // 积分数量
+    'growth_value'               // 成长值
 ]);
 
 // 获取用户信息（带缓存）
