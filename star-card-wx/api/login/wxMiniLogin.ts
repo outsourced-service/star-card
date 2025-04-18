@@ -28,6 +28,9 @@ const getToken = async (userToken ?: wxMiniLoginResponse, payload ?: wxMiniLogin
 	// 验证token是否过期
 	if (token && Date.now() < token?.expires_in) return apiInitConfig(token)
 
+	console.log(token);
+	
+
 	// 获取code
 	const wxCode = await getCode();
 	return await ezserver.callScf({
@@ -53,7 +56,7 @@ const getToken = async (userToken ?: wxMiniLoginResponse, payload ?: wxMiniLogin
 
 const value : any = {
 	isRequesting: false, // 请求状态标志
-	token: {"userToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsImV4cGlyZXNfaW4iOjE3NDM1MDcxNDk1Nzd9.nLS+w287J1Z6/iB4vSUxln8WcRpfcMPYU3l6pLZNTQw=","userID":37,"expires_in":1743507150354,"jwtToken":"eyJhbGciOiJIUzI1NiJ9.eyJoYXN1cmFfY2xhaW1zIjp7IngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InVzZXIiLCJ4LWhhc3VyYS11c2VyLWlkIjoiMTAwMDAwMDAwMDAwMDAxMCIsIngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsidXNlciIsInNlbGYiXX0sInplcm8iOnt9LCJyb2xlcyI6WyJzZWxmIiwidXNlciJdLCJaRVJPX1VTRVJfSUQiOiIxMDAwMDAwMDAwMDAwMDEwIiwiZGVmYXVsdFJvbGUiOiJ1c2VyIiwiZXhwIjoxNzc1MDM1OTQ5LCJpc3MiOiIxMDAwMDAwMDAwMDAwMDAwIiwiaWF0IjoxNzQzNDk5OTQ5fQ.EkXia2WgY6V2gYnUFvFVwmGJ2OJca-_6f6WpjUtC1z4"}, // 保存token
+	token: {"userToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsImV4cGlyZXNfaW4iOjE3NDQ4NjcyMDcyNTV9.vpVhsyxfKSOmYbGCjNNK95DSAKJ/UCggr9ris04yYVs=","userID":3,"expires_in":1844867209925,"jwtToken":"eyJhbGciOiJIUzI1NiJ9.eyJkZWZhdWx0Um9sZSI6InVzZXIiLCJaRVJPX1VTRVJfSUQiOiIxMDAwMDAwMDAwMDAwMDEwIiwicm9sZXMiOlsidXNlciIsInNlbGYiXSwiemVybyI6e30sImhhc3VyYV9jbGFpbXMiOnsieC1oYXN1cmEtdXNlci1pZCI6IjEwMDAwMDAwMDAwMDAwMTAiLCJ4LWhhc3VyYS1kZWZhdWx0LXJvbGUiOiJ1c2VyIiwieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJzZWxmIiwidXNlciJdfSwiZXhwIjoxNzc2Mzk2MDA3LCJpc3MiOiIxMDAwMDAwMDAwMDAwMDAwIiwiaWF0IjoxNzQ0ODYwMDA3fQ.rNw9D_r-TkHVlTTEyFzJsOaIpV5Z7vhYclV6NwjCo0M"}, // 保存token
 	pendingPromise: <any>null, // 存储请求的Promise
 }
 export async function wxMiniLogin(payload ?: wxMiniLoginRequest) {
@@ -69,7 +72,7 @@ export async function wxMiniLogin(payload ?: wxMiniLoginRequest) {
 	}).catch(error => {
 		value.pendingPromise = null;
 		toast("微信登录失败，请重试")
-		throw new Error(error)
+		throw error
 	}).finally(() => {
 		value.isRequesting = false;
 	})

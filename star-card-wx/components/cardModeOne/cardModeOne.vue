@@ -3,12 +3,16 @@
     <uni-card spacing="0" padding="0" margin="0" :border="false" shadow="0rpx 0rpx 12rpx 0rpx rgba(0, 0, 0, 0.04)">
       <template v-slot:cover>
         <view class="custom-cover">
-          <view class="custom-badge" v-if="data.is_new">
+          <view class="custom-badge" v-if="data.is_new && !is_select">
             <uv-text text="NEW" color="#fff" size="20rpx" lineHeight="26rpx" :custom-style="{fontWeight: 600, letterSpacing: '0.12rpx'}" align="center"></uv-text>
           </view>
-          <uv-image :src="data.image" mode="aspectFill" width="100%" height="348rpx"></uv-image>
-		  <view class="custom-top" v-if="data.is_top && !is_group">置顶</view>
-		  <view class="custom-sale" v-if="data.on_sale && !is_group">上架中</view>
+          <uv-image :src="data.image" mode="aspectFill" width="100%" height="348rpx" bg-color="#eaeaef"></uv-image>
+		  <view class="custom-top" v-if="data.is_top && !is_group && !is_select">置顶</view>
+		  <view class="custom-sale" v-if="data.on_sale && !is_group && !is_select">上架中</view>
+		  <view class="custom-select" v-if="is_select">
+			  <uni-icons type="circle" size="40rpx" color="#d1d1d6" v-if="!data.is_select" @click="handleSelected"></uni-icons>
+			  <uni-icons type="checkbox-filled" size="40rpx" color="#fea800" v-else @click="handleSelectNo"></uni-icons>
+		  </view>
         </view>
       </template>
       <view class="custom-title">
@@ -44,6 +48,10 @@ export default {
 	is_group: {
 		type: Boolean,
 		default: () => (false)
+	},
+	is_select: {
+		type: Boolean,
+		default: () => (false)
 	}
   },
   data() {
@@ -51,6 +59,12 @@ export default {
     }
   },
   methods: {
+	  handleSelectNo() {
+	  	this.$emit('handleSelectNo')
+	  },
+	  handleSelected() {
+		  this.$emit('handleSelected')
+	  },
 	handleLike() {
 		this.data.is_like = true
 		this.data.like_number += 1
@@ -63,7 +77,7 @@ export default {
 		this.data.is_new = false
 	}
   },
-  emit: ['handleCardOne'],
+  emit: ['handleSelected', 'handleSelectNo'],
   options: {
     styleIsolation: 'shared'
   },
@@ -154,6 +168,13 @@ export default {
 	position: absolute;
 	bottom: 0; 
 	padding: 12rpx 0;
+}
+
+.custom-select {
+	z-index: 2;
+	position: absolute;
+	top: 8rpx; 
+	right: 8rpx;
 }
 
 .custom-like {

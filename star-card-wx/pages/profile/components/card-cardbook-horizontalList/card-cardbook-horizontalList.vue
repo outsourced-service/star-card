@@ -39,6 +39,7 @@
 		options: {
 			styleIsolation: 'shared'
 		},
+		emit: ['add'],
 		methods: {
 			ImageFormatWebp(src) {
 				// #ifdef MP-WEIXIN

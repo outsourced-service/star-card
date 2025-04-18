@@ -15,9 +15,13 @@
 		</view>
 		<view class="page-list" v-if="tab == '线下送评'">
 			<addressTip></addressTip>
-			<view class="custom-list-offline">
-				<evaluationItem v-for="(item, index) in evaluationList" :key="index" :data="item" @handleCard="handleItem()"></evaluationItem>
-			</view>
+			<uv-collapse :border="false" :value="openCollapse">
+				<uv-collapse-item v-for="(item, index) in tags" :key="index" :title="item" :name="item">
+					<view class="custom-list-offline">
+						<evaluationItem v-for="(itemEvaluation, indexEvaluation) in evaluationList" :key="indexEvaluation" :data="itemEvaluation" @handleCard="handleItem()"></evaluationItem>
+					</view>
+				</uv-collapse-item>
+			</uv-collapse>
 		</view>
 	</view>
 </template>
@@ -55,7 +59,10 @@
 				},
 				evaluationList: evaluationList,
 				tab: '线上送评',
-				offsetTop: 0
+				offsetTop: 0,
+				tags: [
+				  '北京', '上海', '广州', '深圳'
+				]
 			}
 		},
 		methods: {

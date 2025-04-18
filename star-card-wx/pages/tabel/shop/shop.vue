@@ -1,6 +1,7 @@
 <template>
 	<view class="width-full height-full flex" style="background: #F2F3F6;">
-		<cardOrderDetails  />
+		
+		<!-- <cardOrderDetails  /> -->
 		<!-- <cardCardbookHorizontalList/>
 		<cardPictureList />
 		<cardAddress />
@@ -11,6 +12,8 @@
 </template>
 
 <script>
+	import * as list from "@/api/list/index"
+	
 	import cardPictureList from '@/pages/order/components/card-pictureList/card-pictureList.vue';
 	import cardAddress from '@/pages/order/components/card-address/card-address.vue';
 	import cardOrderDetails from '@/pages/order/components/card-orderDetails/card-orderDetails.vue';
@@ -40,7 +43,9 @@
 		computed: {
 
 		},
-		onLoad() {},
+		onLoad() {
+			list.getCardList()
+		},
 		// 下来刷新
 		onPullDownRefresh() {},
 		// 上拉加载

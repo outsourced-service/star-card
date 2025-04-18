@@ -4,10 +4,14 @@
       <view
         v-for="(tag, index) in tags"
         :key="index"
-        :class="['tag', { active: activeTag === tag }]"
         @click="selectTag(tag)"
       >
-        {{ tag }}
+		<view style="display: flex; align-items: center;">
+			<view :class="['tag', { active: activeTag === tag }]">
+				{{ tag }}
+			</view>
+			<view class="tag-container-line" v-if="index == 4"></view>
+		</view>
       </view>
     </view>
   </view>
@@ -37,28 +41,39 @@ export default {
   display: flex;
   flex-direction: column;
   border-radius: 32rpx;
-  padding: 40rpx 32rpx;
   gap: 40rpx;
 }
 
 .tag-container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 16rpx;
 }
 
+.tag-container-line {
+	height: 32rpx;
+	// margin: 0 20rpx;
+	margin-left: 20rpx;
+	border-left: 2rpx solid rgba(209, 209, 214, 1)
+}
+
 .tag {
-  padding: 8rpx 16rpx;
-  background-color: #f1f1f6;
-  border-radius: 16rpx;
-  color: #333;
-  font-size: 28rpx;
-  cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 56rpx;
+	background-color: rgba(242, 243, 246, 1);
+	color: rgba(0, 0, 0, 0.66);
+	font-size: 28rpx;
+	border-radius: 1000rpx;
+	padding: 0 28rpx;
+	border: 2rpx solid rgba(242, 243, 246, 1);
 }
 
 .tag.active {
-  border: 1px solid #fea800;
-  color: #fea800;
-  background-color: #fff;
+	border: 2rpx solid #fea800;
+	color: #fea800;
+	background-color: rgba(255, 246, 229, 1);
 }
 </style>

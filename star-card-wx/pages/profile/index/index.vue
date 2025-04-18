@@ -7,7 +7,7 @@
 		<view class="page-top">
 			<userInfo @handleEidt="handleEidt"></userInfo>
 			<cardShop></cardShop>
-			<cardCardbookHorizontalList></cardCardbookHorizontalList>
+			<cardCardbookHorizontalList @add="handAddAlbum('curated')"></cardCardbookHorizontalList>
 		</view>
 		<uv-sticky :offsetTop="offsetTop" :bgColor="is_stickyBg ? '#fff' : ''">
 			<tabPage :tabList="homeTabList" @tabChange="tabChange" @tagChange="tagChange" @handleSearch="handleSearch" @handleShowFilter="handleShowFilter">
@@ -18,7 +18,7 @@
 				<cardModeOne v-for="(item, index) in cardList" :key="index" :data="item" class="card-list-item"></cardModeOne>
 			</view>
 			<view class="page-card-binder" v-else>
-				<view class="card-binder-add">
+				<view class="card-binder-add" @click="handAddAlbum">
 					<view class="binder-add-left">
 						<view class="add-left-icon">
 							<uv-icon name="empty-news" color="#fff" size="32rpx" bold></uv-icon>
@@ -76,6 +76,11 @@
 			}
 		},
 		methods: {
+			handAddAlbum(type) {
+				uni.navigateTo({
+					url: '/pages/card/album/edit?type=' + type
+				})
+			},
 			handleAlbum() {
 				uni.navigateTo({
 					url: '/pages/card/album/index'

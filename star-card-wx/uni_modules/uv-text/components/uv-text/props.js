@@ -108,6 +108,10 @@ export default {
 			type: String,
 			default: 'normal'
 		},
+		textStyle: {
+			type: String,
+			default: ''
+		},
 		...uni.$uv?.props?.text
 	}
 }

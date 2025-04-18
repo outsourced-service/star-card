@@ -5,12 +5,15 @@
 				<view class="data-top-title">
 					<view class="top-title-name">{{albumData.name}}</view>
 				</view>
-				<view class="data-top-signature">{{albumData.signature}}</view>
+				<view class="data-top-signature">{{albumData.signature || '暂无简介'}}</view>
 			</view>
 			<view class="page-data-user">
-				<uv-avatar :src="albumData.cover" size="48rpx"></uv-avatar>
-				<view class="data-user-name">{{albumData.user_name}}</view>
-				<view class="data-user-number">{{albumData.card_number}}张 · {{albumData.follow_number}}人收藏</view>
+				<view class="data-user-data">
+					<uv-avatar :src="albumData.cover" size="48rpx"></uv-avatar>
+					<view class="data-user-name">{{albumData.user_name}}</view>
+					<view class="data-user-number">{{albumData.card_number}}张 · {{albumData.follow_number}}人收藏</view>
+				</view>
+				<view class="data-user-button" v-if="is_manage">完成</view>
 			</view>
 		</view>
 	</view>
@@ -31,6 +34,10 @@
 					card_number: 2000,
 					follow_number: 300
 				})
+			},
+			is_manage: {
+				type: Boolean,
+				default: () => (false)
 			}
 		},
 		options: {
@@ -87,7 +94,14 @@
 	.page-data-user {
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
+	}
+	
+	.data-user-data {
+		display: flex;
+		align-items: center;
 		gap: 20rpx;
+		color: rgba(255, 255, 255, 1);
 	}
 	
 	.data-user-name {
@@ -98,5 +112,11 @@
 	.data-user-number {
 		font-size: 24rpx;
 		color: rgba(0, 0, 0, 0.2);
+	}
+	
+	.data-user-button {
+		font-weight: 600;
+		font-size: 30rpx;
+		color: rgba(254, 168, 0, 1);
 	}
 </style>

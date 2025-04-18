@@ -24,7 +24,7 @@
 							:custom-style="{height: '58rpx', width: '150rpx', fontSize: '24rpx !important', borderColor: 'rgba(229, 229, 234, 1)'}"></uv-button>
 					</view>
 				</view>
-				<view class="data-top-signature">{{albumData.signature}}</view>
+				<view class="data-top-signature">{{albumData.signature || '暂无简介'}}</view>
 			</view>
 			<view class="page-data-user">
 				<uv-avatar :src="albumData.cover" size="48rpx"></uv-avatar>

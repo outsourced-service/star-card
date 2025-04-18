@@ -3,49 +3,64 @@
 		<view class="page-top">
 			<manageTop @handleManage="handleManage"></manageTop>
 		</view>
-		<view class="page-card">
-			<uv-sticky :offsetTop="offsetTop" :bg-color="bgColor">
-				<view class="page-card-tab">
-					<view class="card-tab-left">
-						<uv-icon v-if="!cardMode" name="list-dot" color="rgba(0, 0, 0, 0.44)" size="32rpx" bold></uv-icon>
-						<uv-icon v-else name="list-dot" color="rgba(0, 0, 0, 0.2)" size="32rpx" bold @click="cardMode = 0"></uv-icon>
-						<view class="tab-left-line"></view>
-						<uv-icon v-if="cardMode" name="grid" color="rgba(0, 0, 0, 0.44)" size="32rpx" bold></uv-icon>
-						<uv-icon v-else name="grid" color="rgba(0, 0, 0, 0.2)" size="32rpx" bold @click="cardMode = 1"></uv-icon>
+		<uv-sticky :offsetTop="0" :bg-color="bgColor">
+			<view class="page-card-tab">
+				<view class="card-tab-right">
+					<view class="tab-right-filter" v-if="!is_filter" @click="handleShowFilter">
+						<uv-icon name="tags" color="rgba(0, 0, 0, 0.44)" size="32rpx" bold></uv-icon>
+						<view class="right-filter-text">筛选</view>
 					</view>
-					<view class="card-tab-right">
-						<view class="tab-right-filter" v-if="!is_filter" @click="handleShowFilter">
-							<uv-icon name="tags" color="rgba(0, 0, 0, 0.44)" size="32rpx" bold></uv-icon>
-							<view class="right-filter-text">筛选</view>
-						</view>
-						<view class="tab-right-filtered" v-else @click="handleShowFilter">
-							<uv-icon name="tags" color="rgba(254, 168, 0, 1)" size="32rpx" bold></uv-icon>
-							<view class="right-filtered-text">筛选</view>
-						</view>
-						<uv-icon name="search" color="rgba(0, 0, 0, 0.44)" size="32rpx" bold></uv-icon>
+					<view class="tab-right-filtered" v-else @click="handleShowFilter">
+						<uv-icon name="tags" color="rgba(254, 168, 0, 1)" size="32rpx" bold></uv-icon>
+						<view class="right-filtered-text">筛选</view>
 					</view>
+					<uv-icon name="search" color="rgba(0, 0, 0, 0.44)" size="32rpx" bold></uv-icon>
 				</view>
-			</uv-sticky>
+			</view>
+		</uv-sticky>
+		<view class="page-card">
 			<view class="page-card-list">
-				<cardModeTwo :data="cardList" v-if="cardMode"></cardModeTwo>
-				<cardModeOther :data="cardList" v-else></cardModeOther>
+				<view class="card-list-item" v-for="(item, index) in cardList" :key="index">
+					<cardModeOne :data="item" :is_select="true" @handleSelectNo="handleSelectNo(index)" @handleSelected="handleSelected(index)"></cardModeOne>
+				</view>
+			</view>
+			<view class="page-card-end" :style="selectCard.length > 0 ? 'padding-bottom: 350rpx' : 'padding-bottom: 158rpx'"> 
+				此页面中仅展示未添加进卡册的卡牌
+			</view>
+		</view>
+		<view class="page-bottom">
+			<view class="page-bottom-list" v-if="selectCard.length > 0">
+				<scroll-view scroll-x class="" style="white-space: nowrap; width: 100%;" :enable-flex="true">
+					<view class="bottom-list-scroll">
+						<view class="bottom-list-item" v-for="(item, index) in selectCard" :key="index">
+							<uv-image :src="item.image" height="128rpx" width="128rpx" radius="8rpx"></uv-image>
+							<view class="list-item-icon">
+								<uv-icon name="close-circle-fill" color="rgba(0, 0, 0, 0.66)" size="32rpx"></uv-icon>
+							</view>
+						</view>
+					</view>
+				</scroll-view>
+			</view>
+			<view class="page-bottom-total">
+				<view class="bottom-total-text">
+					已选<span style="font-weight: 600; color: rgba(0, 0, 0, 0.66);">{{selectCard.length}}</span>张卡牌
+				</view>
+				<uv-button @click="handleAdd()" text="确认添加" :color="selectCard.length > 0 ? 'rgba(254, 168, 0, 1)' : 'rgba(255, 220, 153, 1)'" 
+					shape="circle" :custom-style="{height: '68rpx', width: '176rpx', fontSize: '26rpx'}"></uv-button>
 			</view>
 		</view>
 	</view>
+	<uv-toast ref="toast"></uv-toast>
 </template>
 
 <script>
 	import manageTop from './components/manageTop.vue';
-	import cardModeTwo from './components/cardModeTwo.vue';
-	import cardModeOther from './components/cardModeOther.vue';
 	import {
 		cardList
 	} from '/mock/cards';
 	export default {
 		components: {
-			manageTop,
-			cardModeTwo,
-			cardModeOther
+			manageTop
 		},
 		options: {
 			styleIsolation: 'shared'
@@ -54,13 +69,35 @@
 			return {
 				offsetTop: 0,
 				safeHeight: 0,
-				bgColor: '',
+				bgColor: 'rgba(246, 247, 249, 1)',
 				cardList: cardList,
 				is_filter: false,
-				cardMode: 0
+				cardMode: 0,
+				selectCard: []
 			}
 		},
 		methods: {
+			handleAdd() {
+				if(this.selectCard.length > 0) {
+					uni.navigateBack()
+				} else {
+					uni.showToast({
+						title: '已将选中卡牌添加至 “' + '🏀东契奇' + '”',
+						icon: 'none'
+					})
+					// uni.showToast({
+					// 	title: '请选择卡牌',
+					// 	icon: 'none'
+					// })
+				}
+			},
+			handleSelectNo(index) {
+				this.cardList[index].is_select = false;
+			},
+			handleSelected(index) {
+				this.cardList[index].is_select = true;
+				this.selectCard.push(this.cardList[index])
+			},
 			selectSheet(e) {
 				console.log(e)
 			},
@@ -115,9 +152,17 @@
 		},
 		mounted() {
 			// #ifndef WEB
-			// this.offsetTop = this.$system.BarHeight();
+			this.offsetTop = this.$system.BarHeight();
 			// this.safeHeight = this.$system.safeHeight();
 			// #endif
+		},
+		onPageScroll(e) {
+			const scrollTop = e.scrollTop;
+			if(scrollTop - this.offsetTop > this.offsetTop - 40) {
+				this.bgColor = '#fff'
+			} else {
+				this.bgColor = 'rgba(246, 247, 249, 1)'
+			}
 		}
 	}
 </script>
@@ -142,17 +187,18 @@
 	.page-card {
 		background-color: rgba(246, 247, 249, 1);
 		width: 100vw;
-		padding: 24rpx 16rpx 240rpx 16rpx;
+		padding: 0 24rpx 24rpx 24rpx;
 		display: flex;
 		flex-direction: column;
-		gap: 16rpx;
+		gap: 32rpx;
 	}
 	
 	.page-card-tab {
 		display: flex;
-		justify-content: space-between;
+		// justify-content: space-between;
+		justify-content: flex-end;
 		align-items: center;
-		padding: 0 16rpx;
+		padding: 24rpx 40rpx;
 	}
 	
 	.card-tab-left {
@@ -195,5 +241,81 @@
 		font-weight: 600;
 		font-size: 24rpx;
 		color: rgba(254, 168, 0, 1);
+	}
+	
+	.page-card-list {
+		width: calc(100vw - 48rpx);
+		display: flex;
+		/* 使用 flex 布局 */
+		flex-wrap: wrap;
+		/* 允许换行 */
+		// justify-content: space-between;
+		/* 项目之间的间隔均匀分布 */
+		// margin: 24rpx;
+		gap: 12rpx;
+	}
+	
+	.card-list-item {
+		width: calc((100% - 24rpx) / 3);
+	}
+	
+	.page-card-end {
+		font-size: 24rpx;
+		text-align: center;
+		color: rgba(0, 0, 0, 0.33);
+	}
+	
+	.page-bottom {
+		width: 100vw;
+		display: flex;
+		flex-direction: column;
+		z-index: 10;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+	}
+	
+	.page-bottom-list {
+		background-color: #fff;
+		display: flex;
+		align-items: center;
+		height: 192rpx;
+		padding: 0 32rpx;
+		border-top-left-radius: 40rpx;
+		border-top-right-radius: 40rpx;
+		box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+	}
+	
+	.bottom-list-scroll {
+		display: flex;
+		gap: 20rpx;
+		padding: 32rpx 0;
+	}
+	
+	.bottom-list-item {
+		position: relative;
+	}
+	
+	.list-item-icon {
+		position: absolute;
+		  top: -6rpx;
+		  right: -6rpx;
+	}
+	
+	.page-bottom-total {
+		background-color: #fff;
+		display: flex;
+		justify-content: space-between;
+		padding: 24rpx 24rpx 40rpx 40rpx;
+		align-items: center;
+		box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+	}
+	
+	.bottom-total-text {
+		font-size: 24rpx;
+		color: rgba(0, 0, 0, 0.44);
+		display: flex;
+		align-items: baseline;
+		gap: 8rpx;
 	}
 </style>

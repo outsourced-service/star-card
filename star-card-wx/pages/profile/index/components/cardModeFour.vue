@@ -17,7 +17,7 @@
 								{{item.favorite_number}}人收藏
 							</view>
 						</view>
-						<uv-text :text="item.introduction" color="rgba(0, 0, 0, 0.66)" size="24rpx"
+						<uv-text :text="item.introduction || '暂无简介'" color="rgba(0, 0, 0, 0.66)" size="24rpx"
 							lineHeight="32rpx"></uv-text>
 					</view>
 					<view class="custom-top-like">
@@ -33,13 +33,14 @@
 				</view>
 			</template>
 			<view class="horizontal-list">
-				<view class="list-container">
+				<view class="list-container" v-if="item.card_list.length > 0">
 					<view v-for="(cardItem, cardIndex) in item.card_list" :key="cardIndex" class="list-container-item">
 						<uv-image :src="cardItem.image" mode="aspectFill" width="162rpx" height="236rpx"
 							radius="8rpx"></uv-image>
 						<view class="container-item-tig">上架中</view>
 					</view>
 				</view>
+				<view class="list-empty" v-else>该卡册还没有收藏任何卡牌</view>
 			</view>
 		</uni-card>
 	</view>
@@ -165,5 +166,14 @@
 		font-size: 22rpx;
 		/* 11px * 2 */
 		align-items: center;
+	}
+	
+	.list-empty {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 26rpx;
+		color: rgba(0, 0, 0, 0.44);
+		height: 236rpx;
 	}
 </style>

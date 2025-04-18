@@ -8,6 +8,11 @@
 						<view class="custom-cover">
 							<uv-image :src="item.image" mode="aspectFill" width="calc((100vw - 32rpx - 12rpx) / 2)"
 								height="348rpx"></uv-image>
+							<view class="custom-cover-select" v-if="is_select">
+								<uni-icons type="circle" size="40rpx" color="#d1d1d6" v-if="!item.is_select" @click="handleSelected(index)"></uni-icons>
+								<uni-icons type="checkbox-filled" size="40rpx" color="#fea800" v-else @click="handleSelectNo(index)"></uni-icons>
+							</view>
+							<view class="custom-sale" v-if="item.on_sale">上架中</view>
 						</view>
 					</template>
 					<view class="custom-title">
@@ -57,11 +62,21 @@
 				required: true,
 				default: () => ({}),
 			},
+			is_select: {
+				type: Boolean,
+				default: () => (false),
+			}
 		},
 		data() {
 			return {}
 		},
 		methods: {
+			handleSelected(index) {
+				this.$emit('handleSelected', index)
+			},
+			handleSelectNo(index) {
+				this.$emit('handleSelectNo', index)
+			},
 			handleLike(value, index) {
 				this.data[index].is_like = !value
 				if (value) {
@@ -105,6 +120,33 @@
 		overflow: hidden;
 		/* 防止子元素溢出 */
 		// height: 620rpx; 
+	}
+	
+	.custom-cover {
+		
+	}
+	
+	.custom-cover-select {
+		display: flex;
+		align-items: center;
+		position: absolute;
+		top: 8rpx; 
+		right: 9rpx;
+	}
+	
+	.custom-sale {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-bottom-width: 8rpx;
+		background: rgba(52, 199, 89, 0.66);
+		font-weight: 600;
+		font-size: 24rpx;
+		color: rgba(255, 255, 255, 1);
+		position: absolute;
+		bottom: 0; 
+		padding: 12rpx 0;
 	}
 
 	.custom-title {

@@ -164,6 +164,16 @@
 				"style": {
 					"navigationBarTitleText": "添加卡牌"
 				}
+			}, {
+				"path": "album/manage",
+				"style": {
+					"navigationBarTitleText": "批量管理"
+				}
+			}, {
+				"path": "album/edit",
+				"style": {
+					"navigationBarTitleText": "编辑资料"
+				}
 			}]
 		},
 		{

@@ -29,9 +29,16 @@
 					</view>
 				</view>
 			</uv-sticky>
-			<view class="page-card-list">
+			<view class="page-card-list" v-if="cardList?.length > 0">
 				<cardModeTwo :data="cardList" v-if="cardMode"></cardModeTwo>
 				<cardModeOther :data="cardList" v-else></cardModeOther>
+			</view>
+			<view class="page-card-list" v-else>
+				<view class="card-list-empty">
+					该卡册还没有收藏任何卡牌
+					<uv-button @click="handleAddCard" text="添加卡牌" color="rgba(254, 168, 0, 1)"
+						shape="circle" :custom-style="{height: '68rpx', width: '176rpx', fontSize: '26rpx'}"></uv-button>
+				</view>
 			</view>
 		</view>
 		<uv-action-sheet ref="actionSheet" :actions="sheetList" @select="selectSheet" @close="close" round="40rpx" cancelText="取消" safeAreaInsetBottom></uv-action-sheet>
@@ -61,12 +68,12 @@
 			return {
 				offsetTop: 0,
 				safeHeight: 0,
-				cardList: cardList,
+				// cardList: cardList,
 				is_stickyBg: false,
 				is_filter: false,
 				cardMode: 0,
 				bgColor: 'rgba(0,0,0,0)',
-				bgImg: 'https://s3-alpha-sig.figma.com/img/558b/692c/c9003e551f4cc5f282f8b48c8f419fe4?Expires=1745193600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=DZuWShLdhyFaKjYQz~pScdCl08lCTdo6Fq2TDIkuOmipW9JHE5wpwiuLveSJRKi~dP6NqYmkAW7INUuyX74ln73GSD-KzphfDM7BXiEmzqfurTEUQoKS9xtRpNsslZLmucSwRcGWrssqSffXqI10NhIXQWYcBI~H9avAQ~KZ8e~0~y5AK2-Z5EenMV2avc-YGRx0fRg4iwiM8MnfipOZteC8N86fk5LIELDq-D-Pi8TkEyQdytBCdR8kNJ7Mx9y-945bXZclRCgVzX-CW9DvznULlUVDrEX95kHkUsFu0cokEHEF1xSCOg1YZRJTewzRzC-Xda5myZdnWwxAvwjXEQ__',
+				bgImg: 'https://s3-alpha-sig.figma.com/img/9fd2/aa53/906aa6c17e0d5471bc722b1d849ab77d?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=oGNoyWG0e~ZeEFtZskOd7aOAW84-88TTN0sM9snsuoaoxemMvAixObvSIbbGCSdbPE4vXn2vopv5oEwx4ed7~gyG~BZjKXEvBAb9YxQVIVk5w4UMx8nJ-ASwUHRu2ZydHeNZdPdmnexKuUOhcU8TbRCZuvvB-oe8M5a7gXt5pUkavVNyk43GVuCXQirXKdO77ehkE2iUcJ34obJ5gw8BeHSjmeTpYdXW2dwDTkR2L1JPzm9zyrwTkww7iJW3Dz0yvaJZaLibsp-KoPeD~XKSJlJHltKJvULtOboz9iV9kq6CaNxetcvmtsorSJc-RZHZqVvyNBYYMucDHiS6EHsNyg__',
 				sheetList: [{
 					name: '添加卡牌'
 				}, {
@@ -77,10 +84,23 @@
 			}
 		},
 		methods: {
+			handleAddCard() {
+				uni.navigateTo({
+					url: '/pages/card/album/add'
+				})
+			},
 			selectSheet(e) {
 				if(e.name == '添加卡牌') {
 					uni.navigateTo({
 						url: '/pages/card/album/add'
+					})
+				} else if(e.name == '批量管理') {
+					uni.navigateTo({
+						url: '/pages/card/album/manage'
+					})
+				} else if(e.name == '编辑信息') {
+					uni.navigateTo({
+						url: '/pages/card/album/edit'
 					})
 				}
 			},
@@ -268,5 +288,24 @@
 		font-weight: 600;
 		font-size: 24rpx;
 		color: rgba(254, 168, 0, 1);
+	}
+	
+	.page-card-list {
+		background-color: #f6f7f9;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.card-list-empty {
+		margin-top: 240rpx;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 40rpx;
+		font-size: 26rpx;
+		text-align: center;
+		color: rgba(0, 0, 0, 0.44);
 	}
 </style>
