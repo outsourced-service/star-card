@@ -17,6 +17,8 @@ const userService = new CurdService('user', [
     'province',                  // 所在省份
     'city',                      // 所在城市
     'area',                      // 所在地区
+    'edit_time',                  // 更新时间
+	'login_time',                  // 登录更新时间
     'location',                  // 中心地理位置 {"type": "Point", "coordinates": [ 103.970107857, 0  ]}
     'address_detail',            // 账号详细地址，线下门店地址
     'address_title',             // 地址简要信息

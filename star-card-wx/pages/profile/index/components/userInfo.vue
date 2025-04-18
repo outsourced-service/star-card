@@ -2,13 +2,13 @@
 	<view class="user-info-page">
 		<view class="info-page-top">
 			<view class="page-top-left">
-				<view class="top-left-identity">{{userData.user_identity}}</view>
-				<view class="top-left-tag" v-if="userData.user_identity == '个人用户'">
+				<view class="top-left-identity"><span v-if="userData.is_authentication">认证</span>{{userData.role}}</view>
+				<view class="top-left-tag" v-if="userData.role == '个人用户'">
 					<span v-if="!userData.is_accreditation">未实名</span>
 					<span v-else><uv-icon name="checkmark-circle-fill" color="#fea800" size="24rpx"></uv-icon>已实名</span>
 				</view>
 				<view class="top-left-tag" v-else>
-					<span v-if="!userData.is_accreditation">未缴纳保证金</span>
+					<span v-if="!userData.is_authentication">未缴纳保证金</span>
 					<span v-else>已缴纳保证金</span>
 				</view>
 			</view>
@@ -19,34 +19,34 @@
 		</view>
 		<view class="info-page-data">
 			<view class="page-data-top">
-				<uv-avatar :src="userData.cover" size="176rpx"></uv-avatar>
+				<uv-avatar :src="userData.avatar?.url" size="176rpx"></uv-avatar>
 				<view class="data-top-right">
-					<view class="top-right-name">{{userData.name}}</view>
+					<view class="top-right-name">{{userData.nickname}}</view>
 					<view class="top-right-item">
-						<view class="right-item">星卡号：{{userData.id_number}}</view>
-						<view class="right-item">IP属地：{{userData.address}}</view>
-						<view class="right-item">9分钟前来过</view>
+						<view class="right-item">星卡号：{{userData.user_id || '-'}}</view>
+						<view class="right-item">IP属地：{{userData.city || '-'}}</view>
+						<view class="right-item">{{getTime(userData.login_time)}}前来过</view>
 					</view>
 				</view>
 			</view>
 			<view class="page-data-canter">
 				<view class="data-canter-left">
 					<view class="canter-left-item">
-						<view class="left-item-number">{{userData.show_card_number}}</view>
+						<view class="left-item-number">{{userData.show_card_number || '0'}}</view>
 						<view class="left-item-title">展示</view>
 					</view>
 					<view class="canter-left-item">
-						<view class="left-item-number">{{userData.fans_number}}</view>
+						<view class="left-item-number">{{userData.fans_number || '0'}}</view>
 						<view class="left-item-title">粉丝</view>
 					</view>
 					<view class="canter-left-item">
-						<view class="left-item-number">{{userData.like_favorite_count}}</view>
+						<view class="left-item-number">{{userData.like_favorite_count || '0'}}</view>
 						<view class="left-item-title">获赞与收藏</view>
 					</view>
 				</view>
 				<view class="data-canter-button" @click="handleEidt">编辑资料</view>
 			</view>
-			<view class="page-data-signature">{{userData.signature}}</view>
+			<view class="page-data-signature">{{userData.profile || '暂无介绍'}}</view>
 		</view>
 	</view>
 </template>
@@ -57,18 +57,7 @@
 		props: {
 			userData: {
 				type: Object,
-				default: () => ({
-					user_identity: '个人用户',
-					cover: 'https://s3-alpha-sig.figma.com/img/9fd0/d949/91f3db9af898cb3ff3578de1f7b2340e?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=tiwAlSnQMGhmwzbalTJ-Az-MnvYt6E-NHBpZe8Gkk4Uh9BiNMYhEI5bGuTa6LJcip0MaoDbdlmIc3SXplfiIm7POyV4SzgA1UjjOYsbzV75uu1Z7dobO4sWnIW9wNmjm6vF1-KOvmBk3pe8VuJHiPNPDLHCifQrMfOmlchyWwHSLUZ2itrP0u5qFe6DlbGp~Zl4zfUEeYt8dKe-krh8TPj58dTuBdGqGvybUMchiDlciSQ9TrOU9Hl4-WTuU5DcmPmPuHcFBu1v0JrVxpdUGlYw4QSjPEN00OS6~jL8mSYTKBxvcSKlytdsITZQdobCL2WK904PeHohWVc-3Jkhk8w__',
-					name: '小小收藏家',
-					id_number: 13289697,
-					address: '深圳市',
-					show_card_number: 35,
-					fans_number: 323,
-					like_favorite_count: '1.4k',
-					signature: '⚡️ TCG ｜ 🏀 球星卡 🙈 新手卡牌玩家，请大家多多指教~',
-					is_accreditation: false
-				})
+				default: () => ({})
 			}
 		},
 		options: {
@@ -78,6 +67,32 @@
 		methods: {
 			handleEidt() {
 				this.$emit('handleEidt')
+			},
+			getTime(value) {
+				// 获取当前时间（以毫秒为单位）
+				  const currentTime = new Date().getTime();
+				  // 将目标时间转换为毫秒
+				  const targetTimeInMs = new Date(value).getTime();
+				
+				  // 计算时间差（以毫秒为单位）
+				  const timeDifferenceInMs = Math.abs(currentTime - targetTimeInMs);
+				
+				  // 计算时间差（以秒、分钟、小时、天为单位）
+				  const seconds = Math.round(timeDifferenceInMs / 1000);
+				  const minutes = Math.round(timeDifferenceInMs / (1000 * 60));
+				  const hours = Math.round(timeDifferenceInMs / (1000 * 60 * 60));
+				  const days = Math.round(timeDifferenceInMs / (1000 * 60 * 60 * 24));
+				
+				  // 返回最合适的单位
+				  if (seconds < 60) {
+				    return `${seconds}秒`;
+				  } else if (minutes < 60) {
+				    return `${minutes}分钟`;
+				  } else if (hours < 24) {
+				    return `${hours}小时`;
+				  } else {
+				    return `${days}天`;
+				  }
 			}
 		}
 	}
