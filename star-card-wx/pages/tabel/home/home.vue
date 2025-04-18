@@ -71,7 +71,7 @@ export default {
 	onLoad: function (options) {
 	},
 	onShow: function () {
-		searchEnumValues("类型", 'tcg').then(res => {
+		getEnumValues("类别").then(res => {
 			console.log(res);
 		})
 	},

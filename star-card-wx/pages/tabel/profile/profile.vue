@@ -19,6 +19,8 @@
 	import cardCabinet from '/pages/profile/components/cardCabinet.vue';
 	import functionList from '/pages/profile/components/functionList.vue';
 	import { user } from '@/api/gloabal/index';
+
+	import userCardCabinet from '@/api/card/userCardCabinet';
 	
 	import {
 		userInfo
@@ -43,6 +45,10 @@
 		onShow() {
 			user.getUserInfo().then(res => {
 				this.userInfo = res
+			})
+
+			userCardCabinet.getCardCabinetDetail().then(res => {
+				this.cardList = res
 			})
 		},
 		methods: {},

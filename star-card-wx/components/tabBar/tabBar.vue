@@ -10,16 +10,16 @@
 					<image class="icon" src="https://img.picui.cn/free/2025/03/14/67d3e5e777dd7.png"></image>
 				</template>
 			</uv-tabbar-item>
-			<uv-tabbar-item text="商城">
+			<!-- <uv-tabbar-item text="商城">
 				<template v-slot:active-icon>
 					<image class="icon" src="https://img.picui.cn/free/2025/03/14/67d3e69267f04.png"></image>
 				</template>
 				<template v-slot:inactive-icon>
 					<image class="icon" src="https://img.picui.cn/free/2025/03/14/67d3e6f323d2f.png"></image>
 				</template>
-			</uv-tabbar-item>
-			<uv-tabbar-item text="" iconSize="88rpx"
-				icon="https://img.picui.cn/free/2025/03/19/67da51c2e9604.png"></uv-tabbar-item>
+			</uv-tabbar-item> -->
+			<!-- <uv-tabbar-item text="" iconSize="88rpx"
+				icon="https://img.picui.cn/free/2025/03/19/67da51c2e9604.png"></uv-tabbar-item> -->
 			<uv-tabbar-item text="订单">
 				<template v-slot:active-icon>
 					<image class="icon" src="https://img.picui.cn/free/2025/03/14/67d3e76ca765c.png"></image>

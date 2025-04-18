@@ -48,7 +48,7 @@ class EnumError extends Error {
 
 // 常量定义
 const CACHE_EXPIRE_TIME = 5 * 60 * 1000; // 缓存过期时间（5分钟）
-const DEFAULT_TYPE_LIMIT = 10; // 默认枚举类型加载数量
+const DEFAULT_TYPE_LIMIT = 100; // 默认枚举类型加载数量
 const DEFAULT_VALUE_LIMIT = 50; // 默认枚举值加载数量
 
 // 枚举值字段定义
