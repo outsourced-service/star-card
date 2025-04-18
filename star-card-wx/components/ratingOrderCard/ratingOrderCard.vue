@@ -6,7 +6,8 @@
 		</view>
 		<view class="package-card-item" :style="dynamicBackground" @click="handleToDetail">
 			<view class="card-item-logo">
-				<uv-image :src="evaluationData.order_logo_img.url" width="280rpx" height="56rpx"></uv-image>
+				<!-- <uv-image :src="evaluationData.order_logo_img.url" width="280rpx" height="56rpx"></uv-image> -->
+				<evaluationTag :evaluation="evaluationData"></evaluationTag>
 				<view class="item-logo-text">{{evaluationData.order_title}}</view>
 			</view>
 			<view class="card-item-order">
@@ -208,6 +209,7 @@
 		border: 2rpx solid;
 		border-image-source: linear-gradient(90deg, #FFFFFF 0%, rgba(255, 255, 255, 0.66) 100%);
 		box-shadow: 0 4rpx 16rpx 0 rgba(0, 0, 0, 0.1);
+		min-height: 394rpx;
 	}
 	
 	.card-item-logo {

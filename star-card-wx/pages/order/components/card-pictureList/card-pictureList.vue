@@ -114,6 +114,7 @@
 
 		.picture-container {
 			position: relative;
+			height: 90px;
 		}
 
 		.more-pictures {

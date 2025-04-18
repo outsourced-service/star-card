@@ -3,7 +3,8 @@
 		<view class="container-order-info">
 			<view class="order-info-top">
 				<view class="info-top-tag">
-					<uv-image radius="12rpx" :src="orderInfo.evaluation?.order_logo_img.url" width="280rpx" height="56rpx"></uv-image>
+					<!-- <uv-image radius="12rpx" :src="orderInfo.evaluation?.order_logo_img.url" width="280rpx" height="56rpx"></uv-image> -->
+					<evaluationTag :evaluation="orderInfo.evaluation"></evaluationTag>
 					<view class="top-tag-title">{{orderInfo.evaluation?.order_title}}</view>
 				</view>
 				<view class="info-top-item">
@@ -75,7 +76,7 @@
 		data() {
 			return {
 				orderInfo: {},
-				closeableAdditional: false,
+				closeableAdditional: true,
 				roundAdditional: '0rpx'
 			}
 		},
@@ -110,7 +111,9 @@
 				
 			},
 			handleElectronicStub() {
-				
+				uni.navigateTo({
+				    url: '/pages/order/index/electronicStub'
+				})
 			},
 			getOrderInfoDetail(id) {
 				orderInfo.getOrderInfoDetail(id).then(res => {

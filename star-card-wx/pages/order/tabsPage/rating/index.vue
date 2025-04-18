@@ -32,18 +32,7 @@
 				<view class="popup-page-text">取消</view>
 			</view>
 		</uv-popup>
-		<view class="custom-modal" v-if="showModal">
-			<view class="modal-content">
-				<view class="modal-content-top">
-					<view class="modal-title">删除订单</view>
-					<view class="modal-message">确认删除此订单吗？删除后将不可恢复。</view>
-				</view>
-				<view class="modal-buttons">
-					<view class="modal-button cancel" @click="cancelDelete">取消</view>
-					<view class="modal-button delete" @click="confirmDelete">删除</view>
-				</view>
-			</view>
-		</view>
+		<popup-modal v-if="showModal" title="删除订单" message="确认删除此订单吗？删除后将不可恢复。" @cancelDelete="cancelDelete" @confirmDelete="confirmDelete"></popup-modal>
 		<view class="page-pay" :style="{bottom: offsetBottom + 'rpx'}">
 			<view class="page-pay-button" @click="handlePayButton">
 				<view class="pay-button-icon"></view>
@@ -99,7 +88,6 @@
 			}
 		},
 		emit: ['handleStatus', 'handleEvaluation'],
-		
 		methods: {
 			handleToDetail(id) {
 				uni.navigateTo({
@@ -149,9 +137,9 @@
 		},
 		mounted() {
 			// #ifndef WEB
-			// this.offsetTop = this.$system.BarHeight();
-			// #endif
+			this.offsetTop = this.$system.BarHeight();
 			this.offsetBottom = this.$system.safeHeight() + 154
+			// #endif
 		}
 	}
 </script>
@@ -159,14 +147,14 @@
 <style scoped lang="scss">
 	.page {
 		width: 100vw;
-		background-color: #f6f7f9;
 	}
 
 	.page-list {
 		display: flex;
 		flex-direction: column;
-		padding: 28rpx 0;
-		margin-bottom: 108rpx;
+		padding-top: 28rpx;
+		padding-bottom: 108rpx;
+		background-color: #f6f7f9;
 	}
 
 	.popup-page {
@@ -197,95 +185,6 @@
 
 	.popup-page-line {
 		border: 4rpx solid rgba(246, 247, 249, 1);
-	}
-
-	/* 自定义弹窗样式 */
-	.custom-modal {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0, 0, 0, 0.5);
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		z-index: 9999;
-	}
-
-	.modal-content {
-		margin: 0 112rpx;
-		border-radius: 32rpx;
-		background-color: white;
-		padding: 32rpx;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
-	.modal-content-top {
-		padding: 16rpx 8rpx 40rpx 8rpx;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 24rpx;
-	}
-
-	.modal-title {
-		font-weight: 600;
-		font-size: 32rpx;
-		text-align: center;
-		color: rgba(0, 0, 0, 0.99);
-	}
-
-	.modal-message {
-		font-size: 26rpx;
-		text-align: center;
-		color: rgba(0, 0, 0, 0.66);
-	}
-
-	.modal-buttons {
-		display: flex;
-		justify-content: space-between;
-	}
-
-	.modal-button {
-		width: 45%;
-		height: 80rpx;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border-radius: 40rpx;
-		font-size: 30rpx;
-	}
-
-	.modal-button.cancel {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border: 2rpx solid white;
-		width: 237rpx;
-		height: 84rpx;
-		border-radius: 200rpx;
-		border-width: 2rpx;
-		color: rgba(0, 0, 0, 0.44);
-		font-weight: 600;
-		font-size: 28rpx;
-	}
-
-	.modal-button.delete {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		background-color: rgba(245, 63, 63, 1);
-		border: 2rpx solid rgba(245, 63, 63, 1);
-		width: 237rpx;
-		height: 84rpx;
-		border-radius: 200rpx;
-		border-width: 2rpx;
-		color: white;
-		font-weight: 600;
-		font-size: 28rpx;
 	}
 
 	.page-pay {

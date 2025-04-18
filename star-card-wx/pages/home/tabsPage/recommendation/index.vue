@@ -2,7 +2,7 @@
 	<view class="page">
 		<quickLink></quickLink>
 		<uv-sticky :offsetTop="offsetTop" >
-			<CategoryTagList :tabList="tabList" @tabChange="tabChange" @tagChange="tagChange"></CategoryTagList>
+			<CategoryTagList :tabList="tabList" :tagList="tagList" @tabChange="tabChange" @tagChange="tagChange"></CategoryTagList>
 		</uv-sticky>
 		<card-mode-three v-if="tab === '热门卡柜'" :data="cardUserList"></card-mode-three>
 		<card-mode-four :data="cardAlbumList" v-else-if="tab === '热门卡册'"></card-mode-four>
@@ -16,6 +16,8 @@
 	import cardModeFour from '@/pages/home/components/cardModeFour.vue';
 	import CategoryTagList from '@/pages/home/components/CategoryTagList.vue';
 	import quickLink from '@/pages/home/components/quickLink.vue';
+	
+	import { getEnumTypes, getEnumValues, searchEnumValues } from '@/api/gloabal/getEnum';
 	
 	import { tabList } from '/mock/CategoryTagList.js'
 	import {
@@ -52,6 +54,11 @@
 				cardList: cardList,
 				cardAlbumList: cardAlbumList,
 				tabList: tabList,
+				tagList: [
+					{
+						enum_value: '全部'
+					}
+				],
 				tab: '最新上架',
 				tag: '全部',
 				offsetTop: 0
@@ -59,7 +66,13 @@
 		},
 		methods: {
 			tabChange(name) {
-				this.tab = name
+				this.tab = name;
+				this.tagList = [{ enum_value: '全部' }];
+				if(name == '热门卡柜') {
+					this.getTagList("用户");
+				} else {
+					this.getTagList("类别");
+				}
 			},
 			tagChange(name) {
 				this.tag = name
@@ -70,11 +83,22 @@
 			reachBottom(){
 				console.log("上拉加载");
 			},
+			getTagList(value) {
+				getEnumValues(value).then(res => {
+					this.tagList = [...this.tagList, ...res.values]
+				})
+			}
 		},
 		mounted() {
 			// #ifndef WEB
 			this.offsetTop = this.$system.BarHeight();
 			// #endif
+			this.tagList = [{ enum_value: '全部' }];
+			this.getTagList("类别");
+		},
+		onLoad() {
+			// this.tagList = [];
+			// this.getTagList("类别");
 		}
 	}
 </script>

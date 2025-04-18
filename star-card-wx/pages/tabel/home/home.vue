@@ -71,9 +71,9 @@ export default {
 	onLoad: function (options) {
 	},
 	onShow: function () {
-		getEnumValues("类别").then(res => {
-			console.log(res);
-		})
+		// getEnumValues("类别").then(res => {
+		// 	console.log(res);
+		// })
 	},
 	// 下来刷新
 	onPullDownRefresh() {
