@@ -38,7 +38,7 @@ interface UserFormData {
 }
 
 // 创建全局表单状态管理
-class FormStore {
+class UserFormStore {
     // 用户信息表单数据
     private userForm = reactive({} as UserFormData);
     
@@ -147,29 +147,29 @@ class FormStore {
 }
 
 // 创建全局单例
-export const formStore = new FormStore();
+export const userFormStore = new UserFormStore();
 
 // 使用示例：
 /*
 // 设置表单数据
-formStore.setUserForm({
+userFormStore.setUserForm({
     nickname: '新昵称',
     introduce: '这是我的简介'
 });
 
 // 更新单个字段
-formStore.updateUserField('nickname', '新昵称');
+userFormStore.updateUserField('nickname', '新昵称');
 
 // 提交表单
 try {
-    await formStore.submitUserForm();
+    await userFormStore.submitUserForm();
     uni.showToast({ title: '保存成功' });
 } catch (error) {
     uni.showToast({ title: '保存失败', icon: 'error' });
 }
 
 // 验证表单
-const { isValid, errors } = formStore.validateUserForm();
+const { isValid, errors } = userFormStore.validateUserForm();
 if (!isValid) {
     console.log('表单验证错误:', errors);
 }
