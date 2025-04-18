@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<tabBar :value='2' />
+		<tabBar value='add' />
 	</view>
 </template>
 

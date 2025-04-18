@@ -149,7 +149,7 @@ export default class CurdService {
     }
 
     private async executeQuery(options: any, isOpFields: boolean = false, apiConfig?: ApiConfig) {
-        const { id, alias = this.name, limit, offset, fields = this.fields, aggregate_fields = 'count', ...rest } = options;
+        const { id, alias = this.name, limit = 100, offset, fields = this.fields, aggregate_fields = 'count', ...rest } = options;
 
         if (id) return await this.queryByPk(id, fields, alias, isOpFields, apiConfig);
 

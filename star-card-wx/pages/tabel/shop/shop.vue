@@ -7,7 +7,7 @@
 		<cardAddress />
 		<cardShop style="background-color: #0e0e0e;"/> -->
 		<!-- 底部导航栏 -->
-		<tabBar :value='1' />
+		<tabBar value='商城' />
 	</view>
 </template>
 

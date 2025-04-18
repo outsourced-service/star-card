@@ -21,7 +21,7 @@
 
 		</view>
 		<!-- 底部导航栏 -->
-		<tabBar :value='0' />
+		<tabBar value='主页' />
 	</view>
 </template>
 

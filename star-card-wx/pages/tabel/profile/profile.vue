@@ -9,7 +9,7 @@
 			<functionList></functionList>
 		</view>
 		<!-- <tabBar :value='4' /> -->
-		<tabBar :value='5' />
+		<tabBar value='我的' />
 	</view>
 </template>
 
@@ -47,9 +47,7 @@
 				this.userInfo = res
 			})
 
-			userCardCabinet.getCardCabinetDetail().then(res => {
-				this.cardList = res
-			})
+			userCardCabinet.getPublicCardCabinet(3)
 		},
 		methods: {},
 		mounted() {}

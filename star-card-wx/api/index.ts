@@ -1,1 +1,1 @@
-import { initUnified } from './unified';
+export * as gloabal from './gloabal';

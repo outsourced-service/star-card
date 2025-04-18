@@ -2,17 +2,18 @@ import CurdService from '@/utils/ezInstance/curd';
 import { login } from '@/api/login/index';
 
 // 定义用户卡册字段
-const userCardCabinetFields = [
+const userCardCabinetFields: any = [
     'id',
     'user_user',
     'name',
-    'avatar',
+    'avatar{id, url}',
     'introduce',
     'is_public',
     'is_featured',
     'is_pinned',
     'pin_time',
     {
+        alias: 'cardAggregate',
         name: 'user_card_aggregate',
         fields: ['aggregate{count}']
     }
@@ -66,28 +67,36 @@ export default {
     getPublicCardCabinet: async (params: {
         pageSize?: number;
         pageNumber?: number;
-        keyword?: string;
-        isFeatured?: boolean
+        type?: string
     } = {}) => {
         try {
-            const { pageSize = 10, pageNumber = 1, keyword = '', isFeatured = false } = params;
+            const { pageSize = 10, pageNumber = 1, type } = params;
 
             // 构建查询条件
             const where: Record<string, any> = { is_public: { _eq: true } };
 
-            if (keyword) {
-                where.name = { _ilike: `%${keyword}%` };
-            }
-
-            if (isFeatured) {
-                where.is_featured = { _eq: true };
-            }
+            if (type) where.user_card = { type: { _eq: type } };
 
             const result = await userCardCabinet.query({
                 where,
                 limit: pageSize,
                 offset: (pageNumber - 1) * pageSize,
-                order_by: defaultOrderBy
+                order_by: defaultOrderBy,
+                fields: [...userCardCabinetFields, {
+                    alias: 'collectedAggregate',
+                    name: 'user_visit_record_aggregate', // 查询用户访问记录 中 收藏的数量
+                    args: { where: { is_collected: { _eq: true } } },
+                    fields: [{ name: 'aggregate', fields: 'count' }]
+                }, {
+                    name: "user",
+                    fields: ["id nickname avatar{id, url} username province city", {
+                        alias: 'followedAggregate',
+                        name: 'user_visit_record_aggregate', // 查询用户访问记录 中 关注的数量
+                        args: { where: { is_followed: { _eq: true } } },
+                        fields: [{ name: 'aggregate', fields: 'count' }]
+                    }]
+
+                }]
             });
 
             return result.data || [];
@@ -99,8 +108,7 @@ export default {
     // 获取卡册详情
     getCardCabinetDetail: async (cabinetId: number) => {
         try {
-            const result = await userCardCabinet.query({ id: cabinetId });
-            return result.data?.[0] || null;
+            return await userCardCabinet.query({ id: cabinetId });
         } catch (error) {
             return handleError(error, '获取卡册详情失败', null);
         }

@@ -15,7 +15,7 @@
 				@handleEvaluation="handleEvaluation" :openCollapse="openCollapse" :is_stickyBg="is_stickyBg"/>
 		</view>
 		<!-- 底部导航栏 -->
-		<tabBar :value='3' />
+		<tabBar value='订单' />
 	</view>
 </template>
 
@@ -23,6 +23,7 @@
 	import rating from '@/pages/order/tabsPage/rating/index.vue';
 	import order from "@/api/order";
 	import orderInfo from "@/api/order";
+	
 	export default {
 		components: {
 			rating

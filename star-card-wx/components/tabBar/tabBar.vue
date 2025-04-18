@@ -2,7 +2,7 @@
 	<view class="tabbar" style="z-index: 99;">
 		<uv-tabbar :value="value" @change="handleTabber" activeColor="#fea800" inactiveColor="rgba(0, 0, 0, 0.2)"
 			iconSize="38rpx" :custom-style="{padding: '14rpx'}" safeAreaInsetBottom>
-			<uv-tabbar-item text="主页">
+			<uv-tabbar-item name="主页" text="主页">
 				<template v-slot:active-icon>
 					<image class="icon" src="https://img.picui.cn/free/2025/03/14/67d3e651ccc7e.png"></image>
 				</template>
@@ -10,7 +10,7 @@
 					<image class="icon" src="https://img.picui.cn/free/2025/03/14/67d3e5e777dd7.png"></image>
 				</template>
 			</uv-tabbar-item>
-			<!-- <uv-tabbar-item text="商城">
+			<!-- <uv-tabbar-item name="商城" text="商城">
 				<template v-slot:active-icon>
 					<image class="icon" src="https://img.picui.cn/free/2025/03/14/67d3e69267f04.png"></image>
 				</template>
@@ -18,9 +18,9 @@
 					<image class="icon" src="https://img.picui.cn/free/2025/03/14/67d3e6f323d2f.png"></image>
 				</template>
 			</uv-tabbar-item> -->
-			<!-- <uv-tabbar-item text="" iconSize="88rpx"
+			<!-- <uv-tabbar-item name="add" text="" iconSize="88rpx"
 				icon="https://img.picui.cn/free/2025/03/19/67da51c2e9604.png"></uv-tabbar-item> -->
-			<uv-tabbar-item text="订单">
+			<uv-tabbar-item name="订单"  text="订单">
 				<template v-slot:active-icon>
 					<image class="icon" src="https://img.picui.cn/free/2025/03/14/67d3e76ca765c.png"></image>
 				</template>
@@ -28,7 +28,7 @@
 					<image class="icon" src="https://img.picui.cn/free/2025/03/14/67d3e79447a6e.png"></image>
 				</template>
 			</uv-tabbar-item>
-			<uv-tabbar-item text="我的">
+			<uv-tabbar-item name="我的" text="我的">
 				<template v-slot:active-icon>
 					<image class="icon" src="https://img.picui.cn/free/2025/03/14/67d3e7e0a309c.png"></image>
 				</template>
@@ -74,7 +74,7 @@
 		methods: {
 			handleTabber(index) {
 				uni.switchTab({
-					url: `/${this.tabbar[index].path}`
+					url: `/${this.tabbar.find(item => item.title === index).path}`
 				});
 			}
 		}
