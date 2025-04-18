@@ -25,15 +25,15 @@ interface EnumValue {
 interface SearchRecord {
     keyword: string;
     total: number;
-    hasMore: boolean;
     lastUpdateTime: number;
+    values?: EnumValue[];
 }
 
 // 定义缓存接口
 interface Cache {
     enumTypes: Map<string, EnumType>;
     enumValues: Map<string, EnumValue[]>;
-    searchRecords: Map<string, SearchRecord>;
+    lastSearch: Map<string, SearchRecord>; // 按类型保存最后一次搜索
     lastUpdateTime: Map<string, number>;
     totalCounts: Map<string, number>;
 }
@@ -86,7 +86,7 @@ const enumValueCurd = new CurdService('enum_values', enum_values_fields);
 const cache: Cache = {
     enumTypes: new Map(),
     enumValues: new Map(),
-    searchRecords: new Map(),
+    lastSearch: new Map(),
     lastUpdateTime: new Map(),
     totalCounts: new Map(),
 };
@@ -215,7 +215,7 @@ export async function getEnumValues(
         if (isCacheValid(typeName)) {
             const currentValues = cache.enumValues.get(typeName) || [];
             const totalCount = cache.totalCounts.get(typeName) || 0;
-            
+
             // 如果缓存中的数据足够，直接返回
             if (currentValues.length >= end) {
                 return {
@@ -223,7 +223,7 @@ export async function getEnumValues(
                     hasMore: currentValues.length < totalCount
                 };
             }
-            
+
             // 如果缓存中的数据不足，但总数已经知道，说明数据已经加载完了
             if (currentValues.length === totalCount) {
                 return {
@@ -238,7 +238,7 @@ export async function getEnumValues(
 
         // 请求新数据
         const result = await enumValueCurd.query({
-            where: { 
+            where: {
                 enum_types_enum_types: { _eq: types[0].id },
                 is_active: { _eq: true }
             },
@@ -250,7 +250,7 @@ export async function getEnumValues(
 
         const total = result.enum_values_aggregate?.aggregate?.count || 0;
         const newValues = [...currentValues, ...result.enum_values];
-        
+
         // 更新缓存
         cache.enumValues.set(typeName, newValues);
         cache.totalCounts.set(typeName, total);
@@ -279,77 +279,101 @@ export async function searchEnumValues(
     pageSize: number = DEFAULT_VALUE_LIMIT,
     apiConfig?: ApiConfig
 ): Promise<{ values: EnumValue[], hasMore: boolean }> {
-    try {
-        const searchKey = `${typeName}:${keyword}`;
-        const start = (page - 1) * pageSize;
-        const end = start + pageSize;
+    // 先验证枚举类型是否存在
+    const types = await getEnumTypes(typeName, apiConfig);
+    if (!types.length) return { values: [], hasMore: false };
 
-        // 检查搜索记录
-        if (cache.searchRecords.has(searchKey)) {
-            const record = cache.searchRecords.get(searchKey)!;
-            if (isCacheValid(searchKey)) {
-                const values = cache.enumValues.get(typeName) || [];
-                const filteredValues = values.filter((value: EnumValue) => 
-                    value.enum_value.toLowerCase().includes(keyword.toLowerCase()) ||
-                    (value.description && value.description.toLowerCase().includes(keyword.toLowerCase()))
-                );
-                
-                if (filteredValues.length >= end) {
-                    return {
-                        values: filteredValues.slice(start, end),
-                        hasMore: filteredValues.length > end
-                    };
-                }
-            }
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
+    const searchKey = `keyword:${typeName}`;
+
+    // 获取上一次的搜索结果
+    const lastSearch = cache.lastSearch.get(searchKey);
+    const isLastSearch = isCacheValid(searchKey);
+
+    let list: EnumValue[] = [];
+
+    // 如果上一次搜索的结果存在，并且关键词相同，则直接使用上一次的结果
+    if (isLastSearch && lastSearch && lastSearch.keyword === keyword && lastSearch.values) {
+        list = lastSearch.values.slice(start, end);
+
+        // 如果缓存数据足够一页，直接返回
+        if (list.length >= pageSize || list.length >= lastSearch.total) {
+            return {
+                values: list,
+                hasMore: list.length < lastSearch.total
+            };
+        }
+    }
+
+    // 搜索数据库
+    const Search = async (): Promise<{ values: EnumValue[], total: number }> => {
+        // 从本地缓存中搜索
+        const localValues = cache.enumValues.get(typeName) || [];
+        const totalCounts =  cache.totalCounts.get(typeName) || 0;
+
+        const localSearchResult = localValues.filter(value => {
+            const enumValue = value.enum_value || '';
+            const description = value.description || '';
+            return enumValue.includes(keyword) || description.includes(keyword);
+        }).slice(start, end);
+        
+        // 判断是否满足一页 or 是否已经搜索完
+        if (localSearchResult.length >= pageSize || localSearchResult.length >= totalCounts) {
+            return {
+                values: localSearchResult,
+                total: localSearchResult.length
+            };
         }
 
-        const types = await getEnumTypes([typeName], apiConfig);
-        if (!types.length) {
-            return { values: [], hasMore: false };
-        }
+        //不满足一页，则从数据库中搜索
+        const where: any = {
+            enum_types_enum_types: { _eq: types[0].id },
+            is_active: { _eq: true }
+        };
 
+        if (keyword) {
+            where._or = [
+                { enum_value: { _ilike: `%${keyword}%` } },
+                { description: { _ilike: `%${keyword}%` } }
+            ];
+        }
         const result = await enumValueCurd.query({
-            where: { 
-                enum_types_enum_types: { _eq: types[0].id },
-                is_active: { _eq: true },
-                _or: [
-                    { enum_value: { _ilike: `%${keyword}%` } },
-                    { description: { _ilike: `%${keyword}%` } }
-                ]
-            },
+            where,
             order_by: { sort_order: () => 'desc_nulls_first', created_at: () => 'desc_nulls_first' },
-            offset: start,
-            limit: pageSize + 1,
+            offset: start + localSearchResult.length || 1,
+            limit: pageSize,
             aggregate_fields: 'count'
         }, apiConfig);
 
         const total = result.enum_values_aggregate?.aggregate?.count || 0;
-        const values = result.enum_values.slice(0, pageSize);
-        
-        // 更新搜索记录
-        cache.searchRecords.set(searchKey, {
-            keyword,
-            total,
-            hasMore: result.enum_values.length > pageSize,
-            lastUpdateTime: Date.now()
-        });
+        const values = result.enum_values || [];
 
-        // 更新缓存
-        const currentValues = cache.enumValues.get(typeName) || [];
-        const newValues = values.filter((value: { id: number; }) => 
-            !currentValues.some(v => v.id === value.id)
-        );
-        cache.enumValues.set(typeName, [...currentValues, ...newValues]);
-        updateCacheTime(typeName);
-
-        return { 
-            values, 
-            hasMore: result.enum_values.length > pageSize 
-        };
-    } catch (error: any) {
-        throw new EnumError(`搜索枚举值失败: ${error.message}`);
+        // 返回搜索结果
+        return {
+            values: [...localSearchResult, ...values],
+            total
+        }
     }
+
+    const searchResult = await Search();
+
+    // 保存搜索结果
+    const now = Date.now();
+    cache.lastSearch.set(searchKey, {
+        keyword,
+        total: searchResult.total,
+        lastUpdateTime: now,
+        values: searchResult.values
+    });
+    cache.lastUpdateTime.set(searchKey, now);
+
+    return {
+        values: searchResult.values,
+        hasMore: searchResult.values.length > pageSize
+    };
 }
+
 
 /**
  * 清除缓存
@@ -360,18 +384,18 @@ export function clearCache(typeName?: string): void {
         if (typeName) {
             cache.enumTypes.delete(typeName);
             cache.enumValues.delete(typeName);
-            cache.searchRecords.delete(typeName);
-            cache.lastUpdateTime.delete(typeName);
-            cache.totalCounts.delete(typeName);
-            for (const key of cache.searchRecords.keys()) {
+            // 清除该类型的所有搜索记录
+            for (const key of cache.lastSearch.keys()) {
                 if (key.startsWith(`${typeName}:`)) {
-                    cache.searchRecords.delete(key);
+                    cache.lastSearch.delete(key);
                 }
             }
+            cache.lastUpdateTime.delete(typeName);
+            cache.totalCounts.delete(typeName);
         } else {
             cache.enumTypes.clear();
             cache.enumValues.clear();
-            cache.searchRecords.clear();
+            cache.lastSearch.clear();
             cache.lastUpdateTime.clear();
             cache.totalCounts.clear();
         }
