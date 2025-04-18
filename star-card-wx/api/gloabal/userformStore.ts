@@ -23,7 +23,7 @@ interface UserFormData {
     province?: string;         // 所在省份
     city?: string;            // 所在城市
     area?: string;            // 所在地区
-    location?: {              // 中心地理位置
+    location?: {              // 中心地理位置  上传保存的格式：{"type": "Point", "coordinates": [ 103.970107857, 0  ]}
         latitude: number;
         longitude: number;
     };
