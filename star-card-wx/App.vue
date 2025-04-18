@@ -1,13 +1,9 @@
 <script>
 	import addInterceptor from "@/addInterceptor";
-	import {
-		getUserInfo
-	} from "@/api/user/index";
 	export default {
 		onLaunch: async function() {
 			console.log('App Launch')
 			addInterceptor();
-			// await getUserInfo();
 		},
 		onShow: function() {
 			console.log('App Show')
