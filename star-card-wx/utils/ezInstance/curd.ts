@@ -126,7 +126,7 @@ export default class CurdService {
             aggregate_fields = 'count'
         } = options
         const opMethod = 'query'
-        const opFields = {
+        const opFields = [{
             alias,
             name: this.name,
             args: {
@@ -134,15 +134,23 @@ export default class CurdService {
                 offset: (offset - 1) * limit,
                 ...args
             },
-            fields: [fields, { name: 'aggregate', args, fields: aggregate_fields }]
-        }
+            fields: fields
+        }, {
+            alias: `${alias}_aggregate`,
+            name: `${this.name}_aggregate`,
+            args: { where: args.where },
+            fields: [{
+                name: "aggregate",
+                fields: aggregate_fields
+            }]
+        }]
         if (isOpFields) return opFields
         else return await this.execute("find", opMethod, alias, opFields, apiConfig) || []
     }
 
     private async executeQuery(options: any, isOpFields: boolean = false, apiConfig?: ApiConfig) {
         const { id, alias = this.name, limit, offset, fields = this.fields, aggregate_fields = 'count', ...rest } = options;
-        
+
         if (id) return await this.queryByPk(id, fields, alias, isOpFields, apiConfig);
 
         if (limit && offset) return await this.find({

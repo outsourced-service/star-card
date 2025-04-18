@@ -27,6 +27,9 @@
 
 <script>
 	import recommendation from '@/pages/home/tabsPage/recommendation/index.vue';
+
+	import { getEnumTypes, getEnumValues } from '@/api/gloabal/getEnum';
+
 	export default {
 		components: {
 			recommendation
@@ -66,7 +69,11 @@
 			}
 		},
 		onLoad: function(options) {
-
+		},
+		onShow: function() {
+			getEnumValues("类型").then(res => {
+				console.log(res);
+			})
 		},
 		// 下来刷新
 		onPullDownRefresh() {
