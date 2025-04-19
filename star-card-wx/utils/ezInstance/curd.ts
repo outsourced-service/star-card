@@ -184,16 +184,24 @@ export default class CurdService {
      */
     public async insert(data: any | any[], fields?: Fields, apiConfig?: ApiConfig) {
         const isArray = Array.isArray(data);
+        const opName = `insert_${isArray ? this.name : `${this.name}_one`}`;
+        const opArgs = isArray ? { objects: data } : { object: data };
+        const opFields = {
+            name: opName,
+            args: opArgs,
+            fields: isArray
+                ? ['affected_rows', fields ? { name: 'returning', fields } : '']
+                : (fields || this.fields),
+        }
         return await utils.request(
             this.getThrottleKey('insert'),
             () => this.operate({
                 opMethod: "mutation",
-                opName: `insert_${isArray ? this.name : `${this.name}_one`}`,
-                opArgs: isArray ? { objects: data } : { object: data },
-                opFields: isArray
-                    ? ['affected_rows', fields ? { name: 'returning', fields } : '']
-                    : (fields || this.fields),
-            }),
+                opName,
+                opArgs: {},
+                opFields,
+            }).then(({ response }) => response[opName])
+            ,
             apiConfig
         );
     }

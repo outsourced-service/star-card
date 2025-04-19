@@ -13,13 +13,13 @@ const userCardCabinetFields: any = [
     'is_pinned',
     'pin_time'
 ];
-
-// 创建用户卡册的 CRUD 实例
-const userCardCabinet = new CurdService('user_cardcabinet', [...userCardCabinetFields, {
+const cardAggregate = {
     alias: 'cardAggregate',
     name: 'user_card_aggregate',
     fields: ['aggregate{count}']
-}]);
+}
+// 创建用户卡册的 CRUD 实例
+const userCardCabinet = new CurdService('user_cardcabinet', [...userCardCabinetFields, cardAggregate]);
 
 // 公共排序配置
 const defaultOrderBy = { is_pinned: () => 'desc', pin_time: () => 'desc', created_at: () => 'desc' };
