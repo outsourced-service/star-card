@@ -137,7 +137,6 @@
 	.page-swiper-box {
 		width: 400rpx;
 		height: 640rpx;
-
 	}
 	
 	.page-swiper-text {

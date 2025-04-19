@@ -9,16 +9,17 @@
 					<template v-slot:label>
 						<view class="edit-form-label">背景图</view>
 					</template>
-					<view class="edit-form-bg">
+					<view class="edit-form-bg" @click="handleImage">
 						<view class="form-bg-image">
-							<uv-image v-if="!formData.bgImg.url" width="96rpx" height="96rpx" radius="8rpx" src="https://s3-alpha-sig.figma.com/img/9fd2/aa53/906aa6c17e0d5471bc722b1d849ab77d?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=oGNoyWG0e~ZeEFtZskOd7aOAW84-88TTN0sM9snsuoaoxemMvAixObvSIbbGCSdbPE4vXn2vopv5oEwx4ed7~gyG~BZjKXEvBAb9YxQVIVk5w4UMx8nJ-ASwUHRu2ZydHeNZdPdmnexKuUOhcU8TbRCZuvvB-oe8M5a7gXt5pUkavVNyk43GVuCXQirXKdO77ehkE2iUcJ34obJ5gw8BeHSjmeTpYdXW2dwDTkR2L1JPzm9zyrwTkww7iJW3Dz0yvaJZaLibsp-KoPeD~XKSJlJHltKJvULtOboz9iV9kq6CaNxetcvmtsorSJc-RZHZqVvyNBYYMucDHiS6EHsNyg__"></uv-image>
+							<uv-image v-if="!formData.avatar.url" width="96rpx" height="96rpx" radius="8rpx" src="https://s3-alpha-sig.figma.com/img/9fd2/aa53/906aa6c17e0d5471bc722b1d849ab77d?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=oGNoyWG0e~ZeEFtZskOd7aOAW84-88TTN0sM9snsuoaoxemMvAixObvSIbbGCSdbPE4vXn2vopv5oEwx4ed7~gyG~BZjKXEvBAb9YxQVIVk5w4UMx8nJ-ASwUHRu2ZydHeNZdPdmnexKuUOhcU8TbRCZuvvB-oe8M5a7gXt5pUkavVNyk43GVuCXQirXKdO77ehkE2iUcJ34obJ5gw8BeHSjmeTpYdXW2dwDTkR2L1JPzm9zyrwTkww7iJW3Dz0yvaJZaLibsp-KoPeD~XKSJlJHltKJvULtOboz9iV9kq6CaNxetcvmtsorSJc-RZHZqVvyNBYYMucDHiS6EHsNyg__"></uv-image>
+							<uv-image v-else width="96rpx" height="96rpx" radius="8rpx" :src="formData.avatar.url"></uv-image>
 						</view>
 						<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.2)" size="32rpx"></uv-icon>
 					</view>
 				</uni-forms-item>
 				<uni-forms-item label="卡册简介">
 					<view style="padding-left: 20rpx;">
-						<uni-easyinput type="textarea" v-model="formData.signature" placeholder="请填写" :inputBorder="false"/>
+						<uni-easyinput type="textarea" v-model="formData.introduce" placeholder="请填写" :inputBorder="false"/>
 					</view>
 				</uni-forms-item>
 			</uni-forms>
@@ -46,7 +47,7 @@
 				</view>
 			</view>
 			<view class="edit-default-right">
-				<uv-switch v-model="formData.is_curated" activeColor="#fea800" @change="handleDefault"></uv-switch>
+				<uv-switch v-model="formData.is_featured" activeColor="#fea800" @change="handleDefault"></uv-switch>
 			</view>
 		</view>
 		<view class="page-edit-default" style="margin-bottom: 32rpx;">
@@ -56,7 +57,7 @@
 				</view>
 			</view>
 			<view class="edit-default-right">
-				<uv-switch v-model="formData.is_set_top" activeColor="#fea800" @change="handleDefault"></uv-switch>
+				<uv-switch v-model="formData.is_pinned" activeColor="#fea800" @change="handleDefault"></uv-switch>
 			</view>
 		</view>
 		<view class="page-edit-button" v-if="!is_popup">
@@ -66,6 +67,11 @@
 </template>
 
 <script>
+	import { user } from '@/api/gloabal/index';
+	import userCardCabinetApi from '@/api/card/userCardCabinet';
+	import ezInstance from '@/utils/ezInstance';
+	
+	const { ezclient } = ezInstance;
 	export default {
 		options: {
 		    styleIsolation: 'shared'
@@ -86,17 +92,47 @@
 			return {
 				formData: {
 					name: '',
-					signature: '',
-					bgImg: {
+					introduce: '',
+					avatar: {
 						url: ''
 					},
 					is_public: true,
-					is_curated: false,
-					is_set_top: false
-				}
+					is_featured: false,
+					is_pinned: false
+				},
+				userInfo: {}
 			}
 		},
 		methods: {
+			handleImage() {
+				uni.chooseImage({
+					count: 1, //默认9
+					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+					// sourceType: ['album'], //从相册选择
+					success: (res) => {
+						ezclient.uploadImage(res.tempFiles[0]).then(rs => {
+							this.formData.avatar.url = rs.downloadUrl
+							this.formData.avatar_id = rs.imageId;
+						})
+					}
+				});
+			},
+			handleAdd() {
+				if(!this.formData.name) {
+					uni.showToast({
+						title: '请填写卡册标题',
+						icon: 'none'
+					})
+				}
+				const { avatar, ...data } = this.formData;
+				if(this.formData.id) {
+					
+				} else {
+					userCardCabinetApi.createUserCardCabinet({...data, user_user: this.userInfo.id}).then(res => {
+						console.log(res)
+					})
+				}
+			},
 			handleDefault(value) {
 				if(value) {
 					this.formData.set_default_num = Date.now();
@@ -106,10 +142,13 @@
 			}
 		},
 		mounted() {
+			user.getUserInfo().then(res => {
+				this.userInfo = res
+			})
 		},
 		onLoad(option) {
 			if(option.type == 'curated') {
-				this.formData.is_curated = true
+				this.formData.is_featured = true
 			}
 		}
 	}
