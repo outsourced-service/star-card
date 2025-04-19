@@ -6,11 +6,11 @@
 		</view>
 		<view class="package-card-item">
 			<view class="card-item-logo">
-				<uv-image :src="data.logo_image" width="280rpx" height="56rpx"></uv-image>
+				<uv-image lazyLoad :src="data.logo_image" width="280rpx" height="56rpx"></uv-image>
 			</view>
 			<view class="card-item-order">
 				<view class="item-order-image">
-					<uv-image :src="data.image" width="142rpx" height="180rpx" radius="16rpx"></uv-image>
+					<uv-image lazyLoad :src="data.image" width="142rpx" height="180rpx" radius="16rpx"></uv-image>
 				</view>
 				<view class="item-order-info">
 					<view class="order-info-top">

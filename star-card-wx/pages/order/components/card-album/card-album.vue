@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<view v-for="(item, index) in urls" :key="index" class="container-album">
-			<uv-image :src="item" width="100%" height="220rpx"></uv-image>
+			<uv-image lazyLoad :src="item" width="100%" height="220rpx"></uv-image>
 		</view>
 	</view>
 </template>

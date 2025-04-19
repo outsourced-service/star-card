@@ -35,7 +35,7 @@
 			<view class="horizontal-list">
 				<view class="list-container">
 					<view v-for="(cardItem, cardIndex) in item.card_list" :key="cardIndex">
-						<uv-image :src="cardItem.image" mode="aspectFill" width="162rpx" height="236rpx"
+						<uv-image lazyLoad :src="cardItem.image" mode="aspectFill" width="162rpx" height="236rpx"
 							radius="8rpx"></uv-image>
 					</view>
 				</view>

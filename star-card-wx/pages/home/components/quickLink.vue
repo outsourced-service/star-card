@@ -5,7 +5,7 @@
 				<uv-image :src="item.img.url" width="100vw" height="360rpx" mode="scaleToFill"></uv-image>
 			</swiper-item>
 		</swiper> -->
-		<uv-image :src="bannerList[0]?.img?.url" mode="scaleToFill" width="100vw" height="360rpx"/>
+		<uv-image lazyLoad :src="bannerList[0]?.img?.url" mode="scaleToFill" width="100vw" height="360rpx"/>
 		<view class="link-item-tag">
 			<!-- <uv-tags text="2月底车收卡中！" bgColor="rgba(254, 185, 51, 1)" borderColor="rgba(254, 185, 51, 1)" shape="circle" size="mini"></uv-tags> -->
 			2月底车收卡中！
@@ -20,7 +20,7 @@
 					</view>
 				</view>
 				<view class="link-image-left">
-					<uv-image src="https://img.picui.cn/free/2025/03/13/67d2fd8eb78a2.png" mode="scaleToFill" width="126rpx" height="150rpx"/>
+					<uv-image lazyLoad src="https://img.picui.cn/free/2025/03/13/67d2fd8eb78a2.png" mode="scaleToFill" width="126rpx" height="150rpx"/>
 				</view>
 			</view>
 			<view class="quick-link-item">
@@ -29,7 +29,7 @@
 					<view class="link-item-text">入驻卡社，面对面送评</view>
 				</view>
 				<view class="link-image-right">
-					<uv-image src="https://img.picui.cn/free/2025/03/13/67d2fdc235bc7.png" mode="scaleToFill" width="112rpx" height="148rpx"/>
+					<uv-image lazyLoad src="https://img.picui.cn/free/2025/03/13/67d2fdc235bc7.png" mode="scaleToFill" width="112rpx" height="148rpx"/>
 				</view>
 			</view>
 		</view>

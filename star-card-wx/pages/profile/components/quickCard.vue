@@ -1,7 +1,7 @@
 <template>
 	<view class="quick-list">
 		<view class="quick-list-item" v-for="(item, index) in quickList" :key="index">
-			<uv-image :src="item.icon" mode="scaleToFill" width="48rpx" height="48rpx"/>
+			<uv-image lazyLoad :src="item.icon" mode="scaleToFill" width="48rpx" height="48rpx"/>
 			<view class="list-item-name">{{item.name}}</view>
 		</view>
 	</view>

@@ -4,12 +4,12 @@
       <template v-slot:title>
         <view class="custom-top">
           <view class="custom-top-left">
-            <uv-image :src="item.avatar" mode="aspectFill" width="72rpx" height="72rpx"/>
+            <uv-image lazyLoad :src="item.avatar" mode="aspectFill" width="72rpx" height="72rpx"/>
             <view class="custom-title">
               <view class="custom-title-top">
                 {{item.nickname}}
                 <view class="custom-level">
-                  <uv-image :src="item.level_image" mode="aspectFill" width="140rpx" height="36rpx"/>
+                  <uv-image lazyLoad :src="item.level_image" mode="aspectFill" width="140rpx" height="36rpx"/>
                 </view>
                 <view class="custom-new" v-if="item.new_number">
                   +{{item.new_number}}

@@ -27,7 +27,7 @@
 				<view class="form-item-title">背景图</view>
 				<view class="form-item-right">
 					<view class="item-right-data">
-						<uv-image :src="data.bg_img" radius="8rpx" width="96rpx" height="96rpx"></uv-image>
+						<uv-image lazyLoad :src="data.bg_img" radius="8rpx" width="96rpx" height="96rpx"></uv-image>
 					</view>
 					<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.2)" size="32rpx"></uv-icon>
 				</view>

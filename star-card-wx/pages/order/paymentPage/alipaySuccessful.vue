@@ -30,11 +30,11 @@
 										</view>
 										<view class="info-order-detail" v-if="is_show_order">
 											<view class="order-detail-top">
-												<uv-image radius="12rpx" width="256rpx" height="48rpx" src="https://fz-zion-static.functorz.com/202504030603/c54b5d357b07d6415abd39986354d350/project/2000000000380240/images/FTt735VO8DT0pmlukb_HlQ==.png"></uv-image>
+												<uv-image lazyLoad radius="12rpx" width="256rpx" height="48rpx" src="https://fz-zion-static.functorz.com/202504030603/c54b5d357b07d6415abd39986354d350/project/2000000000380240/images/FTt735VO8DT0pmlukb_HlQ==.png"></uv-image>
 												<view class="detail-top-tip">5月31日批次</view>
 											</view>
 											<view class="order-detail-data">
-												<uv-image radius="8rpx" width="132rpx" height="168rpx" src="https://s3-alpha-sig.figma.com/img/2d8e/f213/5da0a173d8245abe7f445f18ac601e5a?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=qOTWpKhQgayflR-xobQl20EL8ZoAS~VymbPivshd9kC6fwStAvoqh0fyOZ7MIa0gWLeOvYfNn5l11C6NmBM4b5Wg~VGnRqtiNDKixKHnbHbfETiKTWaFzuy9P-dBmUOSj2xtwgWziLkQmwJ0oXhoqlYaHTafKVE336CjslmIc3FhhIyui2OMjiwo20SjBAtn5xndPjA9KG6638~PmaGD7TdvITNm~Ym6wytUE9zeB2EXAtcQpz5KxJXLsSWOi-074iNVjvhkmjiIGUxyb8XT4Ws~-wsgt8gHIaJ3HHMrVLMdum6y8QJTkzKzvnF4AxOThMkGgz9l7GP6fe2EbP3nKw__"></uv-image>
+												<uv-image lazyLoad radius="8rpx" width="132rpx" height="168rpx" src="https://s3-alpha-sig.figma.com/img/2d8e/f213/5da0a173d8245abe7f445f18ac601e5a?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=qOTWpKhQgayflR-xobQl20EL8ZoAS~VymbPivshd9kC6fwStAvoqh0fyOZ7MIa0gWLeOvYfNn5l11C6NmBM4b5Wg~VGnRqtiNDKixKHnbHbfETiKTWaFzuy9P-dBmUOSj2xtwgWziLkQmwJ0oXhoqlYaHTafKVE336CjslmIc3FhhIyui2OMjiwo20SjBAtn5xndPjA9KG6638~PmaGD7TdvITNm~Ym6wytUE9zeB2EXAtcQpz5KxJXLsSWOi-074iNVjvhkmjiIGUxyb8XT4Ws~-wsgt8gHIaJ3HHMrVLMdum6y8QJTkzKzvnF4AxOThMkGgz9l7GP6fe2EbP3nKw__"></uv-image>
 												<view class="detail-data-order">
 													<view class="data-order-top">
 														<view class="order-top-name">Tcg特惠档 TcgBulk</view>
@@ -90,7 +90,7 @@
 										</view>
 									</view>
 								</view>
-								<uv-image @longpress="handleLongPress" height="160rpx" width="160rpx" mode="aspectFit" src="https://s3-alpha-sig.figma.com/img/580c/9c48/5bac31d9e569f88d96c3a58a740ea88d?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=DPQNeCG2wT6Z3Vy-M5W8lh8tFbod2yazFe3tWVVZhO5HpZJXHqiI70lS6W0CLjN2cno6enHkt23jOd0akRERrAd-7r6UA2Y2B65X~35JOXfe5Tr0gxWneV3ndbKJVotTAZvj-kxVLWGdNpX3hJqfsU8wt5CXtGggg9y7j-MYtfRFLxDolAKf1PxnjheFnz3y8GU14bL9QsdS1~bk850ouOj~I6z96oR4jfKPzthVlXoTjpNFJhRSO-cRsNnRh6bOQTJe~~rsVgVkTTjC827XqaNK93EzHV-Vg10nbodmS0EttNUDfe~shbfGP6UcKa2J7FTuh2MRBJJJM3cb6IVSMQ__"></uv-image>
+								<uv-image lazyLoad @longpress="handleLongPress" height="160rpx" width="160rpx" mode="aspectFit" src="https://s3-alpha-sig.figma.com/img/580c/9c48/5bac31d9e569f88d96c3a58a740ea88d?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=DPQNeCG2wT6Z3Vy-M5W8lh8tFbod2yazFe3tWVVZhO5HpZJXHqiI70lS6W0CLjN2cno6enHkt23jOd0akRERrAd-7r6UA2Y2B65X~35JOXfe5Tr0gxWneV3ndbKJVotTAZvj-kxVLWGdNpX3hJqfsU8wt5CXtGggg9y7j-MYtfRFLxDolAKf1PxnjheFnz3y8GU14bL9QsdS1~bk850ouOj~I6z96oR4jfKPzthVlXoTjpNFJhRSO-cRsNnRh6bOQTJe~~rsVgVkTTjC827XqaNK93EzHV-Vg10nbodmS0EttNUDfe~shbfGP6UcKa2J7FTuh2MRBJJJM3cb6IVSMQ__"></uv-image>
 							</view>
 						</view>
 					</view>

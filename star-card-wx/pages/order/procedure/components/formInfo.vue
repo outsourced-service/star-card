@@ -68,11 +68,11 @@
 					</view>
 				</view>
 				<view class="page-form-number">
-					<uv-image src="https://img.picui.cn/free/2025/03/25/67e1b8096217f.png" width="40rpx" height="40rpx" @click="handleSubtract"></uv-image>
+					<uv-image lazyLoad src="https://img.picui.cn/free/2025/03/25/67e1b8096217f.png" width="40rpx" height="40rpx" @click="handleSubtract"></uv-image>
 					<view class="form-number-input">
 						<uv-input placeholder="" border="surround" v-model="formData.number" inputAlign="center" type="number" @change="changeInput" @input="changeInput" @blur="changeInput"></uv-input>
 					</view>
-					<uv-image src="https://img.picui.cn/free/2025/03/25/67e1b85d88652.png" width="40rpx" height="40rpx" @click="handleAdd"></uv-image>
+					<uv-image lazyLoad src="https://img.picui.cn/free/2025/03/25/67e1b85d88652.png" width="40rpx" height="40rpx" @click="handleAdd"></uv-image>
 				</view>
 			</view>
 		</view>

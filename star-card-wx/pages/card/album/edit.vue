@@ -11,8 +11,8 @@
 					</template>
 					<view class="edit-form-bg" @click="handleImage">
 						<view class="form-bg-image">
-							<uv-image v-if="!formData.avatar.url" width="96rpx" height="96rpx" radius="8rpx" src="https://s3-alpha-sig.figma.com/img/9fd2/aa53/906aa6c17e0d5471bc722b1d849ab77d?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=oGNoyWG0e~ZeEFtZskOd7aOAW84-88TTN0sM9snsuoaoxemMvAixObvSIbbGCSdbPE4vXn2vopv5oEwx4ed7~gyG~BZjKXEvBAb9YxQVIVk5w4UMx8nJ-ASwUHRu2ZydHeNZdPdmnexKuUOhcU8TbRCZuvvB-oe8M5a7gXt5pUkavVNyk43GVuCXQirXKdO77ehkE2iUcJ34obJ5gw8BeHSjmeTpYdXW2dwDTkR2L1JPzm9zyrwTkww7iJW3Dz0yvaJZaLibsp-KoPeD~XKSJlJHltKJvULtOboz9iV9kq6CaNxetcvmtsorSJc-RZHZqVvyNBYYMucDHiS6EHsNyg__"></uv-image>
-							<uv-image v-else width="96rpx" height="96rpx" radius="8rpx" :src="formData.avatar.url"></uv-image>
+							<uv-image lazyLoad v-if="!formData.avatar.url" width="96rpx" height="96rpx" radius="8rpx" src="https://s3-alpha-sig.figma.com/img/9fd2/aa53/906aa6c17e0d5471bc722b1d849ab77d?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=oGNoyWG0e~ZeEFtZskOd7aOAW84-88TTN0sM9snsuoaoxemMvAixObvSIbbGCSdbPE4vXn2vopv5oEwx4ed7~gyG~BZjKXEvBAb9YxQVIVk5w4UMx8nJ-ASwUHRu2ZydHeNZdPdmnexKuUOhcU8TbRCZuvvB-oe8M5a7gXt5pUkavVNyk43GVuCXQirXKdO77ehkE2iUcJ34obJ5gw8BeHSjmeTpYdXW2dwDTkR2L1JPzm9zyrwTkww7iJW3Dz0yvaJZaLibsp-KoPeD~XKSJlJHltKJvULtOboz9iV9kq6CaNxetcvmtsorSJc-RZHZqVvyNBYYMucDHiS6EHsNyg__"></uv-image>
+							<uv-image lazyLoad v-else width="96rpx" height="96rpx" radius="8rpx" :src="formData.avatar.url"></uv-image>
 						</view>
 						<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.2)" size="32rpx"></uv-icon>
 					</view>
@@ -118,19 +118,21 @@
 				});
 			},
 			handleAdd() {
+				console.log(this.formData)
 				if(!this.formData.name) {
 					uni.showToast({
 						title: '请填写卡册标题',
 						icon: 'none'
 					})
-				}
-				const { avatar, ...data } = this.formData;
-				if(this.formData.id) {
-					
 				} else {
-					userCardCabinetApi.createUserCardCabinet({...data, user_user: this.userInfo.id}).then(res => {
-						console.log(res)
-					})
+					const { avatar, ...data } = this.formData;
+					if(this.formData.id) {
+						
+					} else {
+						userCardCabinetApi.createUserCardCabinet({...data, user_user: this.userInfo.id}).then(res => {
+							console.log(res)
+						})
+					}
 				}
 			},
 			handleDefault(value) {

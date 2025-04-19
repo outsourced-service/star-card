@@ -6,7 +6,7 @@
 					shadow="0rpx 0rpx 12rpx 0rpx rgba(0, 0, 0, 0.04)">
 					<template v-slot:cover>
 						<view class="custom-cover">
-							<uv-image :src="item.image" mode="aspectFill" width="calc((100vw - 48rpx - 12rpx) / 2)"
+							<uv-image lazyLoad :src="item.image" mode="aspectFill" width="calc((100vw - 48rpx - 12rpx) / 2)"
 								height="348rpx"></uv-image>
 						</view>
 					</template>

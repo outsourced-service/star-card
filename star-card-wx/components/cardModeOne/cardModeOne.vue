@@ -6,7 +6,7 @@
           <view class="custom-badge" v-if="data.is_new && !is_select">
             <uv-text text="NEW" color="#fff" size="20rpx" lineHeight="26rpx" :custom-style="{fontWeight: 600, letterSpacing: '0.12rpx'}" align="center"></uv-text>
           </view>
-          <uv-image :src="data.image" mode="aspectFill" width="100%" height="348rpx" bg-color="#eaeaef"></uv-image>
+          <uv-image :src="data.image" mode="aspectFill" width="100%" height="348rpx" bg-color="#eaeaef" lazyLoad></uv-image>
 		  <view class="custom-top" v-if="data.is_top && !is_group && !is_select">置顶</view>
 		  <view class="custom-sale" v-if="data.on_sale && !is_group && !is_select">上架中</view>
 		  <view class="custom-select" v-if="is_select">

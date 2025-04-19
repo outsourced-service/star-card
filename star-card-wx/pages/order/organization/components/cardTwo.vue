@@ -2,7 +2,7 @@
 	<view class="page-card-two" @click="handleCard()">
 		<uni-card spacing="0" padding="0 0 32rpx 0" margin="0 0 16rpx 0" :border="false" shadow="0 4rpx 16rpx 0 rgba(0, 0, 0, 0.1)">
 			<template v-slot:cover>
-			  <uv-image :src="data.bg_image" width="calc((100vw - 80rpx) / 2)" height="200rpx"></uv-image>
+			  <uv-image lazyLoad :src="data.bg_image" width="calc((100vw - 80rpx) / 2)" height="200rpx"></uv-image>
 			</template>
 			<view class="card-two-info">
 				<view class="two-info-top">

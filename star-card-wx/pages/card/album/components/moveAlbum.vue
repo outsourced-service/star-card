@@ -9,7 +9,7 @@
 			<view class="album-list-item" v-for="(item, index) in albumList" :key="index">
 				<view class="list-item-data">
 					<view class="item-data-left">
-						<uv-image :src="item.image" width="96rpx" height="96rpx" radius="12rpx"></uv-image>
+						<uv-image lazyLoad :src="item.image" width="96rpx" height="96rpx" radius="12rpx"></uv-image>
 						<view class="item-data-info">
 							<view class="data-info-name">{{item.name}}</view>
 							<uv-icon name="lock" color="rgba(0, 0, 0, 0.2)" v-if="item.is_lock" size="28rpx"></uv-icon>

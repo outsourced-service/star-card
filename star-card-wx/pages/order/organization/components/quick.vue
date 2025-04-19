@@ -1,7 +1,7 @@
 <template>
   <view class="quick-page">
     <!-- 图片 -->
-    <uv-image height="360rpx" width="100vw" src="https://s3-alpha-sig.figma.com/img/5e26/113b/1909d6f0c7f7837b5b21cf88ff6e32d3?Expires=1743379200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=i71xdj-Hn3MNe3E179RfMmoVLAHScW3~xzm8VqauFls-ZF1rioOrdUtgmBN1eWq~UOVLsIi7S21sodOaEWV-Gq6SXykhcJ3zsqt9NjWjlhT7yGUU~o~BwbdupN0g65~bMa0pu94zwfXZ3VULgUsh4fMsHKQUR~b-MTiflB4SDvMRDIiApituBmLVVp~AkOOqdtkE7RNwJm2SvdkKYSvCjJ79n0XtbT3IWYMmM2OSYURZkqT1aQkU0gRVF3wSrNUQslV~qmQGlWwRBa0cd5OGm5MATQ~Pdw4ol~86ijTq8Lv~s5ugb1FFUWVacPvZN6AxLmZQvI03~mUC0sJgdXHjkw__"></uv-image>
+    <uv-image lazyLoad height="360rpx" width="100vw" src="https://s3-alpha-sig.figma.com/img/5e26/113b/1909d6f0c7f7837b5b21cf88ff6e32d3?Expires=1743379200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=i71xdj-Hn3MNe3E179RfMmoVLAHScW3~xzm8VqauFls-ZF1rioOrdUtgmBN1eWq~UOVLsIi7S21sodOaEWV-Gq6SXykhcJ3zsqt9NjWjlhT7yGUU~o~BwbdupN0g65~bMa0pu94zwfXZ3VULgUsh4fMsHKQUR~b-MTiflB4SDvMRDIiApituBmLVVp~AkOOqdtkE7RNwJm2SvdkKYSvCjJ79n0XtbT3IWYMmM2OSYURZkqT1aQkU0gRVF3wSrNUQslV~qmQGlWwRBa0cd5OGm5MATQ~Pdw4ol~86ijTq8Lv~s5ugb1FFUWVacPvZN6AxLmZQvI03~mUC0sJgdXHjkw__"></uv-image>
 
     <!-- 背景渐变层 -->
     <view class="quick-page-bg"></view>
@@ -9,7 +9,7 @@
 	<view class="quick-page-card">
 		<view class="card-list">
 			<view class="card-list-item" v-for="(item, index) in quickList" :key="index">
-				<uv-image height="112rpx" width="112rpx" :src="item.icon"></uv-image>
+				<uv-image lazyLoad height="112rpx" width="112rpx" :src="item.icon"></uv-image>
 				<view class="list-item-text">{{item.name}}</view>
 			</view>
 		</view>

@@ -12,7 +12,7 @@
 						<view class="custom-card-item">
 							<view class="card-item-image">
 								<uv-image :src="item.image" mode="aspectFill" width="200rpx" radius="16rpx"
-									height="288rpx"></uv-image>
+									height="288rpx" lazyLoad></uv-image>
 								<view class="card-item-sale" v-if="item.on_sale">上架中</view>
 							</view>
 							<view class="card-item-info" :style="is_select ? 'width: calc(100% - 200rpx - 24rpx - 40rpx - 16rpx);' : 'width: calc(100% - 200rpx - 24rpx);'">

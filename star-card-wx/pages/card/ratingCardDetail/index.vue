@@ -3,7 +3,7 @@
 		<view class="page-swiper">
 			<swiper class="page-swiper-box" :current="swiperIndex">
 				<swiper-item v-for="(item, index) in cardInfoImg" :key="index">
-					<uv-image :src="item" width="400rpx" height="640rpx"></uv-image>
+					<uv-image lazyLoad :src="item" width="400rpx" height="640rpx"></uv-image>
 				</swiper-item>
 			</swiper>
 			<view class="page-swiper-text">星卡快送技术支持</view>

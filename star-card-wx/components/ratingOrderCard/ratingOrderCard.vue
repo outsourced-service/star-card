@@ -12,7 +12,7 @@
 			</view>
 			<view class="card-item-order">
 				<view class="item-order-image">
-					<uv-image :src="data.status == '未入库' ? data?.order_user_annex[0]?.img?.url : data?.order_annex[0]?.img?.url" width="142rpx" height="180rpx" radius="16rpx"></uv-image>
+					<uv-image lazyLoad :src="data.status == '未入库' ? data?.order_user_annex[0]?.img?.url : data?.order_annex[0]?.img?.url" width="142rpx" height="180rpx" radius="16rpx"></uv-image>
 				</view>
 				<view class="item-order-info">
 					<view class="order-info-top">

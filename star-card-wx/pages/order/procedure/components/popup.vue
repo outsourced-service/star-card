@@ -28,7 +28,7 @@
 		<view class="popup-page-size" v-if="type == 'sizeReview'">
 			<view class="page-select-size" v-for="(item, index) in data">
 				<view :class="item.selected ? 'select-size' : 'select-size-no'" @click="handleSelect(item.id, index)">
-					<uv-image :src="item.cover.url" width="100%" height="280rpx" @click="handleSubtract"></uv-image>
+					<uv-image lazyLoad :src="item.cover.url" width="100%" height="280rpx" @click="handleSubtract"></uv-image>
 					<view class="size-bottom-left">
 						<view class="bottom-left-name">
 							{{ item.name }}
@@ -54,7 +54,7 @@
 			</view>
 			<view class="page-select-signature" v-for="(item, index) in data" :key="index" v-if="type == 'signatureReview'">
 				<view :class="item.selected ? 'select-signature' : 'select-signature-no'" @click="handleSelect(item.id, index)">
-					<uv-image :src="item.cover.url" width="100%" height="280rpx" @click="handleSubtract"></uv-image>
+					<uv-image lazyLoad :src="item.cover.url" width="100%" height="280rpx" @click="handleSubtract"></uv-image>
 					<view class="select-signature-bottom">
 						<view class="signature-bottom-left">
 							<view class="bottom-left-name">
@@ -99,7 +99,7 @@
 			<view class="page-select" v-for="(item, index) in data" v-if="type == 'courierReview'">
 				<view class="select-service" @click="handleSelect(item.id, index)">
 					<view class="select-courier-left">
-						<uv-image :src="item.img.url" width="64rpx" height="64rpx"></uv-image>
+						<uv-image lazyLoad :src="item.img.url" width="64rpx" height="64rpx"></uv-image>
 						<view class="left-top-name">
 							{{ item.name }}
 						</view>

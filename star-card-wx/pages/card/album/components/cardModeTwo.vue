@@ -7,7 +7,7 @@
 					<template v-slot:cover>
 						<view class="custom-cover">
 							<uv-image :src="item.image" mode="aspectFill" width="calc((100vw - 32rpx - 12rpx) / 2)"
-								height="348rpx"></uv-image>
+								height="348rpx" lazyLoad></uv-image>
 							<view class="custom-cover-select" v-if="is_select">
 								<uni-icons type="circle" size="40rpx" color="#d1d1d6" v-if="!item.is_select" @click="handleSelected(index)"></uni-icons>
 								<uni-icons type="checkbox-filled" size="40rpx" color="#fea800" v-else @click="handleSelectNo(index)"></uni-icons>

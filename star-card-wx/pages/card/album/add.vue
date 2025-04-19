@@ -33,7 +33,7 @@
 				<scroll-view scroll-x class="" style="white-space: nowrap; width: 100%;" :enable-flex="true">
 					<view class="bottom-list-scroll">
 						<view class="bottom-list-item" v-for="(item, index) in selectCard" :key="index">
-							<uv-image :src="item.image" height="128rpx" width="128rpx" radius="8rpx"></uv-image>
+							<uv-image lazyLoad :src="item.image" height="128rpx" width="128rpx" radius="8rpx"></uv-image>
 							<view class="list-item-icon">
 								<uv-icon name="close-circle-fill" color="rgba(0, 0, 0, 0.66)" size="32rpx"></uv-icon>
 							</view>

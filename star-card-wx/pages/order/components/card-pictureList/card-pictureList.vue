@@ -15,7 +15,7 @@
 					</view>
 				</template>
 				<view class="picture-container flex-row" style="gap:10px;">
-					<uv-image v-for="(item, index) in displayUrls" :key="index" :src="ImageFormatWebp(item)"
+					<uv-image lazyLoad v-for="(item, index) in displayUrls" :key="index" :src="ImageFormatWebp(item)"
 						mode="aspectFit" width="90px" height="90px" bgColor="#F2F3F6" webp radius="8px"
 						@click="$previewImage({ current: index, urls: urls })" />
 					<view v-if="urls.length - 3 > 0" class="more-pictures" @click="handleMore(urls)">

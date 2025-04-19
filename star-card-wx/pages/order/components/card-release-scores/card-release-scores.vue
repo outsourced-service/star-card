@@ -2,7 +2,7 @@
 	<view class="container">
 		<view v-for="(item, index) in cardInfo" :key="index" @click="handleCard">
 			<view class="container-item">
-				<uv-image :src="item.image.url" width="200rpx" height="200rpx"></uv-image>
+				<uv-image lazyLoad :src="item.image.url" width="200rpx" height="200rpx"></uv-image>
 				<view class="container-item-right">
 					<view class="item-right-info">
 						<view class="right-info-id">{{item.id}}</view>

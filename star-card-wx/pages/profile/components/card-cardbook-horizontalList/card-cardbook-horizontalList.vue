@@ -7,7 +7,7 @@
 					style="min-width: 66rpx; width: 66rpx; height: 66rpx;" @click="$emit('add')" />
 				<view v-for="(card, index) in cards" :key="index" class="card cursor-pointer">
 					<view class="">
-						<uv-image :src="ImageFormatWebp(card.cover)" mode="aspectFit" width="36" height="36"
+						<uv-image lazyLoad :src="ImageFormatWebp(card.cover)" mode="aspectFit" width="36" height="36"
 							shape="circle" bgColor="#F2F3F6" webp radius="8px"
 							@click="$previewImage({ current: index, urls: urls })" />
 					</view>

@@ -10,7 +10,7 @@
 			<view class="list-item-image">
 				<uv-avatar :src="item.avatar?.url" size="120rpx"></uv-avatar>
 				<view class="item-image">
-					<uv-image :src="item.level_image" mode="aspectFill" width="128rpx" height="36rpx"/>
+					<uv-image lazyLoad :src="item.level_image" mode="aspectFill" width="128rpx" height="36rpx"/>
 				</view>
 			</view>
 			<view class="list-item-text">

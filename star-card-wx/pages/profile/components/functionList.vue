@@ -3,7 +3,7 @@
 		<view class="function-list-item" v-for="(item, index) in functionList" :key="index">
 			<view class="list-item">
 				<view class="list-item-left">
-					<uv-image :src="item.icon" mode="scaleToFill" width="48rpx" height="48rpx"/>
+					<uv-image lazyLoad :src="item.icon" mode="scaleToFill" width="48rpx" height="48rpx"/>
 					<view class="item-left-name">{{item.name}}</view>
 				</view>
 				<uv-icon name="arrow-right" color="rgba(0, 0, 0, 0.44)" size="32rpx" :bold="true"></uv-icon>
