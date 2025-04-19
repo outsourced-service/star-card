@@ -1,6 +1,11 @@
 <template>
 	<view class="quick-page">
-		<uv-image src="https://img.picui.cn/free/2025/03/13/67d2fa3b48950.png" mode="scaleToFill" width="100vw" height="360rpx"/>
+		<!-- <swiper class="page-swiper-box" :current="swiperIndex">
+			<swiper-item v-for="(item, index) in bannerList" :key="index">
+				<uv-image :src="item.img.url" width="100vw" height="360rpx" mode="scaleToFill"></uv-image>
+			</swiper-item>
+		</swiper> -->
+		<uv-image :src="bannerList[0]?.img?.url" mode="scaleToFill" width="100vw" height="360rpx"/>
 		<view class="link-item-tag">
 			<!-- <uv-tags text="2月底车收卡中！" bgColor="rgba(254, 185, 51, 1)" borderColor="rgba(254, 185, 51, 1)" shape="circle" size="mini"></uv-tags> -->
 			2月底车收卡中！
@@ -32,12 +37,15 @@
 </template>
 
 <script>
+	import { getBanners } from '@/api/gloabal/getBanner';
 	export default {
 		options: {
 		    styleIsolation: 'shared'
 		},
 		data() {
 			return {
+				bannerList: [],
+				swiperIndex: 0
 			}
 		},
 		methods: {
@@ -48,6 +56,9 @@
 			}
 		},
 		mounted() {
+			this.bannerList = []
+			this.bannerList = getBanners('小程序首页轮播图');
+			console.log(this.bannerList)
 		}
 	}
 </script>
@@ -134,5 +145,10 @@
 		position: relative;
 		top: -30rpx;
 		right: -14rpx;
+	}
+	
+	.page-swiper-box {
+		width: 100vw;
+		height: 360rpx;
 	}
 </style>
