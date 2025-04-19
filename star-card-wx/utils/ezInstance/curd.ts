@@ -208,15 +208,22 @@ export default class CurdService {
         this.validateUpdateParams(pkColumnsOrWhere, _set, _inc);
 
         const isPkColumns = typeof pkColumnsOrWhere === 'object';
+
+        const opName = `update_${isPkColumns ? this.name : `${this.name}_by_pk`}`;
         const opArgs = this.buildUpdateArgs(pkColumnsOrWhere, isPkColumns, _set, _inc);
+        const opFields = {
+            name: opName,
+            args: opArgs,
+            fields: this.buildReturnFields(isPkColumns, fields),
+        }
 
         return await utils.request(
             this.getThrottleKey('update'),
             () => this.operate({
                 opMethod: "mutation",
-                opName: `update_${isPkColumns ? this.name : `${this.name}_by_pk`}`,
-                opArgs,
-                opFields: this.buildReturnFields(isPkColumns, fields),
+                opName,
+                opArgs: {},
+                opFields,
             }),
             apiConfig
         );
@@ -253,13 +260,22 @@ export default class CurdService {
         }
 
         const isPkColumns = typeof pkColumnsOrWhere === 'object';
+
+        const opName = `delete_${isPkColumns ? this.name : `${this.name}_one`}`;
+        const opArgs = this.buildDeleteArgs(pkColumnsOrWhere, isPkColumns);
+        const opFields = {
+            name: opName,
+            args: opArgs,
+            fields: this.buildReturnFields(isPkColumns, fields),
+        }
+
         return await utils.request(
             this.getThrottleKey('delete'),
             () => this.operate({
                 opMethod: "mutation",
-                opName: `delete_${isPkColumns ? this.name : `${this.name}_one`}`,
-                opArgs: this.buildDeleteArgs(pkColumnsOrWhere, isPkColumns),
-                opFields: this.buildReturnFields(isPkColumns, fields),
+                opName,
+                opArgs: {},
+                opFields,
             }),
             apiConfig
         );
